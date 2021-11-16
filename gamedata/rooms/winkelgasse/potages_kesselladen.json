@@ -1,0 +1,11 @@
+{
+    "name": "Potages Kesselladen",
+    "description": "Du befindest dich in einem Potages Kesselladen. Nach Osten kommst du wieder zurück auf die Straße.",
+    "exits": [
+        {
+            "direction": "east",
+            "description": "Winkelgassenstrasse 1",
+            "room_id": "/rooms/winkelgasse/winkelgassenstrasse_1.json"
+        }
+    ]
+}
