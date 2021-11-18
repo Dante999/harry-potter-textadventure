@@ -4,8 +4,10 @@ add_executable(${PROJECT_NAME}
 	src/main.cpp
 	src/panel_room_attributes.cpp
 	src/panel_room_selector.cpp
+	src/settings.cpp
 	include/panel_room_attributes.hpp
 	include/panel_room_selector.hpp
+	include/settings.hpp
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC ./include)
@@ -15,4 +17,5 @@ target_link_libraries(${PROJECT_NAME}
 	        project_warnings
 		hpta-lib
 		CONAN_PKG::imgui-sfml
+		CONAN_PKG::fmt
 )

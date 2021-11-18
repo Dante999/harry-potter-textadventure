@@ -6,23 +6,19 @@
 #include <vector>
 
 #include "panel_room_attributes.hpp"
+#include "settings.hpp"
 
 namespace {
 std::vector<std::string> g_room_ids;
-std::string              g_gamedata_dir = "gamedata";
 } // namespace
 
 namespace Panel_room_selector {
-void set_gamedata_dir(const std::string &gamedata_dir)
-{
-	g_gamedata_dir = gamedata_dir;
-}
 
 void refresh_room_list(const std::string &gamedata_dir)
 {
 	g_room_ids.clear();
 
-	for (const auto &file : std::filesystem::recursive_directory_iterator(gamedata_dir + "/rooms")) {
+	for (const auto &file : std::filesystem::recursive_directory_iterator(Settings::gamedata_dir + "/rooms")) {
 
 		if (file.is_directory())
 			continue;
@@ -35,9 +31,10 @@ void refresh_room_list(const std::string &gamedata_dir)
 void refresh()
 {
 	ImGui::Begin("Room List");
+	ImGui::SetWindowFontScale(Settings::scale_factor);
 
 	if (ImGui::Button("Refresh")) {
-		refresh_room_list(g_gamedata_dir);
+		refresh_room_list(Settings::gamedata_dir);
 	}
 
 	ImGui::BeginChild("Scrolling");

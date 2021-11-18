@@ -5,7 +5,6 @@
 
 namespace Panel_room_attributes {
 
-void set_gamedata_dir(const std::string &gamedata_dir);
 void set_room(const std::string &room_id);
 void refresh();
 
