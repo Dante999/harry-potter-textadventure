@@ -15,8 +15,10 @@ Direction Room_persistency::deserialize_direction(const std::string &direction)
 		return Direction::EAST;
 	if (direction == "west")
 		return Direction::WEST;
+	if ( direction == "undefined")
+		return Direction::UNDEFINED;
 
-	return Direction::NORTH;
+	return Direction::UNDEFINED;
 }
 
 std::string Room_persistency::serialize_direction(const Direction direction)
@@ -30,9 +32,11 @@ std::string Room_persistency::serialize_direction(const Direction direction)
 		return "east";
 	case Direction::WEST:
 		return "west";
+	case Direction::UNDEFINED:
+		return "undefined";
 	}
 
-	return "north";
+	return "undefined";
 }
 
 Room Room_persistency::load(const std::string &gamedata_dir, const std::string &id)

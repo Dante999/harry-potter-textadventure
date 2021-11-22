@@ -37,6 +37,8 @@ void refresh()
 		refresh_room_list(Settings::gamedata_dir);
 	}
 
+	ImGui::Separator();
+
 	ImGui::BeginChild("Scrolling");
 
 	for (auto &room_id : g_room_ids) {

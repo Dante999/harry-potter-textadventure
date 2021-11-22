@@ -37,6 +37,7 @@ conan_add_remote(NAME bincrafters
 conan_cmake_run(REQUIRES 
                 fmt/6.2.0
                 rapidjson/1.1.0
+		gtest/cci.20210126
                 imgui-sfml/2.3@bincrafters/stable
                 BASIC_SETUP CMAKE_TARGETS
                 BUILD missing)
@@ -45,3 +46,4 @@ conan_cmake_run(REQUIRES
 add_subdirectory(code/hpta-lib)
 add_subdirectory(code/hpta-app)
 add_subdirectory(code/hpta-editor)
+add_subdirectory(test)

@@ -67,4 +67,15 @@ const std::string add_newline_on_column_width(const std::string &text, size_t co
 	return result;
 }
 
+bool equals_ignorecase(const std::string &s1, const std::string &s2)
+{
+	std::string s1_lower;
+	std::string s2_lower;
+
+	transform(s1.begin(), s1.end(), s1_lower.begin(), ::tolower);
+	transform(s2.begin(), s2.end(), s2_lower.begin(), ::tolower);
+
+	return s1_lower == s2_lower;
+}
+
 } // namespace Hpta_strings

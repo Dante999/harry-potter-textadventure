@@ -42,12 +42,6 @@ int main(int argc, char *argv[])
 	window.setTitle("Editor - Harry Potter Textadventure");
 	window.resetGLStates(); // call it if you only draw ImGui. Otherwise not needed.
 
-	//	ImGuiIO &io = ImGui::GetIO();
-	//	io.Fonts->AddFontDefault();
-	//	io.Fonts->
-
-	//	ImGui::GetStyle().ScaleAllSizes(5); //   ImGui::GetFontSize()
-
 	sf::Clock deltaClock;
 	while (window.isOpen()) {
 		sf::Event event;
