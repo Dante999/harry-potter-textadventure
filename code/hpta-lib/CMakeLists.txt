@@ -6,21 +6,26 @@ add_library(${PROJECT_NAME}
     src/commands/walk.cpp
     src/commands/help.cpp
     src/commands/look.cpp
+    src/objects/item_storage.cpp
     src/services/persistence.cpp
     src/services/gameengine.cpp
     src/services/registry.cpp
     src/visualizer.cpp
     src/persistency/room_persistency.cpp
+    src/persistency/item_persistency.cpp
     src/util/hpta_string.cpp
     include/util/hpta_strings.hpp
     include/services/persistence.hpp
     include/services/registry.hpp
     include/services/gameengine.hpp
     include/persistency/room_persistency.hpp
+    include/persistency/item_persistency.hpp
     include/visualizer.hpp
     include/screen.hpp
     include/objects/player.hpp
     include/objects/room.hpp
+    include/objects/item.hpp
+    include/objects/item_storage.hpp
     include/directions.hpp
     include/commands/look.hpp
     include/commands/icommand.hpp

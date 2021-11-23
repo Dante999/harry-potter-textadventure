@@ -1,6 +1,16 @@
 {
     "name": "Potages Kesselladen",
     "description": "Du befindest dich in einem Potages Kesselladen. Nach Osten kommst du wieder zurück auf die Straße.",
+    "items" : [
+        {
+            "quantity" : 1,
+            "item_id" : "/items/knut.json"
+        },
+        {
+            "quantity" : 1,
+            "item_id" : "/items/eulenfeder.json"
+        }
+    ],
     "exits": [
         {
             "direction": "east",

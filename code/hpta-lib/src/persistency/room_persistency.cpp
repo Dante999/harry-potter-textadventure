@@ -1,5 +1,7 @@
 #include "persistency/room_persistency.hpp"
 
+#include "persistency/item_persistency.hpp"
+
 #include <rapidjson/document.h>
 #include <rapidjson/filereadstream.h>
 #include <rapidjson/filewritestream.h>
@@ -15,7 +17,7 @@ Direction Room_persistency::deserialize_direction(const std::string &direction)
 		return Direction::EAST;
 	if (direction == "west")
 		return Direction::WEST;
-	if ( direction == "undefined")
+	if (direction == "undefined")
 		return Direction::UNDEFINED;
 
 	return Direction::UNDEFINED;
@@ -62,6 +64,16 @@ Room Room_persistency::load(const std::string &gamedata_dir, const std::string &
 
 	room.set_name(d["name"].GetString());
 	room.set_description(d["description"].GetString());
+
+	if (d.HasMember("items")) {
+		for (auto &e : d["items"].GetArray()) {
+
+			const auto item_quantity = e["quantity"].GetInt();
+			const auto item_id       = e["item_id"].GetString();
+
+			room.add_item({item_quantity, Item_persistency::load(gamedata_dir, item_id)});
+		}
+	}
 
 	std::map<Direction, Room::Branch> exits;
 

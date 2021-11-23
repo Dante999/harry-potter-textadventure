@@ -30,8 +30,18 @@ void show(const Room &room)
 	}
 
 	Screen::print("\n");
+
+	if (!room.get_items().empty()) {
+		Screen::print("In deiner Umgebung befindet sich: \n");
+		for (auto &item : room.get_items()) {
+			Screen::print(fmt::format("\t{}x {}\n", item.quantity, item.item.get_name()));
+		}
+	}
+
+	Screen::print("\n");
+	Screen::print("Mögliche Richtungen:\n");
 	for (const auto &direction : room.get_exits()) {
-		Screen::print(fmt::format("{}\t-> {}\n", direction_to_string(direction.first), direction.second.description));
+		Screen::print(fmt::format("\t{}\t-> {}\n", direction_to_string(direction.first), direction.second.description));
 	}
 
 	Screen::box_end();
