@@ -56,4 +56,16 @@ void show(const Player &player)
 	Screen::print(fmt::format("Magie ............. {}\n", player.get_magic()));
 	Screen::box_end();
 }
+
+void show(const Item &item)
+{
+	Screen::box_start(item.get_name());
+
+	for (const auto &line : Hpta_strings::split_text_into_lines(item.get_description(), Screen::column_width)) {
+		Screen::print(line + "\n");
+	}
+
+	Screen::box_end();
+}
+
 } // namespace Visualizer

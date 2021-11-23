@@ -30,7 +30,11 @@ bool Walk::interprete(const std::vector<std::string> &token)
 	Direction d = Direction::UNDEFINED;
 
 	if (token.size() == 1) {
+
 		d = str_to_direction(token.at(0));
+
+		if (d == Direction::UNDEFINED)
+			return false;
 	}
 	else if (token.size() == 3 && //
 	         Hpta_strings::equals_ignorecase(token.at(0), "gehe") &&

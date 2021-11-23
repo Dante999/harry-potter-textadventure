@@ -13,6 +13,10 @@ namespace Hpta_strings {
 
 [[nodiscard]] bool equals_ignorecase(const std::string &s1, const std::string &s2);
 
+[[nodiscard]] std::string ltrim(const std::string &s);
+[[nodiscard]] std::string rtrim(const std::string &s);
+[[nodiscard]] std::string trim(const std::string &s);
+
 } // namespace Hpta_strings
 
 #endif // HPTA_STRINGS_HPP

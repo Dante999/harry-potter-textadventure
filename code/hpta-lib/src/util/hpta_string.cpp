@@ -5,6 +5,8 @@
 
 namespace Hpta_strings {
 
+const std::string WHITESPACE = " \n\r\t\f\v";
+
 const std::vector<std::string> split_text_into_lines(const std::string &text, size_t column_width)
 {
 	std::vector<std::string> lines;
@@ -69,13 +71,30 @@ const std::string add_newline_on_column_width(const std::string &text, size_t co
 
 bool equals_ignorecase(const std::string &s1, const std::string &s2)
 {
-	std::string s1_lower;
-	std::string s2_lower;
+	std::string s1_lower{s1};
+	std::string s2_lower{s2};
 
-	transform(s1.begin(), s1.end(), s1_lower.begin(), ::tolower);
-	transform(s2.begin(), s2.end(), s2_lower.begin(), ::tolower);
+	transform(s1_lower.begin(), s1_lower.end(), s1_lower.begin(), ::tolower);
+	transform(s2_lower.begin(), s2_lower.end(), s2_lower.begin(), ::tolower);
 
 	return s1_lower == s2_lower;
+}
+
+std::string ltrim(const std::string &s)
+{
+	size_t start = s.find_first_not_of(WHITESPACE);
+	return (start == std::string::npos) ? "" : s.substr(start);
+}
+
+std::string rtrim(const std::string &s)
+{
+	size_t end = s.find_last_not_of(WHITESPACE);
+	return (end == std::string::npos) ? "" : s.substr(0, end + 1);
+}
+
+std::string trim(const std::string &s)
+{
+	return rtrim(ltrim(s));
 }
 
 } // namespace Hpta_strings
