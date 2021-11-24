@@ -5,6 +5,7 @@ add_library(${PROJECT_NAME}
     src/interpreter.cpp
     src/commands/walk.cpp
     src/commands/help.cpp
+    src/commands/inventory.cpp
     src/commands/look.cpp
     src/objects/item_storage.cpp
     src/services/persistence.cpp
@@ -29,6 +30,7 @@ add_library(${PROJECT_NAME}
     include/directions.hpp
     include/commands/look.hpp
     include/commands/icommand.hpp
+    include/commands/inventory.hpp
     include/commands/walk.hpp
     include/commands/help.hpp
     include/interpreter.hpp

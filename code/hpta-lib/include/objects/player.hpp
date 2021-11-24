@@ -3,7 +3,9 @@
 
 #include <string>
 
-class Player {
+#include "objects/item_storage.hpp"
+
+class Player : public Item_storage {
 
   private:
 	std::string m_name;

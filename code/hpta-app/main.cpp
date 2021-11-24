@@ -2,6 +2,7 @@
 
 #include "interpreter.hpp"
 #include "objects/player.hpp"
+#include "persistency/item_persistency.hpp"
 #include "screen.hpp"
 #include "services/registry.hpp"
 #include "visualizer.hpp"
@@ -26,6 +27,8 @@ int main(int argc, char *argv[])
 	Interpreter interpreter;
 
 	auto player = std::make_shared<Player>("Gerald", "/rooms/winkelgasse/zum_tropfenden_kessel.json");
+
+	player->add_item({30, Item_persistency::load(Registry::m_gamedata_dir, "/items/knut.json")});
 
 	Registry::get_gameengine().set_player(player);
 

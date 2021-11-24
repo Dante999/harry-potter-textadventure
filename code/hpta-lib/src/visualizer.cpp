@@ -50,10 +50,16 @@ void show(const Room &room)
 void show(const Player &player)
 {
 	Screen::box_start(player.get_name());
-	Screen::print(fmt::format("Stärke ............ {}\n", player.get_strength()));
-	Screen::print(fmt::format("Geschicklichkeit .. {}\n", player.get_dextery()));
-	Screen::print(fmt::format("Vitalität ......... {}\n", player.get_vitality()));
-	Screen::print(fmt::format("Magie ............. {}\n", player.get_magic()));
+
+	Screen::print("Inventar:\n");
+	for (auto &item : player.get_items()) {
+		Screen::print(fmt::format("\t{}x {}\n", item.quantity, item.item.get_name()));
+	}
+
+	//	Screen::print(fmt::format("Stärke ............ {}\n", player.get_strength()));
+	//	Screen::print(fmt::format("Geschicklichkeit .. {}\n", player.get_dextery()));
+	//	Screen::print(fmt::format("Vitalität ......... {}\n", player.get_vitality()));
+	//	Screen::print(fmt::format("Magie ............. {}\n", player.get_magic()));
 	Screen::box_end();
 }
 
