@@ -6,6 +6,7 @@
 #include "commands/help.hpp"
 #include "commands/inventory.hpp"
 #include "commands/look.hpp"
+#include "commands/take.hpp"
 #include "commands/walk.hpp"
 
 Interpreter::Interpreter()
@@ -13,6 +14,7 @@ Interpreter::Interpreter()
 	m_commands.emplace_back(std::make_shared<Walk>());
 	m_commands.emplace_back(std::make_shared<Look>());
 	m_commands.emplace_back(std::make_shared<Inventory>());
+	m_commands.emplace_back(std::make_shared<Take>());
 	m_commands.emplace_back(std::make_shared<Help>(m_commands));
 }
 

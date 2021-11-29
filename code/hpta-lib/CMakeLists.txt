@@ -7,6 +7,7 @@ add_library(${PROJECT_NAME}
     src/commands/help.cpp
     src/commands/inventory.cpp
     src/commands/look.cpp
+    src/commands/take.cpp
     src/objects/item_storage.cpp
     src/services/persistence.cpp
     src/services/gameengine.cpp
@@ -33,6 +34,7 @@ add_library(${PROJECT_NAME}
     include/commands/inventory.hpp
     include/commands/walk.hpp
     include/commands/help.hpp
+    include/commands/take.hpp
     include/interpreter.hpp
     include/util/hpta_strings.hpp
 

@@ -17,11 +17,11 @@ class Item_storage {
 	std::vector<Entry> m_items;
 
   private:
-	auto find_entry(Item &item);
+	auto find_entry(const Item &item);
 
   public:
-	void add_item(Entry entry);
-	void remove_item(Entry entry);
+	int add_item(const Entry &entry);
+	int remove_item(const Entry &&entry);
 
 	auto &get_items() const
 	{
