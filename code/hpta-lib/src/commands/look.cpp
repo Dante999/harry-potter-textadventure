@@ -9,7 +9,7 @@ bool Look::interprete(const std::vector<std::string> &token)
 	auto &player = Registry::get_gameengine().get_player();
 	auto &room   = Registry::get_persistence().get_room(player->get_room_id());
 
-	if (token.at(0) != "schau")
+	if (!Hpta_strings::equals_one_of(token.at(0), {"schau", "untersuche"}))
 		return false;
 
 	if (token.size() == 1) {

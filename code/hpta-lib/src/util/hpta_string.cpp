@@ -3,6 +3,16 @@
 #include <algorithm>
 #include <sstream>
 
+[[nodiscard]] bool Hpta_strings::equals_one_of(const std::string &s, const std::vector<std::string> &s_list)
+{
+	for (const auto &s2 : s_list) {
+		if (s == s2)
+			return true;
+	}
+
+	return false;
+}
+
 namespace Hpta_strings {
 
 const std::string WHITESPACE = " \n\r\t\f\v";

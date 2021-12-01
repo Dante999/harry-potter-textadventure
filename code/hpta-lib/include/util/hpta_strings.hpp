@@ -12,6 +12,7 @@ namespace Hpta_strings {
 [[nodiscard]] const std::string remove_newlines(const std::string &text);
 
 [[nodiscard]] bool equals_ignorecase(const std::string &s1, const std::string &s2);
+[[nodiscard]] bool equals_one_of(const std::string &s, const std::vector<std::string> &s_list);
 
 [[nodiscard]] std::string ltrim(const std::string &s);
 [[nodiscard]] std::string rtrim(const std::string &s);
