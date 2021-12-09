@@ -7,6 +7,7 @@
 #include <SFML/Window/Event.hpp>
 #include <imgui-SFML.h>
 #include <imgui.h>
+#include <spdlog/spdlog.h>
 
 #include "map.hpp"
 #include "panel_room_attributes.hpp"
@@ -15,13 +16,15 @@
 
 static void window_refresh_loop(sf::RenderWindow &window)
 {
-	Panel_room_selector::refresh();
-	Panel_room_attributes::refresh();
+	//	Panel_room_selector::refresh();
+	//	Panel_room_attributes::refresh();
 	Map::refresh(window);
 }
 
 int main(int argc, char *argv[])
 {
+	spdlog::info("hello world!");
+
 	if (argc == 3) {
 		Settings::gamedata_dir = argv[1];
 		Settings::scale_factor = static_cast<float>(std::stoi(argv[2]));

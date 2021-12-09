@@ -1,0 +1,11 @@
+{
+    "name": "Second-Hand Bücherladen",
+    "description": "Hier sollte noch weiterer Inhalt stehen",
+    "exits": [
+        {
+            "direction": "Westen",
+            "description": "Winkelgassenstrasse 1",
+            "room_id": "/rooms/winkelgasse/winkelgassenstrasse_1.json"
+        }
+    ]
+}

@@ -35,10 +35,11 @@ conan_add_remote(NAME bincrafters
 
 
 conan_cmake_run(REQUIRES 
-                fmt/6.2.0
+	        fmt/8.0.1
                 rapidjson/1.1.0
 		gtest/cci.20210126
                 imgui-sfml/2.3@bincrafters/stable
+		spdlog/1.9.2
                 BASIC_SETUP CMAKE_TARGETS
                 BUILD missing)
 

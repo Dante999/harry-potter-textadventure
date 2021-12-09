@@ -4,6 +4,7 @@
 #include "services/registry.hpp"
 #include "util/hpta_strings.hpp"
 
+#include <algorithm>
 #include <fmt/core.h>
 #include <iostream>
 
