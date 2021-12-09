@@ -7,46 +7,45 @@
 #include <fmt/core.h>
 #include <iostream>
 
-Direction Walk::str_to_direction(const std::string &s)
+std::string Walk::str_to_direction(const std::string &s)
 {
 	std::string word(s);
 	std::transform(word.begin(), word.end(), word.begin(), ::tolower);
 
 	if (word == "n" || word == "norden")
-		return Direction::NORTH;
+		return "norden";
 	else if (word == "s" || word == "süden")
-		return Direction::SOUTH;
+		return "süden";
 	else if (word == "w" || word == "westen")
-		return Direction::WEST;
+		return "westen";
 	else if (word == "o" || word == "osten")
-		return Direction::EAST;
+		return "osten";
 	else
-		return Direction::UNDEFINED;
+		return "";
 }
 
 bool Walk::interprete(const std::vector<std::string> &token)
 {
 
-	Direction d = Direction::UNDEFINED;
+	std::string direction;
 
 	if (token.size() == 1) {
 
-		d = str_to_direction(token.at(0));
+		direction = str_to_direction(token.at(0));
 
-		if (d == Direction::UNDEFINED)
+		if (direction.empty())
 			return false;
 	}
 	else if (token.size() == 3 && //
 	         Hpta_strings::equals_ignorecase(token.at(0), "gehe") &&
 	         Hpta_strings::equals_ignorecase(token.at(1), "nach")) {
-
-		d = str_to_direction(token.at(2));
+		direction = token.at(2);
 	}
 	else {
 		return false;
 	}
 
-	if (d == Direction::UNDEFINED || !Registry::get_gameengine().walk(d)) {
+	if (direction.empty() || !Registry::get_gameengine().walk(direction)) {
 		Screen::print("dorthin kannst du nicht gehen...\n");
 	}
 

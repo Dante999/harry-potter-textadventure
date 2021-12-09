@@ -28,7 +28,6 @@ add_library(${PROJECT_NAME}
     include/objects/room.hpp
     include/objects/item.hpp
     include/objects/item_storage.hpp
-    include/directions.hpp
     include/commands/look.hpp
     include/commands/icommand.hpp
     include/commands/inventory.hpp

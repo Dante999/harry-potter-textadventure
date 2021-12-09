@@ -1,9 +1,10 @@
 #include "services/gameengine.hpp"
 
 #include "services/registry.hpp"
+#include "util/hpta_strings.hpp"
 #include "visualizer.hpp"
 
-bool Gameengine::walk(const Direction &direction)
+bool Gameengine::walk(const std::string &direction)
 {
 	auto current_room = Registry::get_persistence().get_room(m_player->get_room_id());
 
@@ -11,8 +12,8 @@ bool Gameengine::walk(const Direction &direction)
 
 	// TODO: Why does 'current_room.get_exits().find(direction)' return garbage for description and room_id?
 	for (const auto &i : current_room.get_exits()) {
-		if (i.first == direction) {
-			new_room_id = i.second.room_id;
+		if (Hpta_strings::equals_ignorecase(i.direction, direction)) {
+			new_room_id = i.room_id;
 		}
 	}
 

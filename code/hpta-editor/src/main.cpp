@@ -8,6 +8,7 @@
 #include <imgui-SFML.h>
 #include <imgui.h>
 
+#include "map.hpp"
 #include "panel_room_attributes.hpp"
 #include "panel_room_selector.hpp"
 #include "settings.hpp"
@@ -16,11 +17,7 @@ static void window_refresh_loop(sf::RenderWindow &window)
 {
 	Panel_room_selector::refresh();
 	Panel_room_attributes::refresh();
-
-	sf::RectangleShape shape({10, 10});
-	shape.setPosition(10, 10);
-	shape.setFillColor(sf::Color::Green);
-	window.draw(shape);
+	Map::refresh(window);
 }
 
 int main(int argc, char *argv[])
@@ -33,7 +30,7 @@ int main(int argc, char *argv[])
 		Settings::gamedata_dir = argv[1];
 	}
 
-	const std::string gamedata_dir = (argc == 2 ? (argv[1]) : "gamedata");
+	Map::init();
 
 	sf::RenderWindow window(sf::VideoMode(2500, 1500), "");
 	window.setVerticalSyncEnabled(true);

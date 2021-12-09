@@ -3,12 +3,12 @@
     "description": "Du befindest dich auf einem Kopfsteinpflaster. Die Gasse verläuft weiter nördlich. Westlich von dir befindet sich Potages Kesselladen, Östlich von dir befindet sich ein Second-Hand Bücherladen. Südlich von dir befindet sich die Spellunke 'Zum tropfenden Kessel'.",
     "exits": [
         {
-            "direction": "south",
+            "direction": "Süden",
             "description": "Zum tropfenden Kessel",
             "room_id": "/rooms/winkelgasse/zum_tropfenden_kessel.json"
         },
         {
-            "direction": "west",
+            "direction": "Westen",
             "description": "Potages Kesselladen",
             "room_id": "/rooms/winkelgasse/potages_kesselladen.json"
         }

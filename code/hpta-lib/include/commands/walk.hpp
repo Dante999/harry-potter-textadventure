@@ -5,7 +5,7 @@
 
 class Walk : public ICommand {
   private:
-	static Direction str_to_direction(const std::string &s);
+	static std::string str_to_direction(const std::string &s);
 
   public:
 	const std::string get_command() override;

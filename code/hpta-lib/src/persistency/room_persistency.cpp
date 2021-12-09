@@ -7,40 +7,6 @@
 #include <rapidjson/filewritestream.h>
 #include <rapidjson/prettywriter.h>
 
-Direction Room_persistency::deserialize_direction(const std::string &direction)
-{
-	if (direction == "north")
-		return Direction::NORTH;
-	if (direction == "south")
-		return Direction::SOUTH;
-	if (direction == "east")
-		return Direction::EAST;
-	if (direction == "west")
-		return Direction::WEST;
-	if (direction == "undefined")
-		return Direction::UNDEFINED;
-
-	return Direction::UNDEFINED;
-}
-
-std::string Room_persistency::serialize_direction(const Direction direction)
-{
-	switch (direction) {
-	case Direction::NORTH:
-		return "north";
-	case Direction::SOUTH:
-		return "south";
-	case Direction::EAST:
-		return "east";
-	case Direction::WEST:
-		return "west";
-	case Direction::UNDEFINED:
-		return "undefined";
-	}
-
-	return "undefined";
-}
-
 Room Room_persistency::load(const std::string &gamedata_dir, const std::string &id)
 {
 	const std::string filepath(gamedata_dir + id);
@@ -75,13 +41,13 @@ Room Room_persistency::load(const std::string &gamedata_dir, const std::string &
 		}
 	}
 
-	std::map<Direction, Room::Branch> exits;
+	std::vector<Room::Exit> exits;
 
 	for (auto &e : d["exits"].GetArray()) {
 		const auto direction   = e["direction"].GetString();
 		const auto description = e["description"].GetString();
 		const auto room_id     = e["room_id"].GetString();
-		exits.insert({deserialize_direction(direction), {description, room_id}});
+		exits.emplace_back(Room::Exit{direction, description, room_id});
 	}
 
 	room.set_exits(exits);
@@ -120,13 +86,13 @@ bool Room_persistency::save(const std::string &gamedata_dir, const Room &room)
 	for (const auto &e : room.get_exits()) {
 		writer.StartObject();
 		writer.Key("direction");
-		writer.String(serialize_direction(e.first).c_str());
+		writer.String(e.direction.c_str());
 
 		writer.Key("description");
-		writer.String(e.second.description.c_str());
+		writer.String(e.description.c_str());
 
 		writer.Key("room_id");
-		writer.String(e.second.room_id.c_str());
+		writer.String(e.room_id.c_str());
 		writer.EndObject();
 	}
 

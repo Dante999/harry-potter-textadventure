@@ -13,7 +13,7 @@
     ],
     "exits": [
         {
-            "direction": "east",
+            "direction": "Osten",
             "description": "Winkelgassenstrasse 1",
             "room_id": "/rooms/winkelgasse/winkelgassenstrasse_1.json"
         }

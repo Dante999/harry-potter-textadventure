@@ -5,21 +5,6 @@
 #include "util/hpta_strings.hpp"
 
 namespace Visualizer {
-auto direction_to_string(Direction direction)
-{
-	switch (direction) {
-	case Direction::NORTH:
-		return "Norden";
-	case Direction::SOUTH:
-		return "Süden";
-	case Direction::EAST:
-		return "Osten";
-	case Direction::WEST:
-		return "Westen";
-	default:
-		return "Unbekannt";
-	}
-}
 
 void show(const Room &room)
 {
@@ -40,8 +25,8 @@ void show(const Room &room)
 
 	Screen::print("\n");
 	Screen::print("Mögliche Richtungen:\n");
-	for (const auto &direction : room.get_exits()) {
-		Screen::print(fmt::format("\t{}\t-> {}\n", direction_to_string(direction.first), direction.second.description));
+	for (const auto &exit : room.get_exits()) {
+		Screen::print(fmt::format("\t{}\t-> {}\n", exit.direction, exit.description));
 	}
 
 	Screen::box_end();
