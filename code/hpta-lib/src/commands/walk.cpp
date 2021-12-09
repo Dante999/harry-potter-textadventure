@@ -7,7 +7,7 @@
 #include <fmt/core.h>
 #include <iostream>
 
-std::string Walk::str_to_direction(const std::string &s)
+std::string Walk::get_direction_from_single_word_command(const std::string &s)
 {
 	std::string word(s);
 	std::transform(word.begin(), word.end(), word.begin(), ::tolower);
@@ -31,7 +31,7 @@ bool Walk::interprete(const std::vector<std::string> &token)
 
 	if (token.size() == 1) {
 
-		direction = str_to_direction(token.at(0));
+		direction = get_direction_from_single_word_command(token.at(0));
 
 		if (direction.empty())
 			return false;

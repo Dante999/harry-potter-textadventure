@@ -17,7 +17,7 @@ inline const std::string Inventory::get_command()
 
 inline const std::string Inventory::get_description()
 {
-	return "zeige das Inventar an";
+	return "zeigt den Inhalt deines Inventars an.";
 }
 
 #endif /* INVENTORY_HPP */

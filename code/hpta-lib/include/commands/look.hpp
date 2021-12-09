@@ -12,12 +12,13 @@ class Look : public ICommand {
 
 inline const std::string Look::get_command()
 {
-	return "schau <objekt>";
+	return "untersuche <objekt>";
 }
 
 inline const std::string Look::get_description()
 {
-	return "zeige details zum Objekt";
+	return "zeigt details zum genannten Objekt. Alternativ zu 'untersuche' kann auch das Wort 'schau' verwendet "
+	       "werden.";
 }
 
 #endif /* LOOK_H */

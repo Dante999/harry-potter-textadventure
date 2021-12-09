@@ -5,7 +5,7 @@
 
 class Walk : public ICommand {
   private:
-	static std::string str_to_direction(const std::string &s);
+	static std::string get_direction_from_single_word_command(const std::string &s);
 
   public:
 	const std::string get_command() override;
@@ -15,12 +15,14 @@ class Walk : public ICommand {
 
 inline const std::string Walk::get_command()
 {
-	return "n|s|o|w";
+	return "gehe nach <richtung>";
 }
 
 inline const std::string Walk::get_description()
 {
-	return "gehe nach Norden, Süden, Osten oder Westen";
+	return "gehe in die entsprechende Richtung, z.B. nach Norden, Süden, Osten oder Westen. Alternativ kann auch nur "
+	       "die Richtung angegeben werden ohne das vorangehende 'gehe nach'. Zusätzlich gibt es noch die Möglichkeit "
+	       "die Himmelsrichtungen mit n,s,o oder w abzukürzen";
 }
 
 #endif /* WALK_H */

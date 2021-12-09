@@ -12,12 +12,13 @@ class Take : public ICommand {
 
 inline const std::string Take::get_command()
 {
-	return "nimm <anzahl>x <objekt>";
+	return "nimm <anzahl>x <objekt> [von <Behälter>]";
 }
 
 inline const std::string Take::get_description()
 {
-	return "lege Objekt in das Inventar (nimm 11x Knut)";
+	return "Nimmt das Objekt in der angegebenen Anzahl aus dem entsprechenden Behälter und legt es im Inventar ab. "
+	       "Wird kein behälter angegeben, wird versucht das Item aus der Umgebung genommen.";
 }
 
 #endif // TAKE_HPP
