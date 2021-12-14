@@ -46,7 +46,7 @@ AlignConsecutiveMacros: true
 # #endif
 IndentPPDirectives: AfterHash
 
-
+AlwaysBreakTemplateDeclarations: Yes
 
 
 AllowAllParametersOfDeclarationOnNextLine: true
