@@ -1,8 +1,8 @@
-#include "visualizer.hpp"
+#include "hpta-lib/visualizer.hpp"
 
 #include <fmt/core.h>
 
-#include "util/hpta_strings.hpp"
+#include "hpta-lib/util/hpta_strings.hpp"
 
 namespace Visualizer {
 

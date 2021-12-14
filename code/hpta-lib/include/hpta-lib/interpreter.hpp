@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include "commands/icommand.hpp"
+#include "hpta-lib/commands/icommand.hpp"
 
 class Interpreter {
 

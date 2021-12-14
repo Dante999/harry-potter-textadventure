@@ -1,7 +1,7 @@
 #ifndef ITEM_PERSISTENCY_HPP
 #define ITEM_PERSISTENCY_HPP
 
-#include "objects/item.hpp"
+#include "hpta-lib/objects/item.hpp"
 
 class Item_persistency {
   public:

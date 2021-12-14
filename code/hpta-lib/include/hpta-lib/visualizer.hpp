@@ -1,10 +1,10 @@
 #ifndef VISUALIZER_H
 #define VISUALIZER_H
 
-#include "objects/item.hpp"
-#include "objects/player.hpp"
-#include "objects/room.hpp"
-#include "screen.hpp"
+#include "hpta-lib/objects/item.hpp"
+#include "hpta-lib/objects/player.hpp"
+#include "hpta-lib/objects/room.hpp"
+#include "hpta-lib/screen.hpp"
 
 namespace Visualizer {
 void show(const Room &room);

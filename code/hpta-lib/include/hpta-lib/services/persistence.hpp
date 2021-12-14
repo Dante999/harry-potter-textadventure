@@ -4,7 +4,7 @@
 #include <map>
 #include <string>
 
-#include "objects/room.hpp"
+#include "hpta-lib/objects/room.hpp"
 
 class Persistence {
 

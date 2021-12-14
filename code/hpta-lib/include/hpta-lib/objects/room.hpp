@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include "objects/item_storage.hpp"
+#include "hpta-lib/objects/item_storage.hpp"
 
 class Room : public Item_storage {
   public:

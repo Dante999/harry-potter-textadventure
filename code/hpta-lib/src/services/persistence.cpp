@@ -1,7 +1,7 @@
-#include "services/persistence.hpp"
+#include "hpta-lib/services/persistence.hpp"
 
-#include "persistency/room_persistency.hpp"
-#include "services/registry.hpp"
+#include "hpta-lib/persistency/room_persistency.hpp"
+#include "hpta-lib/services/registry.hpp"
 
 Room &Persistence::get_room(const std::string &id)
 {

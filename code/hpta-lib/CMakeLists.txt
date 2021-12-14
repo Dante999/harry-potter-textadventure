@@ -16,27 +16,25 @@ add_library(${PROJECT_NAME}
     src/persistency/room_persistency.cpp
     src/persistency/item_persistency.cpp
     src/util/hpta_string.cpp
-    include/util/hpta_strings.hpp
-    include/services/persistence.hpp
-    include/services/registry.hpp
-    include/services/gameengine.hpp
-    include/persistency/room_persistency.hpp
-    include/persistency/item_persistency.hpp
-    include/visualizer.hpp
-    include/screen.hpp
-    include/objects/player.hpp
-    include/objects/room.hpp
-    include/objects/item.hpp
-    include/objects/item_storage.hpp
-    include/commands/look.hpp
-    include/commands/icommand.hpp
-    include/commands/inventory.hpp
-    include/commands/walk.hpp
-    include/commands/help.hpp
-    include/commands/take.hpp
-    include/interpreter.hpp
-    include/util/hpta_strings.hpp
-
+    include/hpta-lib/util/hpta_strings.hpp
+    include/hpta-lib/services/persistence.hpp
+    include/hpta-lib/services/registry.hpp
+    include/hpta-lib/services/gameengine.hpp
+    include/hpta-lib/persistency/room_persistency.hpp
+    include/hpta-lib/persistency/item_persistency.hpp
+    include/hpta-lib/visualizer.hpp
+    include/hpta-lib/screen.hpp
+    include/hpta-lib/objects/player.hpp
+    include/hpta-lib/objects/room.hpp
+    include/hpta-lib/objects/item.hpp
+    include/hpta-lib/objects/item_storage.hpp
+    include/hpta-lib/commands/look.hpp
+    include/hpta-lib/commands/icommand.hpp
+    include/hpta-lib/commands/inventory.hpp
+    include/hpta-lib/commands/walk.hpp
+    include/hpta-lib/commands/help.hpp
+    include/hpta-lib/commands/take.hpp
+    include/hpta-lib/interpreter.hpp
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC ./include)

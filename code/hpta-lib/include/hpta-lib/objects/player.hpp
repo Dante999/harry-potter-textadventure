@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "objects/item_storage.hpp"
+#include "hpta-lib/objects/item_storage.hpp"
 
 class Player : public Item_storage {
 

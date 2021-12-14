@@ -1,7 +1,7 @@
-#include "commands/help.hpp"
+#include "hpta-lib/commands/help.hpp"
 
-#include "screen.hpp"
-#include "util/hpta_strings.hpp"
+#include "hpta-lib/screen.hpp"
+#include "hpta-lib/util/hpta_strings.hpp"
 
 #include <algorithm>
 #include <fmt/color.h>

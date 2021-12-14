@@ -1,4 +1,4 @@
-#include "services/registry.hpp"
+#include "hpta-lib/services/registry.hpp"
 
 Persistence Registry::m_persistence  = Persistence();
 Gameengine  Registry::m_gameengine   = Gameengine();

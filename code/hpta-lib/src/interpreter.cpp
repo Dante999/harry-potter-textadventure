@@ -1,13 +1,13 @@
-#include "interpreter.hpp"
+#include "hpta-lib/interpreter.hpp"
 
 #include <iostream>
 #include <sstream>
 
-#include "commands/help.hpp"
-#include "commands/inventory.hpp"
-#include "commands/look.hpp"
-#include "commands/take.hpp"
-#include "commands/walk.hpp"
+#include "hpta-lib/commands/help.hpp"
+#include "hpta-lib/commands/inventory.hpp"
+#include "hpta-lib/commands/look.hpp"
+#include "hpta-lib/commands/take.hpp"
+#include "hpta-lib/commands/walk.hpp"
 
 Interpreter::Interpreter()
 {

@@ -1,7 +1,7 @@
-#ifndef ITEM_STORAGE_HPP
-#define ITEM_STORAGE_HPP
+#ifndef ITEM_STORAGE_H
+#define ITEM_STORAGE_H
 
-#include "objects/item.hpp"
+#include "hpta-lib/objects/item.hpp"
 
 #include <vector>
 
@@ -29,4 +29,4 @@ class Item_storage {
 	}
 };
 
-#endif // ITEM_STORAGE_HPP
+#endif /* ITEM_STORAGE_H */

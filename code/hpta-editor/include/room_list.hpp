@@ -1,7 +1,7 @@
 #ifndef ROOM_LIST_HPP
 #define ROOM_LIST_HPP
 
-#include "objects/room.hpp"
+#include "hpta-lib/objects/room.hpp"
 
 namespace Room_list {
 

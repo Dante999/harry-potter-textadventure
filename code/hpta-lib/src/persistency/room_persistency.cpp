@@ -1,6 +1,6 @@
-#include "persistency/room_persistency.hpp"
+#include "hpta-lib/persistency/room_persistency.hpp"
 
-#include "persistency/item_persistency.hpp"
+#include "hpta-lib/persistency/item_persistency.hpp"
 
 #include <rapidjson/document.h>
 #include <rapidjson/filereadstream.h>

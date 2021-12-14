@@ -1,7 +1,7 @@
 #ifndef LOOK_H
 #define LOOK_H
 
-#include "icommand.hpp"
+#include "hpta-lib/commands/icommand.hpp"
 
 class Look : public ICommand {
   public:

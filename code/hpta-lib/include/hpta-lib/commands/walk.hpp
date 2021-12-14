@@ -1,7 +1,7 @@
 #ifndef WALK_H
 #define WALK_H
 
-#include "icommand.hpp"
+#include "hpta-lib/commands/icommand.hpp"
 
 class Walk : public ICommand {
   private:

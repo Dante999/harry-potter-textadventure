@@ -1,7 +1,7 @@
 #ifndef HELP_H
 #define HELP_H
 
-#include "commands/icommand.hpp"
+#include "hpta-lib/commands/icommand.hpp"
 
 #include <memory>
 #include <vector>

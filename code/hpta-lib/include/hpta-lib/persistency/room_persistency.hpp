@@ -1,7 +1,7 @@
 #ifndef ROOM_PERSISTENCY_H
 #define ROOM_PERSISTENCY_H
 
-#include "objects/room.hpp"
+#include "hpta-lib/objects/room.hpp"
 
 class Room_persistency {
   public:

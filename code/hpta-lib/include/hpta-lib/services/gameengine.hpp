@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "objects/player.hpp"
+#include "hpta-lib/objects/player.hpp"
 
 class Gameengine {
   private:

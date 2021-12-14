@@ -4,8 +4,8 @@
 #include <string>
 #include <vector>
 
-#include "objects/player.hpp"
-#include "services/gameengine.hpp"
+#include "hpta-lib/objects/player.hpp"
+#include "hpta-lib/services/gameengine.hpp"
 
 struct Context {
 	Player &    player;

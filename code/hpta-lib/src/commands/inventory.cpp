@@ -1,9 +1,9 @@
-#include "commands/inventory.hpp"
+#include "hpta-lib/commands/inventory.hpp"
 
-#include "screen.hpp"
-#include "services/registry.hpp"
-#include "util/hpta_strings.hpp"
-#include "visualizer.hpp"
+#include "hpta-lib/screen.hpp"
+#include "hpta-lib/services/registry.hpp"
+#include "hpta-lib/util/hpta_strings.hpp"
+#include "hpta-lib/visualizer.hpp"
 
 #include <fmt/core.h>
 

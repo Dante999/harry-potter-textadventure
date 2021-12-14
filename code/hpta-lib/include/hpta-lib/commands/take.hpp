@@ -1,7 +1,7 @@
 #ifndef TAKE_HPP
 #define TAKE_HPP
 
-#include "icommand.hpp"
+#include "hpta-lib/commands/icommand.hpp"
 
 class Take : public ICommand {
   public:

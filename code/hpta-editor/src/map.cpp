@@ -12,11 +12,11 @@
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Window/Mouse.hpp>
 
-#include "objects/room.hpp"
+#include "hpta-lib/objects/room.hpp"
+#include "hpta-lib/util/hpta_strings.hpp"
 #include "panel_room_attributes.hpp"
 #include "room_list.hpp"
 #include "settings.hpp"
-#include "util/hpta_strings.hpp"
 
 static auto g_font = sf::Font();
 

@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include "objects/item_storage.hpp"
+#include "hpta-lib/objects/item_storage.hpp"
 
 TEST(ItemStorage, emptyStorage)
 {

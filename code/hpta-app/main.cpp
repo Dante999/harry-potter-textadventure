@@ -1,11 +1,11 @@
 #include <iostream>
 
-#include "interpreter.hpp"
-#include "objects/player.hpp"
-#include "persistency/item_persistency.hpp"
-#include "screen.hpp"
-#include "services/registry.hpp"
-#include "visualizer.hpp"
+#include "hpta-lib/interpreter.hpp"
+#include "hpta-lib/objects/player.hpp"
+#include "hpta-lib/persistency/item_persistency.hpp"
+#include "hpta-lib/screen.hpp"
+#include "hpta-lib/services/registry.hpp"
+#include "hpta-lib/visualizer.hpp"
 
 int main(int argc, char *argv[])
 {

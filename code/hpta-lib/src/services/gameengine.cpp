@@ -1,8 +1,8 @@
-#include "services/gameengine.hpp"
+#include "hpta-lib/services/gameengine.hpp"
 
-#include "services/registry.hpp"
-#include "util/hpta_strings.hpp"
-#include "visualizer.hpp"
+#include "hpta-lib/services/registry.hpp"
+#include "hpta-lib/util/hpta_strings.hpp"
+#include "hpta-lib/visualizer.hpp"
 
 bool Gameengine::walk(const std::string &direction)
 {

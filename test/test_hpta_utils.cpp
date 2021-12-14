@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include "util/hpta_strings.hpp"
+#include "hpta-lib/util/hpta_strings.hpp"
 
 TEST(HptaStrings, equals_ignorecase)
 {

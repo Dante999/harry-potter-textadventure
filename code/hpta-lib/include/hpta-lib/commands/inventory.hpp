@@ -1,7 +1,7 @@
 #ifndef INVENTORY_HPP
 #define INVENTORY_HPP
 
-#include "icommand.hpp"
+#include "hpta-lib/commands/icommand.hpp"
 
 class Inventory : public ICommand {
   public:

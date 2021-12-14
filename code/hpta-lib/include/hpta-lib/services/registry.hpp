@@ -1,8 +1,8 @@
 #ifndef REGISTRY_H
 #define REGISTRY_H
 
-#include "services/gameengine.hpp"
-#include "services/persistence.hpp"
+#include "hpta-lib/services/gameengine.hpp"
+#include "hpta-lib/services/persistence.hpp"
 
 class Registry {
   private:
