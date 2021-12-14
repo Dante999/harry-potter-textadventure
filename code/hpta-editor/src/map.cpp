@@ -1,5 +1,6 @@
 #include "map.hpp"
 
+#include <chrono>
 #include <fmt/core.h>
 #include <imgui-SFML.h>
 #include <imgui.h>
@@ -9,8 +10,10 @@
 #include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/Text.hpp>
+#include <SFML/Window/Mouse.hpp>
 
 #include "objects/room.hpp"
+#include "panel_room_attributes.hpp"
 #include "room_list.hpp"
 #include "settings.hpp"
 #include "util/hpta_strings.hpp"
@@ -96,57 +99,30 @@ void Map::init()
 
 	add_neighbours(rooms, g_nodes.at(0));
 
-	spdlog::debug("Sorting rooms: name\tx\ty\tlinks\n");
+	spdlog::debug("Sorting rooms: name\tx\ty\tlinks");
 	for (const auto &n : g_nodes) {
-		spdlog::debug("{}\t{}\t{}\t{}\n", n->room.get_name(), n->x, n->y, n->links.size());
+		spdlog::debug("{}\t{}\t{}\t{}", n->room.get_name(), n->x, n->y, n->links.size());
 	}
 }
-
-// static void draw_node(sf::RenderWindow &window, Node_ptr &node)
-//{
-//	constexpr float node_with   = 10;
-//	constexpr float node_height = 10;
-
-//	const float x = get_final_x(*node);
-//	const float y = get_final_y(*node);
-
-//	sf::RectangleShape node_rect{{node_with, node_height}};
-//	node_rect.setPosition(x, y);
-//	node_rect.setOutlineColor(sf::Color::White);
-//	node_rect.setOutlineThickness(1.0f);
-//	node_rect.setFillColor(sf::Color::White);
-//	window.draw(node_rect);
-
-//	auto text = sf::Text(node->room.get_name(), g_font);
-
-//	text.scale(0.5, 0.5);
-//	text.setPosition(x + 10, y + 10);
-//	window.draw(text);
-
-//	//	sf::RectangleShape shape({text.getGlobalBounds().width + 20, text.getGlobalBounds().height + 20});
-//	//	shape.setPosition(x - 10, y - 10);
-//	//	shape.setOutlineColor(sf::Color::White);
-//	//	shape.setOutlineThickness(1.0f);
-//	//	shape.setFillColor(sf::Color::Transparent);
-//	//	window.draw(shape);
-//}
 
 constexpr float node_width        = 40;
 constexpr float node_height       = 40;
 constexpr float marker_width      = 20;
 constexpr float marker_height     = 20;
 constexpr float text_scale        = 0.7f;
-constexpr float x_y_start         = 800;
+constexpr float x_start           = 300;
+constexpr float y_start           = 800;
 constexpr float node_spread_scale = 300;
+constexpr float mouse_debounce_ms = 200;
 
 static float get_final_x(const Node &node)
 {
-	return x_y_start + (node.x * node_spread_scale);
+	return x_start + (node.x * node_spread_scale);
 }
 
 static float get_final_y(const Node &node)
 {
-	return x_y_start + (node.y * node_spread_scale);
+	return y_start + (node.y * node_spread_scale);
 }
 
 static float get_final_x_middle(const Node &n1, const Node &n2)
@@ -158,6 +134,18 @@ static float get_final_x_middle(const Node &n1, const Node &n2)
 static float get_final_y_middle(const Node &n1, const Node &n2)
 {
 	return (get_final_y(n1) + get_final_y(n2) + node_height) / 2;
+}
+
+template <typename T>
+bool is_between_or_equal(T min, T max, T value)
+{
+	return (min <= value && value <= max);
+}
+
+static bool position_hits_node(int x, int y, const Node_ptr &node)
+{
+	return (is_between_or_equal(get_final_x(*node), get_final_x(*node) + node_width, static_cast<float>(x)) &&
+	        is_between_or_equal(get_final_y(*node), get_final_y(*node) + node_height, static_cast<float>(y)));
 }
 
 void Map::refresh(sf::RenderWindow &window)
@@ -191,6 +179,27 @@ void Map::refresh(sf::RenderWindow &window)
 			                   get_final_y_middle(*node, *link.target) - marker_height / 2);
 			marker.setFillColor(sf::Color::Yellow);
 			window.draw(marker);
+		}
+	}
+
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+
+		static auto last_time_pressed = std::chrono::system_clock::now();
+
+		std::chrono::duration<float, std::milli> duration = std::chrono::system_clock::now() - last_time_pressed;
+
+		if (duration.count() > mouse_debounce_ms) {
+			const auto position = sf::Mouse::getPosition(window);
+
+			for (const auto &node : g_nodes) {
+
+				if (position_hits_node(position.x, position.y, node)) {
+					spdlog::info("Clicked on node {}", node->room.get_name());
+					Panel_room_attributes::set_room(node->room.get_id());
+				}
+			}
+
+			last_time_pressed = std::chrono::system_clock::now();
 		}
 	}
 }

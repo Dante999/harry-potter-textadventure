@@ -72,9 +72,11 @@ void refresh()
 	ImGui::Begin("Room");
 	ImGui::SetWindowFontScale(Settings::scale_factor);
 
+	ImGui::PushItemWidth(-ImGui::GetWindowWidth() * 0.20f);
 	ImGui::InputText("ID", g_room_id, std::size(g_room_id));
 	ImGui::InputText("Name", g_room_name, std::size(g_room_name));
 	ImGui::InputTextMultiline("Description", g_room_description, std::size(g_room_description), ImVec2(0, 0));
+	ImGui::PopItemWidth();
 
 	ImGui::BeginTable("Directions", 4,
 	                  ImGuiTableFlags_Resizable + ImGuiTableFlags_Borders); // static_cast<int>(g_exits.size()));
@@ -90,7 +92,6 @@ void refresh()
 
 	int i = 0;
 	for (auto itr = g_exits.begin(); itr != g_exits.end(); ++itr) {
-
 		ImGui::PushID(itr->direction);
 
 		ImGui::TableNextColumn();
