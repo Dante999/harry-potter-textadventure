@@ -7,11 +7,11 @@ add_executable(${PROJECT_NAME}
 	src/settings.cpp
 	src/map.cpp
 	src/room_list.cpp
-	include/panel_room_attributes.hpp
-	include/panel_room_selector.hpp
-	include/settings.hpp
-	include/map.hpp
-	include/room_list.hpp
+	include/hpta-editor/panel_room_attributes.hpp
+	include/hpta-editor/panel_room_selector.hpp
+	include/hpta-editor/settings.hpp
+	include/hpta-editor/map.hpp
+	include/hpta-editor/room_list.hpp
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC ./include)

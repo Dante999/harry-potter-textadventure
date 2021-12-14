@@ -11,10 +11,10 @@
 #include <spdlog/cfg/argv.h>
 #include <spdlog/spdlog.h>
 
-#include "map.hpp"
-#include "panel_room_attributes.hpp"
-#include "panel_room_selector.hpp"
-#include "settings.hpp"
+#include "hpta-editor/map.hpp"
+#include "hpta-editor/panel_room_attributes.hpp"
+#include "hpta-editor/panel_room_selector.hpp"
+#include "hpta-editor/settings.hpp"
 
 static void window_refresh_loop(sf::RenderWindow &window)
 {

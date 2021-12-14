@@ -1,7 +1,7 @@
-#include "panel_room_attributes.hpp"
+#include "hpta-editor/panel_room_attributes.hpp"
 
+#include "hpta-editor/settings.hpp"
 #include "hpta-lib/persistency/room_persistency.hpp"
-#include "settings.hpp"
 #include "hpta-lib/util/hpta_strings.hpp"
 
 #include <cstring>

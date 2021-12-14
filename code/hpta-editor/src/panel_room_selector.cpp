@@ -1,12 +1,12 @@
-#include "panel_room_selector.hpp"
+#include "hpta-editor/panel_room_selector.hpp"
 
 #include <imgui.h>
 
 #include <filesystem>
 #include <vector>
 
-#include "panel_room_attributes.hpp"
-#include "settings.hpp"
+#include "hpta-editor/panel_room_attributes.hpp"
+#include "hpta-editor/settings.hpp"
 
 namespace {
 std::vector<std::string> g_room_ids;
