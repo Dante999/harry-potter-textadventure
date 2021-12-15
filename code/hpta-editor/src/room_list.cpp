@@ -3,6 +3,8 @@
 #include <filesystem>
 #include <vector>
 
+#include <spdlog/spdlog.h>
+
 #include "hpta-editor/settings.hpp"
 #include "hpta-lib/persistency/room_persistency.hpp"
 
@@ -20,6 +22,7 @@ void refresh_rooms()
 			continue;
 
 		const auto room_id = file.path().string().substr(Settings::gamedata_dir.length());
+		spdlog::info("loading room {}", room_id);
 
 		m_rooms.emplace_back(Room_persistency::load(Settings::gamedata_dir, room_id));
 	}

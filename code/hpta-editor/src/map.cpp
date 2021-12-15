@@ -146,7 +146,7 @@ static void center_shape(float x, float y, sf::Shape &shape)
 	shape.setPosition(x - (shape.getGlobalBounds().width / 2), y - (shape.getGlobalBounds().height / 2));
 }
 
-static sf::RectangleShape get_line(sf::Vector2f a, sf::Vector2f b, float space)
+static std::tuple<sf::RectangleShape, sf::CircleShape> get_arrow(sf::Vector2f a, sf::Vector2f b, float space)
 {
 	float rect_x, rect_y, width, heigth;
 
@@ -169,12 +169,45 @@ static sf::RectangleShape get_line(sf::Vector2f a, sf::Vector2f b, float space)
 		heigth = 1;
 	}
 
-	auto rect = sf::RectangleShape({width, heigth});
+	auto line = sf::RectangleShape({width, heigth});
+	center_shape(rect_x, rect_y, line);
 
-	center_shape(rect_x, rect_y, rect);
+	auto tip = sf::CircleShape(8, 4);
+	center_shape(Hpta_algorithms::get_middlepoint(rect_x, b.x), Hpta_algorithms::get_middlepoint(rect_y, b.y), tip);
 
-	return rect;
+	return std::make_tuple(line, tip);
 }
+
+// static sf::CircleShape get_arrow(sf::RectangleShape line, sf::Vector2f target, float space)
+//{
+//	float x, y;
+
+//	if (line.getGlobalBounds().height == link_thickness) {
+//		// horizontal line
+//		y = get_
+//	}
+
+//	float rect_x, rect_y;
+
+//	if (source.x == target.x) {
+//		rect_x = target.x;
+//		rect_y = target.y - space;
+//	}
+//	else if (source.y == target.y) {
+//		rect_x = target.x - space;
+//		rect_y = target.y;
+//	}
+//	else {
+//		rect_x = 0;
+//		rect_y = 0;
+//	}
+
+//	auto rect = sf::CircleShape(10, 3);
+
+//	center_shape(rect_x, rect_y, rect);
+
+//	return rect;
+//}
 
 void Map::refresh(sf::RenderWindow &window)
 {
@@ -216,8 +249,11 @@ void Map::refresh(sf::RenderWindow &window)
 		window.draw(center_marker);
 
 		for (auto &link : node->links) {
-			auto link_marker = get_line(get_node_center(*node), get_node_center(*link.target), link_spacer);
-			window.draw(link_marker);
+			//			auto link_line  = get_line(get_node_center(*node), get_node_center(*link.target), link_spacer);
+			auto link_arrow = get_arrow(get_node_center(*node), get_node_center(*link.target), link_spacer);
+
+			window.draw(std::get<0>(link_arrow));
+			window.draw(std::get<1>(link_arrow));
 		}
 	}
 
