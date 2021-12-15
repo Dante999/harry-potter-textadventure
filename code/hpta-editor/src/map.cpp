@@ -16,6 +16,7 @@
 #include "hpta-editor/room_list.hpp"
 #include "hpta-editor/settings.hpp"
 #include "hpta-lib/objects/room.hpp"
+#include "hpta-lib/util/hpta_algorithms.hpp"
 #include "hpta-lib/util/hpta_strings.hpp"
 
 static auto g_font = sf::Font();
@@ -114,6 +115,8 @@ constexpr float x_start           = 300;
 constexpr float y_start           = 800;
 constexpr float node_spread_scale = 300;
 constexpr float mouse_debounce_ms = 200;
+constexpr float link_thickness    = 5;
+constexpr float link_spacer       = 150;
 
 static float get_final_x(const Node &node)
 {
@@ -125,27 +128,52 @@ static float get_final_y(const Node &node)
 	return y_start + (node.y * node_spread_scale);
 }
 
-static float get_final_x_middle(const Node &n1, const Node &n2)
-{
-
-	return (get_final_x(n1) + get_final_x(n2) + node_width) / 2;
-}
-
-static float get_final_y_middle(const Node &n1, const Node &n2)
-{
-	return (get_final_y(n1) + get_final_y(n2) + node_height) / 2;
-}
-
-template <typename T>
-bool is_between_or_equal(T min, T max, T value)
-{
-	return (min <= value && value <= max);
-}
-
 static bool position_hits_node(int x, int y, const Node_ptr &node)
 {
-	return (is_between_or_equal(get_final_x(*node), get_final_x(*node) + node_width, static_cast<float>(x)) &&
-	        is_between_or_equal(get_final_y(*node), get_final_y(*node) + node_height, static_cast<float>(y)));
+	return (Hpta_algorithms::is_between_or_equal(get_final_x(*node), get_final_x(*node) + node_width,
+	                                             static_cast<float>(x)) &&
+	        Hpta_algorithms::is_between_or_equal(get_final_y(*node), get_final_y(*node) + node_height,
+	                                             static_cast<float>(y)));
+}
+
+static sf::Vector2f get_node_center(const Node &node)
+{
+	return {get_final_x(node) + (node_width / 2), get_final_y(node) + (node_height / 2)};
+}
+
+static void center_shape(float x, float y, sf::Shape &shape)
+{
+	shape.setPosition(x - (shape.getGlobalBounds().width / 2), y - (shape.getGlobalBounds().height / 2));
+}
+
+static sf::RectangleShape get_line(sf::Vector2f a, sf::Vector2f b, float space)
+{
+	float rect_x, rect_y, width, heigth;
+
+	if (a.x == b.x) {
+		rect_x = a.x;
+		rect_y = Hpta_algorithms::get_middlepoint(a.y, b.y);
+		width  = link_thickness;
+		heigth = Hpta_algorithms::get_distance(a.y, b.y) - space;
+	}
+	else if (a.y == b.y) {
+		rect_x = Hpta_algorithms::get_middlepoint(a.x, b.x);
+		rect_y = a.y;
+		width  = Hpta_algorithms::get_distance(a.x, b.x) - space;
+		heigth = link_thickness;
+	}
+	else {
+		rect_x = 0;
+		rect_y = 0;
+		width  = 1;
+		heigth = 1;
+	}
+
+	auto rect = sf::RectangleShape({width, heigth});
+
+	center_shape(rect_x, rect_y, rect);
+
+	return rect;
 }
 
 void Map::refresh(sf::RenderWindow &window)
@@ -160,7 +188,16 @@ void Map::refresh(sf::RenderWindow &window)
 		node_rect.setPosition(x, y);
 		node_rect.setOutlineColor(sf::Color::White);
 		node_rect.setOutlineThickness(1.0f);
-		node_rect.setFillColor(sf::Color::Transparent);
+
+		const auto position = sf::Mouse::getPosition(window);
+
+		if (position_hits_node(position.x, position.y, node)) {
+			node_rect.setFillColor(sf::Color::White);
+		}
+		else {
+			node_rect.setFillColor(sf::Color::Transparent);
+		}
+
 		window.draw(node_rect);
 
 		auto text = sf::Text(node->room.get_name(), g_font);
@@ -170,15 +207,17 @@ void Map::refresh(sf::RenderWindow &window)
 		text.setPosition(x + node_width - text.getGlobalBounds().width / 2, y - node_height);
 		window.draw(text);
 
+		const auto node_center = get_node_center(*node);
+
+		sf::RectangleShape center_marker({marker_width, marker_height});
+
+		center_shape(node_center.x, node_center.y, center_marker);
+		center_marker.setFillColor(sf::Color::Yellow);
+		window.draw(center_marker);
+
 		for (auto &link : node->links) {
-
-			sf::CircleShape marker(marker_width / 2);
-			//			sf::RectangleShape marker({marker_width, marker_height});
-
-			marker.setPosition(get_final_x_middle(*node, *link.target) - marker_width / 2,
-			                   get_final_y_middle(*node, *link.target) - marker_height / 2);
-			marker.setFillColor(sf::Color::Yellow);
-			window.draw(marker);
+			auto link_marker = get_line(get_node_center(*node), get_node_center(*link.target), link_spacer);
+			window.draw(link_marker);
 		}
 	}
 

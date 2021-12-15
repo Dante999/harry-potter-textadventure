@@ -17,6 +17,7 @@ add_library(${PROJECT_NAME}
     src/persistency/item_persistency.cpp
     src/util/hpta_string.cpp
     include/hpta-lib/util/hpta_strings.hpp
+    include/hpta-lib/util/hpta_algorithms.hpp
     include/hpta-lib/services/persistence.hpp
     include/hpta-lib/services/registry.hpp
     include/hpta-lib/services/gameengine.hpp
@@ -35,6 +36,7 @@ add_library(${PROJECT_NAME}
     include/hpta-lib/commands/help.hpp
     include/hpta-lib/commands/take.hpp
     include/hpta-lib/interpreter.hpp
+
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC ./include)
