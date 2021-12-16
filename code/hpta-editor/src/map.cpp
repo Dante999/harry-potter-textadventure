@@ -100,9 +100,9 @@ void Map::init()
 
 	add_neighbours(rooms, g_nodes.at(0));
 
-	spdlog::debug("Sorting rooms: name\tx\ty\tlinks");
 	for (const auto &n : g_nodes) {
-		spdlog::debug("{}\t{}\t{}\t{}", n->room.get_name(), n->x, n->y, n->links.size());
+		spdlog::debug("logical room position {}\tx={}\ty={}\tlinks={}", n->room.get_name(), n->x, n->y,
+		              n->links.size());
 	}
 }
 
@@ -222,9 +222,10 @@ void Map::refresh(sf::RenderWindow &window)
 		node_rect.setOutlineColor(sf::Color::White);
 		node_rect.setOutlineThickness(1.0f);
 
-		const auto position = sf::Mouse::getPosition(window);
+		const auto pixelPos = sf::Mouse::getPosition(window);
+		const auto position = window.mapPixelToCoords(pixelPos);
 
-		if (position_hits_node(position.x, position.y, node)) {
+		if (position_hits_node(static_cast<int>(position.x), static_cast<int>(position.y), node)) {
 			node_rect.setFillColor(sf::Color::White);
 		}
 		else {
@@ -264,11 +265,12 @@ void Map::refresh(sf::RenderWindow &window)
 		std::chrono::duration<float, std::milli> duration = std::chrono::system_clock::now() - last_time_pressed;
 
 		if (duration.count() > mouse_debounce_ms) {
-			const auto position = sf::Mouse::getPosition(window);
+			const auto pixelPos = sf::Mouse::getPosition(window);
+			const auto position = window.mapPixelToCoords(pixelPos);
 
 			for (const auto &node : g_nodes) {
 
-				if (position_hits_node(position.x, position.y, node)) {
+				if (position_hits_node(static_cast<int>(position.x), static_cast<int>(position.y), node)) {
 					spdlog::info("Clicked on node {}", node->room.get_name());
 					Panel_room_attributes::set_room(node->room.get_id());
 				}

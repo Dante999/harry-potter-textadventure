@@ -39,6 +39,12 @@ int main(int argc, char *argv[])
 
 	Map::init();
 
+	sf::View view;
+	view.setCenter(sf::Vector2f(350.f, 300.f));
+	view.setSize(sf::Vector2f(2000.f, 1500.f));
+
+	view.setViewport(sf::FloatRect(0.f, 0.f, 0.8f, 1.f));
+
 	sf::RenderWindow window(sf::VideoMode(2500, 1500), "");
 	window.setVerticalSyncEnabled(true);
 	ImGui::SFML::Init(window);
@@ -62,6 +68,26 @@ int main(int argc, char *argv[])
 
 		window_refresh_loop(window);
 
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+			view.move(-10.f, 0.f);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+			view.move(10.f, 0.f);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+			view.move(0.f, -10.f);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+			view.move(0.f, 10.f);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
+			view.zoom(0.95f);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
+			view.zoom(1.05f);
+		}
+
+		window.setView(view);
 		ImGui::SFML::Render(window);
 		window.display();
 	}
