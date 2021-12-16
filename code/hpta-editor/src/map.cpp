@@ -234,7 +234,8 @@ void Map::refresh(sf::RenderWindow &window)
 
 		window.draw(node_rect);
 
-		auto text = sf::Text(node->room.get_name(), g_font);
+		std::string room_name{node->room.get_name()};
+		auto        text = sf::Text(sf::String::fromUtf8(room_name.begin(), room_name.end()), g_font);
 
 		text.scale(text_scale, text_scale);
 
