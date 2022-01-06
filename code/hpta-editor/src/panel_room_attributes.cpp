@@ -47,7 +47,7 @@ static void save_room()
 
 void set_room(const std::string &room_id)
 {
-	auto room = Room_persistency::load(Settings::gamedata_dir, room_id);
+	auto room = Room_persistency::load(Hpta_config::get_string(Settings::gamedata_dir), room_id);
 
 	strncpy(g_room_id, room_id.c_str(), std::size(g_room_id) - 1);
 	strncpy(g_room_name, room.get_name().c_str(), std::size(g_room_name) - 1);
@@ -70,7 +70,7 @@ void set_room(const std::string &room_id)
 void refresh()
 {
 	ImGui::Begin("Room");
-	ImGui::SetWindowFontScale(Settings::scale_factor);
+	ImGui::SetWindowFontScale(Hpta_config::get_float(Settings::scale_factor));
 
 	ImGui::PushItemWidth(-ImGui::GetWindowWidth() * 0.20f);
 	ImGui::InputText("ID", g_room_id, std::size(g_room_id));
@@ -78,10 +78,17 @@ void refresh()
 	ImGui::InputTextMultiline("Description", g_room_description, std::size(g_room_description), ImVec2(0, 0));
 	ImGui::PopItemWidth();
 
-	ImGui::BeginTable("Directions", 4,
-	                  ImGuiTableFlags_Resizable + ImGuiTableFlags_Borders); // static_cast<int>(g_exits.size()));
+	//	ImGuiTabBarFlags tab_bar_flags = (ImGuiTabBarFlags:opt_fitting_flags) | (opt_reorderable ?
+	// ImGuiTabBarFlags_Reorderable : 0);
 
 	ImGui::Spacing();
+
+	ImGui::BeginTabBar("##tabs");
+
+	ImGui::BeginTabItem("Directions");
+
+	ImGui::BeginTable("Directions", 4,
+	                  ImGuiTableFlags_Resizable + ImGuiTableFlags_Borders); // static_cast<int>(g_exits.size()));
 
 	ImGui::TableSetupColumn("Action");
 	ImGui::TableSetupColumn("Direction");
@@ -95,8 +102,11 @@ void refresh()
 		ImGui::PushID(itr->direction);
 
 		ImGui::TableNextColumn();
+		ImGui::PushItemWidth(-1);
+		const auto delete_pressed = ImGui::Button(fmt::format("Delete##{}", itr->direction).c_str());
+		ImGui::PopItemWidth();
 
-		if (ImGui::Button(fmt::format("Delete##{}", itr->direction).c_str())) {
+		if (delete_pressed) {
 			g_exits.erase(itr);
 		}
 		else {
@@ -130,6 +140,10 @@ void refresh()
 
 		g_exits.emplace_back(exit);
 	}
+
+	ImGui::EndTabItem();
+
+	ImGui::EndTabBar();
 
 	if (ImGui::Button("Save")) {
 		save_room();

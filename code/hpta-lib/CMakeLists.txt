@@ -16,8 +16,10 @@ add_library(${PROJECT_NAME}
     src/persistency/room_persistency.cpp
     src/persistency/item_persistency.cpp
     src/util/hpta_string.cpp
+    src/util/hpta_config.cpp
     include/hpta-lib/util/hpta_strings.hpp
     include/hpta-lib/util/hpta_algorithms.hpp
+    include/hpta-lib/util/hpta_config.hpp
     include/hpta-lib/services/persistence.hpp
     include/hpta-lib/services/registry.hpp
     include/hpta-lib/services/gameengine.hpp

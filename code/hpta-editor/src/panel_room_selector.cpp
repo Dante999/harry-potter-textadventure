@@ -18,7 +18,7 @@ void refresh_room_list(const std::string &gamedata_dir)
 {
 	g_room_ids.clear();
 
-	for (const auto &file : std::filesystem::recursive_directory_iterator(Settings::gamedata_dir + "/rooms")) {
+	for (const auto &file : std::filesystem::recursive_directory_iterator(gamedata_dir + "/rooms")) {
 
 		if (file.is_directory())
 			continue;
@@ -31,10 +31,10 @@ void refresh_room_list(const std::string &gamedata_dir)
 void refresh()
 {
 	ImGui::Begin("Room List");
-	ImGui::SetWindowFontScale(Settings::scale_factor);
+	ImGui::SetWindowFontScale(Hpta_config::get_float(Settings::scale_factor));
 
 	if (ImGui::Button("Refresh")) {
-		refresh_room_list(Settings::gamedata_dir);
+		refresh_room_list(Hpta_config::get_string(Settings::gamedata_dir));
 	}
 
 	ImGui::Separator();

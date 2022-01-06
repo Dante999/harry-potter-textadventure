@@ -4,7 +4,6 @@ add_executable(${PROJECT_NAME}
 	src/main.cpp
 	src/panel_room_attributes.cpp
 	src/panel_room_selector.cpp
-	src/settings.cpp
 	src/map.cpp
 	src/room_list.cpp
 	include/hpta-editor/panel_room_attributes.hpp
@@ -23,5 +22,5 @@ target_link_libraries(${PROJECT_NAME}
 		CONAN_PKG::imgui-sfml
 		CONAN_PKG::fmt
 		CONAN_PKG::spdlog
-
+		CONAN_PKG::docopt.cpp
 )

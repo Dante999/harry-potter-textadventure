@@ -16,15 +16,18 @@ void refresh_rooms()
 {
 	m_rooms.clear();
 
-	for (const auto &file : std::filesystem::recursive_directory_iterator(Settings::gamedata_dir + "/rooms")) {
+	const auto& gamedata_dir = Hpta_config::get_string(Settings::gamedata_dir);
+
+
+	for (const auto &file : std::filesystem::recursive_directory_iterator( gamedata_dir + "/rooms")) {
 
 		if (file.is_directory())
 			continue;
 
-		const auto room_id = file.path().string().substr(Settings::gamedata_dir.length());
+		const auto room_id = file.path().string().substr(gamedata_dir.length());
 		spdlog::info("loading room {}", room_id);
 
-		m_rooms.emplace_back(Room_persistency::load(Settings::gamedata_dir, room_id));
+		m_rooms.emplace_back(Room_persistency::load(gamedata_dir, room_id));
 	}
 }
 

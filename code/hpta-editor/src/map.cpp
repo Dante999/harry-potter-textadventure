@@ -41,6 +41,35 @@ using Node_ptr = std::shared_ptr<Node>;
 
 static std::vector<Node_ptr> g_nodes;
 
+float g_room_object_width;
+float g_room_object_height;
+float g_room_link_thickness;
+float g_room_link_margin;
+float g_room_link_arrow_size;
+float g_room_spread_factor;
+float g_room_center_width;
+float g_room_center_height;
+float g_font_scale;
+float g_map_start_x;
+float g_map_start_y;
+float g_mouse_debounce_ms;
+
+static void init_config_values()
+{
+	g_font_scale           = Hpta_config::get_float(Settings::editor_font_scale);
+	g_room_object_width    = Hpta_config::get_float(Settings::room_object_width);
+	g_room_object_height   = Hpta_config::get_float(Settings::room_object_height);
+	g_room_link_thickness  = Hpta_config::get_float(Settings::room_link_thickness);
+	g_room_link_margin     = Hpta_config::get_float(Settings::room_link_margin);
+	g_room_spread_factor   = Hpta_config::get_float(Settings::room_spread_factor);
+	g_room_center_width    = Hpta_config::get_float(Settings::room_center_width);
+	g_room_center_height   = Hpta_config::get_float(Settings::room_center_height);
+	g_map_start_x          = Hpta_config::get_float(Settings::map_start_x);
+	g_map_start_y          = Hpta_config::get_float(Settings::map_start_y);
+	g_mouse_debounce_ms    = Hpta_config::get_float(Settings::mouse_debounce_ms);
+	g_room_link_arrow_size = Hpta_config::get_float(Settings::room_link_arrow_size);
+}
+
 static void add_neighbours(const std::vector<Room> &rooms, Node_ptr &node)
 {
 
@@ -83,9 +112,72 @@ static void add_neighbours(const std::vector<Room> &rooms, Node_ptr &node)
 	}
 }
 
+static float get_final_x(const Node &node)
+{
+	return g_map_start_x + (node.x * g_room_spread_factor);
+}
+
+static float get_final_y(const Node &node)
+{
+	return g_map_start_y + (node.y * g_room_spread_factor);
+}
+
+static bool position_hits_node(int x, int y, const Node_ptr &node)
+{
+	return (Hpta_algorithms::is_between_or_equal(get_final_x(*node), get_final_x(*node) + g_room_object_width,
+	                                             static_cast<float>(x)) &&
+	        Hpta_algorithms::is_between_or_equal(get_final_y(*node), get_final_y(*node) + g_room_object_height,
+	                                             static_cast<float>(y)));
+}
+
+static sf::Vector2f get_node_center(const Node &node)
+{
+	return {get_final_x(node) + (g_room_object_width / 2), get_final_y(node) + (g_room_object_height / 2)};
+}
+
+static void center_shape(float x, float y, sf::Shape &shape)
+{
+	shape.setPosition(x - (shape.getGlobalBounds().width / 2), y - (shape.getGlobalBounds().height / 2));
+}
+
+static std::tuple<sf::RectangleShape, sf::CircleShape> get_arrow(sf::Vector2f a, sf::Vector2f b, float space)
+{
+	float rect_x, rect_y, width, heigth;
+
+	if (a.x == b.x) {
+		rect_x = a.x;
+		rect_y = Hpta_algorithms::get_middlepoint(a.y, b.y);
+		width  = g_room_link_thickness;
+		heigth = Hpta_algorithms::get_distance(a.y, b.y) - space;
+	}
+	else if (a.y == b.y) {
+		rect_x = Hpta_algorithms::get_middlepoint(a.x, b.x);
+		rect_y = a.y;
+		width  = Hpta_algorithms::get_distance(a.x, b.x) - space;
+		heigth = g_room_link_thickness;
+	}
+	else {
+		rect_x = 0;
+		rect_y = 0;
+		width  = 1;
+		heigth = 1;
+	}
+
+	auto line = sf::RectangleShape({width, heigth});
+	center_shape(rect_x, rect_y, line);
+
+	auto tip = sf::CircleShape(g_room_link_arrow_size, 4);
+	center_shape(Hpta_algorithms::get_middlepoint(rect_x, b.x), Hpta_algorithms::get_middlepoint(rect_y, b.y), tip);
+
+	return std::make_tuple(line, tip);
+}
+
 void Map::init()
 {
-	g_font.loadFromFile((Settings::gamedata_dir + "/fonts/Ubuntu-B.ttf"));
+	g_font.loadFromFile(Hpta_config::get_string(Settings::gamedata_dir) + "/fonts/" +
+	                    Hpta_config::get_string(Settings::editor_font));
+
+	init_config_values();
 
 	Room_list::refresh_rooms();
 
@@ -104,78 +196,6 @@ void Map::init()
 		spdlog::debug("logical room position {}\tx={}\ty={}\tlinks={}", n->room.get_name(), n->x, n->y,
 		              n->links.size());
 	}
-}
-
-constexpr float node_width        = 40;
-constexpr float node_height       = 40;
-constexpr float marker_width      = 20;
-constexpr float marker_height     = 20;
-constexpr float text_scale        = 0.7f;
-constexpr float x_start           = 300;
-constexpr float y_start           = 800;
-constexpr float node_spread_scale = 300;
-constexpr float mouse_debounce_ms = 200;
-constexpr float link_thickness    = 5;
-constexpr float link_spacer       = 150;
-
-static float get_final_x(const Node &node)
-{
-	return x_start + (node.x * node_spread_scale);
-}
-
-static float get_final_y(const Node &node)
-{
-	return y_start + (node.y * node_spread_scale);
-}
-
-static bool position_hits_node(int x, int y, const Node_ptr &node)
-{
-	return (Hpta_algorithms::is_between_or_equal(get_final_x(*node), get_final_x(*node) + node_width,
-	                                             static_cast<float>(x)) &&
-	        Hpta_algorithms::is_between_or_equal(get_final_y(*node), get_final_y(*node) + node_height,
-	                                             static_cast<float>(y)));
-}
-
-static sf::Vector2f get_node_center(const Node &node)
-{
-	return {get_final_x(node) + (node_width / 2), get_final_y(node) + (node_height / 2)};
-}
-
-static void center_shape(float x, float y, sf::Shape &shape)
-{
-	shape.setPosition(x - (shape.getGlobalBounds().width / 2), y - (shape.getGlobalBounds().height / 2));
-}
-
-static std::tuple<sf::RectangleShape, sf::CircleShape> get_arrow(sf::Vector2f a, sf::Vector2f b, float space)
-{
-	float rect_x, rect_y, width, heigth;
-
-	if (a.x == b.x) {
-		rect_x = a.x;
-		rect_y = Hpta_algorithms::get_middlepoint(a.y, b.y);
-		width  = link_thickness;
-		heigth = Hpta_algorithms::get_distance(a.y, b.y) - space;
-	}
-	else if (a.y == b.y) {
-		rect_x = Hpta_algorithms::get_middlepoint(a.x, b.x);
-		rect_y = a.y;
-		width  = Hpta_algorithms::get_distance(a.x, b.x) - space;
-		heigth = link_thickness;
-	}
-	else {
-		rect_x = 0;
-		rect_y = 0;
-		width  = 1;
-		heigth = 1;
-	}
-
-	auto line = sf::RectangleShape({width, heigth});
-	center_shape(rect_x, rect_y, line);
-
-	auto tip = sf::CircleShape(8, 4);
-	center_shape(Hpta_algorithms::get_middlepoint(rect_x, b.x), Hpta_algorithms::get_middlepoint(rect_y, b.y), tip);
-
-	return std::make_tuple(line, tip);
 }
 
 // static sf::CircleShape get_arrow(sf::RectangleShape line, sf::Vector2f target, float space)
@@ -217,7 +237,7 @@ void Map::refresh(sf::RenderWindow &window)
 		const float x = get_final_x(*node);
 		const float y = get_final_y(*node);
 
-		sf::RectangleShape node_rect{{node_width, node_height}};
+		sf::RectangleShape node_rect{{g_room_object_width, g_room_object_height}};
 		node_rect.setPosition(x, y);
 		node_rect.setOutlineColor(sf::Color::White);
 		node_rect.setOutlineThickness(1.0f);
@@ -237,14 +257,14 @@ void Map::refresh(sf::RenderWindow &window)
 		std::string room_name{node->room.get_name()};
 		auto        text = sf::Text(sf::String::fromUtf8(room_name.begin(), room_name.end()), g_font);
 
-		text.scale(text_scale, text_scale);
+		text.scale(g_font_scale, g_font_scale);
 
-		text.setPosition(x + node_width - text.getGlobalBounds().width / 2, y - node_height);
+		text.setPosition(x + g_room_object_width - text.getGlobalBounds().width / 2, y - g_room_object_height);
 		window.draw(text);
 
 		const auto node_center = get_node_center(*node);
 
-		sf::RectangleShape center_marker({marker_width, marker_height});
+		sf::RectangleShape center_marker({g_room_center_width, g_room_center_height});
 
 		center_shape(node_center.x, node_center.y, center_marker);
 		center_marker.setFillColor(sf::Color::Yellow);
@@ -252,7 +272,7 @@ void Map::refresh(sf::RenderWindow &window)
 
 		for (auto &link : node->links) {
 			//			auto link_line  = get_line(get_node_center(*node), get_node_center(*link.target), link_spacer);
-			auto link_arrow = get_arrow(get_node_center(*node), get_node_center(*link.target), link_spacer);
+			auto link_arrow = get_arrow(get_node_center(*node), get_node_center(*link.target), g_room_link_margin);
 
 			window.draw(std::get<0>(link_arrow));
 			window.draw(std::get<1>(link_arrow));
@@ -265,7 +285,7 @@ void Map::refresh(sf::RenderWindow &window)
 
 		std::chrono::duration<float, std::milli> duration = std::chrono::system_clock::now() - last_time_pressed;
 
-		if (duration.count() > mouse_debounce_ms) {
+		if (duration.count() > g_mouse_debounce_ms) {
 			const auto pixelPos = sf::Mouse::getPosition(window);
 			const auto position = window.mapPixelToCoords(pixelPos);
 

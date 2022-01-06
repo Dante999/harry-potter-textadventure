@@ -40,6 +40,7 @@ conan_cmake_run(REQUIRES
 		gtest/cci.20210126
                 imgui-sfml/2.3@bincrafters/stable
 		spdlog/1.9.2
+		docopt.cpp/0.6.3
                 BASIC_SETUP CMAKE_TARGETS
                 BUILD missing)
 

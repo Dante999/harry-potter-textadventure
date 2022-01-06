@@ -31,6 +31,7 @@ function pack_release() {
 
     cp -r ${build_dir}/bin/* ${release_dir}
     cp -r gamedata ${release_dir}
+    cp -r config ${release_dir}
 }
 
 cleanup
