@@ -34,7 +34,31 @@ Item Item_persistency::load(const std::string &gamedata_dir, const std::string &
 
 bool Item_persistency::save(const std::string &gamedata_dir, const Item &item)
 {
-	(void)gamedata_dir;
-	(void)item;
+	const std::string filepath(gamedata_dir + item.get_id());
+
+	FILE *fp = fopen(filepath.c_str(), "wb"); // non-Windows use "r"
+
+	if (fp == NULL) {
+		throw std::runtime_error("Can open file " + filepath);
+	}
+
+	char writeBuffer[65536];
+
+	rapidjson::FileWriteStream os(fp, writeBuffer, sizeof(writeBuffer));
+
+	rapidjson::PrettyWriter<rapidjson::FileWriteStream> writer(os);
+
+	writer.StartObject();
+
+	writer.Key("name");
+	writer.String(item.get_name().c_str());
+
+	writer.Key("description");
+	writer.String(item.get_description().c_str());
+
+	writer.EndObject();
+
+	fclose(fp);
+
 	return true;
 }

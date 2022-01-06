@@ -6,27 +6,10 @@
 #include <vector>
 
 #include "hpta-editor/panel_room_attributes.hpp"
+#include "hpta-editor/room_list.hpp"
 #include "hpta-editor/settings.hpp"
 
-namespace {
-std::vector<std::string> g_room_ids;
-} // namespace
-
 namespace Panel_room_selector {
-
-void refresh_room_list(const std::string &gamedata_dir)
-{
-	g_room_ids.clear();
-
-	for (const auto &file : std::filesystem::recursive_directory_iterator(gamedata_dir + "/rooms")) {
-
-		if (file.is_directory())
-			continue;
-
-		const auto room_id = file.path().string().substr(gamedata_dir.length());
-		g_room_ids.emplace_back(room_id);
-	}
-}
 
 void refresh()
 {
@@ -34,16 +17,16 @@ void refresh()
 	ImGui::SetWindowFontScale(Hpta_config::get_float(Settings::scale_factor));
 
 	if (ImGui::Button("Refresh")) {
-		refresh_room_list(Hpta_config::get_string(Settings::gamedata_dir));
+		Room_list::refresh_rooms();
 	}
 
 	ImGui::Separator();
 
 	ImGui::BeginChild("Scrolling");
 
-	for (auto &room_id : g_room_ids) {
-		if (ImGui::Button(room_id.c_str())) {
-			Panel_room_attributes::set_room(room_id);
+	for (auto &room : Room_list::get_rooms()) {
+		if (ImGui::Button(room.get_id().c_str())) {
+			Panel_room_attributes::set_room(room.get_id());
 		}
 	}
 

@@ -79,8 +79,22 @@ bool Room_persistency::save(const std::string &gamedata_dir, const Room &room)
 	writer.Key("description");
 	writer.String(room.get_description().c_str());
 
-	writer.Key("exits");
+	writer.Key("items");
+	writer.StartArray();
 
+	for (const auto &i : room.get_items()) {
+		writer.StartObject();
+		writer.Key("quantity");
+		writer.Int(i.quantity);
+
+		writer.Key("item_id");
+		writer.String(i.item.get_id().c_str());
+		writer.EndObject();
+	}
+
+	writer.EndArray();
+
+	writer.Key("exits");
 	writer.StartArray();
 
 	for (const auto &e : room.get_exits()) {

@@ -16,16 +16,22 @@ void refresh_rooms()
 {
 	m_rooms.clear();
 
-	const auto& gamedata_dir = Hpta_config::get_string(Settings::gamedata_dir);
+	const auto &gamedata_dir = Hpta_config::get_string(Settings::gamedata_dir);
 
-
-	for (const auto &file : std::filesystem::recursive_directory_iterator( gamedata_dir + "/rooms")) {
+	for (const auto &file : std::filesystem::recursive_directory_iterator(gamedata_dir + "/rooms")) {
 
 		if (file.is_directory())
 			continue;
 
 		const auto room_id = file.path().string().substr(gamedata_dir.length());
-		spdlog::info("loading room {}", room_id);
+
+		if (Hpta_strings::ends_with(room_id, ".json")) {
+			spdlog::info("loading room {}", room_id);
+		}
+		else {
+			spdlog::warn("skipping unknown file {}", room_id);
+			continue;
+		}
 
 		m_rooms.emplace_back(Room_persistency::load(gamedata_dir, room_id));
 	}

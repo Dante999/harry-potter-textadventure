@@ -18,6 +18,8 @@ namespace Hpta_strings {
 [[nodiscard]] std::string rtrim(const std::string &s);
 [[nodiscard]] std::string trim(const std::string &s);
 
+[[nodiscard]] bool ends_with(const std::string &s, const std::string &end);
+
 } // namespace Hpta_strings
 
 #endif // HPTA_STRINGS_HPP

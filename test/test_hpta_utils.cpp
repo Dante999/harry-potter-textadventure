@@ -19,6 +19,13 @@ TEST(HptaStrings, equals_one_of)
 	ASSERT_FALSE(Hpta_strings::equals_one_of("Hi", {"Hello", "there"}));
 }
 
+TEST(HptaStrings, ends_with)
+{
+	ASSERT_TRUE(Hpta_strings::ends_with("myfile.json", ".json"));
+	ASSERT_TRUE(Hpta_strings::ends_with("myfile.json", "json"));
+	ASSERT_FALSE(Hpta_strings::ends_with("myfile.json", ".JSON"));
+}
+
 TEST(HptaConfig, read)
 {
 	std::stringstream ss;

@@ -107,4 +107,9 @@ std::string trim(const std::string &s)
 	return rtrim(ltrim(s));
 }
 
+bool ends_with(const std::string &s, const std::string &end)
+{
+	return (s.substr(s.length() - end.length()) == end);
+}
+
 } // namespace Hpta_strings

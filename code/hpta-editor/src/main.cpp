@@ -37,7 +37,7 @@ static const char USAGE[] =
 
 static void window_refresh_loop(sf::RenderWindow &window)
 {
-	//	Panel_room_selector::refresh();
+	Panel_room_selector::refresh();
 	Panel_room_attributes::refresh();
 	Map::refresh(window);
 }
