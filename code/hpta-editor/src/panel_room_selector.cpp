@@ -5,6 +5,7 @@
 #include <filesystem>
 #include <vector>
 
+#include "hpta-editor/map.hpp"
 #include "hpta-editor/panel_room_attributes.hpp"
 #include "hpta-editor/room_list.hpp"
 #include "hpta-editor/settings.hpp"
@@ -17,7 +18,11 @@ void refresh()
 	ImGui::SetWindowFontScale(Hpta_config::get_float(Settings::scale_factor));
 
 	if (ImGui::Button("Refresh")) {
-		Room_list::refresh_rooms();
+		Map::init();
+	}
+	if (ImGui::Button("Add")) {
+		Room room{"new-room.json"};
+		Panel_room_attributes::set_room(room);
 	}
 
 	ImGui::Separator();

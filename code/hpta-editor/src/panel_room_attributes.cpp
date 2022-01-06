@@ -1,5 +1,7 @@
 #include "hpta-editor/panel_room_attributes.hpp"
 
+#include "hpta-editor/map.hpp"
+#include "hpta-editor/room_list.hpp"
 #include "hpta-editor/settings.hpp"
 #include "hpta-lib/persistency/room_persistency.hpp"
 #include "hpta-lib/util/hpta_strings.hpp"
@@ -56,6 +58,8 @@ static void save_room()
 	}
 
 	Room_persistency::save(Hpta_config::get_string(Settings::gamedata_dir), room);
+
+	Map::init();
 }
 
 static void show_exit_tab_content()
@@ -171,7 +175,12 @@ void set_room(const std::string &room_id)
 {
 	auto room = Room_persistency::load(Hpta_config::get_string(Settings::gamedata_dir), room_id);
 
-	strncpy(g_room.id, room_id.c_str(), std::size(g_room.id) - 1);
+	set_room(room);
+}
+
+void set_room(Room &room)
+{
+	strncpy(g_room.id, room.get_id().c_str(), std::size(g_room.id) - 1);
 	strncpy(g_room.name, room.get_name().c_str(), std::size(g_room.name) - 1);
 	strncpy(g_room.description, Hpta_strings::add_newline_on_column_width(room.get_description(), 80).c_str(),
 	        std::size(g_room.description) - 1);

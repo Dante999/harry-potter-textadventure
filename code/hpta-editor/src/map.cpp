@@ -174,6 +174,7 @@ static std::tuple<sf::RectangleShape, sf::CircleShape> get_arrow(sf::Vector2f a,
 
 void Map::init()
 {
+	g_nodes.clear();
 	g_font.loadFromFile(Hpta_config::get_string(Settings::gamedata_dir) + "/fonts/" +
 	                    Hpta_config::get_string(Settings::editor_font));
 

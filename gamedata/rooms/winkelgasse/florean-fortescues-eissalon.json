@@ -1,0 +1,12 @@
+{
+    "name": "Florean Fortescues Eissalon",
+    "description": " ",
+    "items": [],
+    "exits": [
+        {
+            "direction": "Westen",
+            "description": "Winkelgassenstrasse 2",
+            "room_id": "/rooms/winkelgasse/winkelgassenstrasse_2.json"
+        }
+    ]
+}

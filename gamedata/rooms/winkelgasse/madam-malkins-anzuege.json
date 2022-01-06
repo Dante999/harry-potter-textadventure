@@ -1,0 +1,12 @@
+{
+    "name": "Madam Malkins' Anzüge",
+    "description": " ",
+    "items": [],
+    "exits": [
+        {
+            "direction": "Osten",
+            "description": "Winkelgassenstrasse 2",
+            "room_id": "/rooms/winkelgasse/winkelgassenstrasse_2.json"
+        }
+    ]
+}
