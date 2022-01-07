@@ -109,6 +109,16 @@ int main(int argc, char *argv[])
 			else if (event.type == sf::Event::LostFocus) {
 				has_focus = false;
 			}
+			else if (event.type == sf::Event::MouseWheelScrolled &&
+			         event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel) {
+
+				if (event.mouseWheelScroll.delta > 0) {
+					view.zoom(0.90f);
+				}
+				else {
+					view.zoom(1.10f);
+				}
+			}
 		}
 
 		ImGui::SFML::Update(window, deltaClock.restart());
@@ -117,23 +127,18 @@ int main(int argc, char *argv[])
 		window_refresh_loop(window);
 
 		if (has_focus) {
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-				view.move(-10.f, 0.f);
+
+			static auto old_position = sf::Mouse::getPosition();
+
+			if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+				const auto new_position = sf::Mouse::getPosition();
+				view.move(static_cast<float>(old_position.x - new_position.x),
+				          static_cast<float>(old_position.y - new_position.y));
+
+				old_position = sf::Mouse::getPosition();
 			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-				view.move(10.f, 0.f);
-			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-				view.move(0.f, -10.f);
-			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-				view.move(0.f, 10.f);
-			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
-				view.zoom(0.95f);
-			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
-				view.zoom(1.05f);
+			else {
+				old_position = sf::Mouse::getPosition();
 			}
 		}
 
