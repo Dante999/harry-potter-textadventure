@@ -14,9 +14,12 @@
 #include <spdlog/cfg/argv.h>
 #include <spdlog/spdlog.h>
 
+#include "hpta-editor/ipanel.hpp"
 #include "hpta-editor/map.hpp"
+#include "hpta-editor/object_cache.hpp"
+#include "hpta-editor/panel_item_list.hpp"
 #include "hpta-editor/panel_room_attributes.hpp"
-#include "hpta-editor/panel_room_selector.hpp"
+#include "hpta-editor/panel_room_list.hpp"
 #include "hpta-editor/settings.hpp"
 
 static const char USAGE[] =
@@ -37,7 +40,6 @@ static const char USAGE[] =
 
 static void window_refresh_loop(sf::RenderWindow &window)
 {
-	Panel_room_selector::refresh();
 	Panel_room_attributes::refresh();
 	Map::refresh(window);
 }
@@ -94,6 +96,15 @@ int main(int argc, char *argv[])
 
 	window.resetGLStates(); // call it if you only draw ImGui. Otherwise not needed.
 
+	// --------------------------------------------------------------------------------
+	Item_cache item_cache(Hpta_config::get_string(Settings::gamedata_dir), "/items");
+	Room_cache room_cache(Hpta_config::get_string(Settings::gamedata_dir), "/rooms");
+
+	std::vector<std::shared_ptr<IPanel>> panels;
+	panels.emplace_back(std::make_shared<Panel_item_list>(item_cache));
+	panels.emplace_back(std::make_shared<Panel_room_list>(room_cache));
+	// --------------------------------------------------------------------------------
+
 	sf::Clock deltaClock;
 	while (window.isOpen()) {
 		sf::Event event;
@@ -124,7 +135,13 @@ int main(int argc, char *argv[])
 		ImGui::SFML::Update(window, deltaClock.restart());
 		window.clear();
 
+		// ----------------------------------------
 		window_refresh_loop(window);
+
+		for (const auto &i : panels) {
+			i->refresh();
+		}
+		// ----------------------------------------
 
 		if (has_focus) {
 

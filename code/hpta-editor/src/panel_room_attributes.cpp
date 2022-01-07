@@ -80,7 +80,7 @@ static void show_exit_tab_content()
 
 		ImGui::TableNextColumn();
 		ImGui::PushItemWidth(-1);
-		const auto delete_pressed = ImGui::Button(fmt::format("Delete##{}", itr->direction).c_str());
+		const auto delete_pressed = ImGui::Button("Delete");
 		ImGui::PopItemWidth();
 
 		if (delete_pressed) {

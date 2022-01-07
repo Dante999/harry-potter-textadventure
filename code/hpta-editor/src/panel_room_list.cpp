@@ -1,4 +1,4 @@
-#include "hpta-editor/panel_room_selector.hpp"
+#include "hpta-editor/panel_room_list.hpp"
 
 #include <imgui.h>
 
@@ -7,12 +7,9 @@
 
 #include "hpta-editor/map.hpp"
 #include "hpta-editor/panel_room_attributes.hpp"
-#include "hpta-editor/room_list.hpp"
 #include "hpta-editor/settings.hpp"
 
-namespace Panel_room_selector {
-
-void refresh()
+void Panel_room_list::refresh()
 {
 	ImGui::Begin("Room List");
 	ImGui::SetWindowFontScale(Hpta_config::get_float(Settings::scale_factor));
@@ -29,7 +26,7 @@ void refresh()
 
 	ImGui::BeginChild("Scrolling");
 
-	for (auto &room : Room_list::get_rooms()) {
+	for (auto &room : m_room_cache.get_list()) {
 		if (ImGui::Button(room.get_id().c_str())) {
 			Panel_room_attributes::set_room(room.get_id());
 		}
@@ -39,4 +36,3 @@ void refresh()
 
 	ImGui::End();
 }
-} // namespace Panel_room_selector
