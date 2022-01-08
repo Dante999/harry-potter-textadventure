@@ -14,6 +14,7 @@
 #include <spdlog/cfg/argv.h>
 #include <spdlog/spdlog.h>
 
+#include "hpta-editor/event_engine.hpp"
 #include "hpta-editor/ipanel.hpp"
 #include "hpta-editor/map.hpp"
 #include "hpta-editor/object_cache.hpp"
@@ -37,12 +38,6 @@ static const char USAGE[] =
       --loglevel=<level>      Level of the logger [default: info]
       -h --help               Show this screen.
 )";
-
-static void window_refresh_loop(sf::RenderWindow &window)
-{
-	Panel_room_attributes::refresh();
-	Map::refresh(window);
-}
 
 static void load_configuration(std::map<std::string, docopt::value> &args)
 {
@@ -77,8 +72,6 @@ int main(int argc, char *argv[])
 	spdlog::info("editor is started!"); // print this always, independed of existing loglevel
 	spdlog::set_level(spdlog::level::from_str(Hpta_config::get_string(Settings::loglevel)));
 
-	Map::init();
-
 	sf::View view;
 	view.setCenter(sf::Vector2f(500.f, 500.f));
 	view.setSize(sf::Vector2f(800.f, 600.f));
@@ -100,9 +93,17 @@ int main(int argc, char *argv[])
 	Item_cache item_cache(Hpta_config::get_string(Settings::gamedata_dir), "/items");
 	Room_cache room_cache(Hpta_config::get_string(Settings::gamedata_dir), "/rooms");
 
-	std::vector<std::shared_ptr<IPanel>> panels;
-	panels.emplace_back(std::make_shared<Panel_item_list>(item_cache));
-	panels.emplace_back(std::make_shared<Panel_room_list>(room_cache));
+	Event_engine event_engine;
+
+	auto map                   = std::make_shared<Map>(window, room_cache, event_engine);
+	auto panel_item_list       = std::make_shared<Panel_item_list>(item_cache);
+	auto panel_room_attributes = std::make_shared<Panel_room_attributes>(event_engine);
+	auto panel_room_list       = std::make_shared<Panel_room_list>(room_cache, event_engine);
+
+	std::vector<std::shared_ptr<IPanel>> panels {map, panel_item_list, panel_room_attributes, panel_room_list};
+	event_engine.add_event_handler(map);
+	event_engine.add_event_handler(panel_room_attributes);
+
 	// --------------------------------------------------------------------------------
 
 	sf::Clock deltaClock;
@@ -136,8 +137,6 @@ int main(int argc, char *argv[])
 		window.clear();
 
 		// ----------------------------------------
-		window_refresh_loop(window);
-
 		for (const auto &i : panels) {
 			i->refresh();
 		}

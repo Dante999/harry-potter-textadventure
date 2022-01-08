@@ -13,7 +13,6 @@
 #include <SFML/Window/Mouse.hpp>
 
 #include "hpta-editor/panel_room_attributes.hpp"
-#include "hpta-editor/room_list.hpp"
 #include "hpta-editor/settings.hpp"
 #include "hpta-lib/objects/room.hpp"
 #include "hpta-lib/util/hpta_algorithms.hpp"
@@ -180,9 +179,9 @@ void Map::init()
 
 	init_config_values();
 
-	Room_list::refresh_rooms();
+	m_room_cache.refresh();
 
-	const auto rooms{Room_list::get_rooms()};
+	const auto &rooms = m_room_cache.get_list();
 
 	if (rooms.empty())
 		return;
@@ -230,7 +229,7 @@ void Map::init()
 //	return rect;
 //}
 
-void Map::refresh(sf::RenderWindow &window)
+void Map::refresh()
 {
 
 	for (auto &node : g_nodes) {
@@ -243,8 +242,8 @@ void Map::refresh(sf::RenderWindow &window)
 		node_rect.setOutlineColor(sf::Color::White);
 		node_rect.setOutlineThickness(1.0f);
 
-		const auto pixelPos = sf::Mouse::getPosition(window);
-		const auto position = window.mapPixelToCoords(pixelPos);
+		const auto pixelPos = sf::Mouse::getPosition(m_window);
+		const auto position = m_window.mapPixelToCoords(pixelPos);
 
 		if (position_hits_node(static_cast<int>(position.x), static_cast<int>(position.y), node)) {
 			node_rect.setFillColor(sf::Color::White);
@@ -253,7 +252,7 @@ void Map::refresh(sf::RenderWindow &window)
 			node_rect.setFillColor(sf::Color::Transparent);
 		}
 
-		window.draw(node_rect);
+		m_window.draw(node_rect);
 
 		std::string room_name{node->room.get_name()};
 		auto        text = sf::Text(sf::String::fromUtf8(room_name.begin(), room_name.end()), g_font);
@@ -261,7 +260,7 @@ void Map::refresh(sf::RenderWindow &window)
 		text.scale(g_font_scale, g_font_scale);
 
 		text.setPosition(x + g_room_object_width - text.getGlobalBounds().width / 2, y - g_room_object_height);
-		window.draw(text);
+		m_window.draw(text);
 
 		const auto node_center = get_node_center(*node);
 
@@ -269,14 +268,14 @@ void Map::refresh(sf::RenderWindow &window)
 
 		center_shape(node_center.x, node_center.y, center_marker);
 		center_marker.setFillColor(sf::Color::Yellow);
-		window.draw(center_marker);
+		m_window.draw(center_marker);
 
 		for (auto &link : node->links) {
 			//			auto link_line  = get_line(get_node_center(*node), get_node_center(*link.target), link_spacer);
 			auto link_arrow = get_arrow(get_node_center(*node), get_node_center(*link.target), g_room_link_margin);
 
-			window.draw(std::get<0>(link_arrow));
-			window.draw(std::get<1>(link_arrow));
+			m_window.draw(std::get<0>(link_arrow));
+			m_window.draw(std::get<1>(link_arrow));
 		}
 	}
 
@@ -287,18 +286,29 @@ void Map::refresh(sf::RenderWindow &window)
 		std::chrono::duration<float, std::milli> duration = std::chrono::system_clock::now() - last_time_pressed;
 
 		if (duration.count() > g_mouse_debounce_ms) {
-			const auto pixelPos = sf::Mouse::getPosition(window);
-			const auto position = window.mapPixelToCoords(pixelPos);
+			const auto pixelPos = sf::Mouse::getPosition(m_window);
+			const auto position = m_window.mapPixelToCoords(pixelPos);
 
 			for (const auto &node : g_nodes) {
 
 				if (position_hits_node(static_cast<int>(position.x), static_cast<int>(position.y), node)) {
 					spdlog::info("Clicked on node {}", node->room.get_name());
-					Panel_room_attributes::set_room(node->room.get_id());
+					m_event_engine.publish({Event::Type::ROOM_SELECTED, node->room.get_id()});
 				}
 			}
 
 			last_time_pressed = std::chrono::system_clock::now();
 		}
+	}
+}
+
+void Map::on_event(Event event)
+{
+	switch (event.event_type) {
+	case Event::Type::ROOM_CHANGED:
+		init();
+		break;
+	default:
+		break;
 	}
 }

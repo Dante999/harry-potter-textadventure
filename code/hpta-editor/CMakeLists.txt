@@ -8,6 +8,7 @@ add_executable(${PROJECT_NAME}
 	src/map.cpp
 	src/room_list.cpp
 	src/object_cache.cpp
+	src/event_engine.cpp
 	include/hpta-editor/ipanel.hpp
 	include/hpta-editor/panel_room_attributes.hpp
 	include/hpta-editor/panel_room_list.hpp
@@ -16,6 +17,8 @@ add_executable(${PROJECT_NAME}
 	include/hpta-editor/map.hpp
 	include/hpta-editor/room_list.hpp
 	include/hpta-editor/object_cache.hpp
+	include/hpta-editor/event_engine.hpp
+	include/hpta-editor/ievent_handler.hpp
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC ./include)

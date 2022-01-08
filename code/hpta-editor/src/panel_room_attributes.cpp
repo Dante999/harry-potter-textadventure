@@ -36,9 +36,7 @@ static std::vector<UI_item> g_items;
 
 } // namespace
 
-namespace Panel_room_attributes {
-
-static void save_room()
+void Panel_room_attributes::save_room()
 {
 	Room room(g_room.id);
 
@@ -59,10 +57,10 @@ static void save_room()
 
 	Room_persistency::save(Hpta_config::get_string(Settings::gamedata_dir), room);
 
-	Map::init();
+	m_event_engine.publish({Event::Type::ROOM_CHANGED});
 }
 
-static void show_exit_tab_content()
+void Panel_room_attributes::show_exit_tab_content()
 {
 
 	ImGui::BeginTable("Directions", 4, ImGuiTableFlags_Resizable + ImGuiTableFlags_Borders);
@@ -119,7 +117,7 @@ static void show_exit_tab_content()
 	}
 }
 
-void show_item_tab_content()
+void Panel_room_attributes::show_item_tab_content()
 {
 
 	ImGui::BeginTable("Items", 3,
@@ -171,14 +169,14 @@ void show_item_tab_content()
 	}
 }
 
-void set_room(const std::string &room_id)
+void Panel_room_attributes::set_room(const std::string &room_id)
 {
 	auto room = Room_persistency::load(Hpta_config::get_string(Settings::gamedata_dir), room_id);
 
 	set_room(room);
 }
 
-void set_room(Room &room)
+void Panel_room_attributes::set_room(Room &room)
 {
 	strncpy(g_room.id, room.get_id().c_str(), std::size(g_room.id) - 1);
 	strncpy(g_room.name, room.get_name().c_str(), std::size(g_room.name) - 1);
@@ -209,7 +207,7 @@ void set_room(Room &room)
 	}
 }
 
-void refresh()
+void Panel_room_attributes::refresh()
 {
 	ImGui::Begin("Room");
 
@@ -242,4 +240,18 @@ void refresh()
 	ImGui::End();
 }
 
-} // namespace Panel_room_attributes
+void Panel_room_attributes::on_event(Event event)
+{
+	switch (event.event_type) {
+	case Event::Type::ROOM_SELECTED: {
+		set_room(event.room_id);
+		break;
+	}
+	case Event::Type::CREATE_ROOM: {
+		Room room("/rooms/my-new-room.json");
+		set_room(room);
+	}
+	default:
+		break;
+	}
+}
