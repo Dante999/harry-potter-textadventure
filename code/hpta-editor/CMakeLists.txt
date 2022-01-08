@@ -4,18 +4,18 @@ add_executable(${PROJECT_NAME}
 	src/main.cpp
 	src/panel_room_attributes.cpp
 	src/panel_room_list.cpp
+	src/panel_item_attributes.cpp
 	src/panel_item_list.cpp
 	src/map.cpp
-	src/room_list.cpp
 	src/object_cache.cpp
 	src/event_engine.cpp
 	include/hpta-editor/ipanel.hpp
 	include/hpta-editor/panel_room_attributes.hpp
+	include/hpta-editor/panel_item_attributes.hpp
 	include/hpta-editor/panel_room_list.hpp
 	include/hpta-editor/panel_item_list.hpp
 	include/hpta-editor/settings.hpp
 	include/hpta-editor/map.hpp
-	include/hpta-editor/room_list.hpp
 	include/hpta-editor/object_cache.hpp
 	include/hpta-editor/event_engine.hpp
 	include/hpta-editor/ievent_handler.hpp

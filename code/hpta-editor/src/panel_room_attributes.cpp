@@ -1,7 +1,6 @@
 #include "hpta-editor/panel_room_attributes.hpp"
 
 #include "hpta-editor/map.hpp"
-#include "hpta-editor/room_list.hpp"
 #include "hpta-editor/settings.hpp"
 #include "hpta-lib/persistency/room_persistency.hpp"
 #include "hpta-lib/util/hpta_strings.hpp"

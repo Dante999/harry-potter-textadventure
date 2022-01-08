@@ -18,6 +18,7 @@
 #include "hpta-editor/ipanel.hpp"
 #include "hpta-editor/map.hpp"
 #include "hpta-editor/object_cache.hpp"
+#include "hpta-editor/panel_item_attributes.hpp"
 #include "hpta-editor/panel_item_list.hpp"
 #include "hpta-editor/panel_room_attributes.hpp"
 #include "hpta-editor/panel_room_list.hpp"
@@ -96,13 +97,16 @@ int main(int argc, char *argv[])
 	Event_engine event_engine;
 
 	auto map                   = std::make_shared<Map>(window, room_cache, event_engine);
-	auto panel_item_list       = std::make_shared<Panel_item_list>(item_cache);
+	auto panel_item_list       = std::make_shared<Panel_item_list>(item_cache, event_engine);
 	auto panel_room_attributes = std::make_shared<Panel_room_attributes>(event_engine);
 	auto panel_room_list       = std::make_shared<Panel_room_list>(room_cache, event_engine);
+	auto panel_item_attributes = std::make_shared<Panel_item_attributes>(event_engine);
 
-	std::vector<std::shared_ptr<IPanel>> panels {map, panel_item_list, panel_room_attributes, panel_room_list};
+	std::vector<std::shared_ptr<IPanel>> panels{map, panel_item_list, panel_room_attributes, panel_room_list,
+		                                    panel_item_attributes};
 	event_engine.add_event_handler(map);
 	event_engine.add_event_handler(panel_room_attributes);
+	event_engine.add_event_handler(panel_item_attributes);
 
 	// --------------------------------------------------------------------------------
 

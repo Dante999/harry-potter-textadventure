@@ -11,11 +11,12 @@ void Panel_item_list::refresh()
 
 	if (ImGui::Button("Refresh")) {
 		m_item_cache.refresh();
+		m_event_engine.publish({Event::Type::ITEM_CHANGED});
 	}
+
+	ImGui::SameLine();
 	if (ImGui::Button("Add")) {
-		// TODO: set item in Panel_item_attribues
-		//		Room room{"new-item.json"};
-		//		Panel_room_attributes::set_room(room);
+		m_event_engine.publish({Event::Type::CREATE_ITEM});
 	}
 
 	ImGui::Separator();
@@ -24,8 +25,7 @@ void Panel_item_list::refresh()
 
 	for (auto &item : m_item_cache.get_list()) {
 		if (ImGui::Button(item.get_id().c_str())) {
-			// TODO: set item in Panel_item_attribues
-			//			Panel_room_attributes::set_room(room.get_id());
+			m_event_engine.publish({Event::Type::ITEM_SELECTED, "", item.get_id()});
 		}
 	}
 

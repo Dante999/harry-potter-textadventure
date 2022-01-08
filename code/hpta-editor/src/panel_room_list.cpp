@@ -16,6 +16,8 @@ void Panel_room_list::refresh()
 		m_room_cache.refresh();
 		m_event_engine.publish({Event::Type::ROOM_CHANGED});
 	}
+
+	ImGui::SameLine();
 	if (ImGui::Button("Add")) {
 		m_event_engine.publish({Event::Type::CREATE_ROOM});
 	}
