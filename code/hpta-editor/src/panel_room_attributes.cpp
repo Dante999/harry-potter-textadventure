@@ -99,6 +99,16 @@ void Panel_room_attributes::show_exit_tab_content()
 			ImGui::PushItemWidth(-1);
 			ImGui::InputText("##room_id", itr->room_id, std::size(itr->room_id));
 			ImGui::PopItemWidth();
+
+			if (ImGui::BeginDragDropTarget()) {
+				ImGuiDragDropFlags target_flags = 0;
+
+				target_flags |= ImGuiDragDropFlags_AcceptNoDrawDefaultRect; // Don't display the yellow rectangle
+				if (const ImGuiPayload *payload = ImGui::AcceptDragDropPayload("ROOM_ID", target_flags)) {
+					strncpy(itr->room_id, static_cast<const char *>(payload->Data), std::size(itr->room_id));
+				}
+				ImGui::EndDragDropTarget();
+			}
 		}
 
 		ImGui::PopID();

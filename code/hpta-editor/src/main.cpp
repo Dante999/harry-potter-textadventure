@@ -17,6 +17,7 @@
 #include "hpta-editor/event_engine.hpp"
 #include "hpta-editor/ipanel.hpp"
 #include "hpta-editor/map.hpp"
+#include "hpta-editor/map_navigation.hpp"
 #include "hpta-editor/object_cache.hpp"
 #include "hpta-editor/panel_item_attributes.hpp"
 #include "hpta-editor/panel_item_list.hpp"
@@ -57,10 +58,10 @@ static void load_configuration(std::map<std::string, docopt::value> &args)
 	is.close();
 }
 
+bool g_has_focus = true;
+
 int main(int argc, char *argv[])
 {
-	bool has_focus = true;
-
 	spdlog::cfg::load_argv_levels(argc, argv);
 
 	std::map<std::string, docopt::value> args =
@@ -108,6 +109,7 @@ int main(int argc, char *argv[])
 	event_engine.add_event_handler(panel_room_attributes);
 	event_engine.add_event_handler(panel_item_attributes);
 
+	Map_navigation map_navigation(view);
 	// --------------------------------------------------------------------------------
 
 	sf::Clock deltaClock;
@@ -120,10 +122,12 @@ int main(int argc, char *argv[])
 				window.close();
 			}
 			else if (event.type == sf::Event::GainedFocus) {
-				has_focus = true;
+				spdlog::debug("gained window focus");
+				g_has_focus = true;
 			}
 			else if (event.type == sf::Event::LostFocus) {
-				has_focus = false;
+				spdlog::debug("lost window focus");
+				g_has_focus = false;
 			}
 			else if (event.type == sf::Event::MouseWheelScrolled &&
 			         event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel) {
@@ -144,23 +148,10 @@ int main(int argc, char *argv[])
 		for (const auto &i : panels) {
 			i->refresh();
 		}
+
+		map_navigation.handle();
+
 		// ----------------------------------------
-
-		if (has_focus) {
-
-			static auto old_position = sf::Mouse::getPosition();
-
-			if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-				const auto new_position = sf::Mouse::getPosition();
-				view.move(static_cast<float>(old_position.x - new_position.x),
-				          static_cast<float>(old_position.y - new_position.y));
-
-				old_position = sf::Mouse::getPosition();
-			}
-			else {
-				old_position = sf::Mouse::getPosition();
-			}
-		}
 
 		window.setView(view);
 		ImGui::SFML::Render(window);
