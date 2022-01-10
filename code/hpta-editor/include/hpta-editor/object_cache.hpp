@@ -1,6 +1,7 @@
 #ifndef OBJECT_CACHE_HPP
 #define OBJECT_CACHE_HPP
 
+#include <algorithm>
 #include <filesystem>
 #include <vector>
 
@@ -53,6 +54,8 @@ class Object_cache {
 
 			m_objects.emplace_back(Tpersistency::load(m_gamedata_dir, item_id));
 		}
+
+		std::sort(m_objects.begin(), m_objects.end(), [](auto a, auto b) { return a.get_id() < b.get_id(); });
 	}
 
 	std::vector<Tobject> get_list()
