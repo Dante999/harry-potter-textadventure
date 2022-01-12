@@ -59,4 +59,15 @@ void show(const Item &item)
 	Screen::box_end();
 }
 
+void Visualizer::show(const Room::Detail &detail)
+{
+	Screen::box_start(detail.name);
+
+	for (const auto &line : Hpta_strings::split_text_into_lines(detail.description, Screen::column_width)) {
+		Screen::print(line + "\n");
+	}
+
+	Screen::box_end();
+}
+
 } // namespace Visualizer

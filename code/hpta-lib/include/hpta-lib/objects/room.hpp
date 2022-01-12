@@ -15,11 +15,17 @@ class Room : public Item_storage {
 		std::string room_id;
 	};
 
+	struct Detail {
+		std::string name;
+		std::string description;
+	};
+
   private:
-	std::string       m_id;
-	std::string       m_name;
-	std::string       m_description;
-	std::vector<Exit> m_exits;
+	std::string         m_id;
+	std::string         m_name;
+	std::string         m_description;
+	std::vector<Exit>   m_exits;
+	std::vector<Detail> m_details;
 
   public:
 	// clang-format off
@@ -29,11 +35,13 @@ class Room : public Item_storage {
 	void set_name(const std::string &name) {m_name = name;}
 	void set_description(const std::string &description) {m_description = description;}
 	void set_exits(const std::vector<Exit> &exits) {m_exits = exits;}
+	void set_details(const std::vector<Detail> &details) {m_details = details;}
 
 	[[nodiscard]] auto get_id() const {return m_id;}
 	[[nodiscard]] auto get_name() const {return m_name;}
 	[[nodiscard]] auto get_description() const {return m_description;}
 	[[nodiscard]] auto get_exits() const {return m_exits;}
+	[[nodiscard]] auto get_details() const {return m_details;}
 	// clang-format on
 };
 

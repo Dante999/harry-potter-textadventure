@@ -31,6 +31,13 @@ bool Look::interprete(const std::vector<std::string> &token)
 		}
 	}
 
+	for (const auto &detail : room.get_details()) {
+		if (Hpta_strings::equals_ignorecase(detail.name, object_name)) {
+			Visualizer::show(detail);
+			return true;
+		}
+	}
+
 	Screen::print("So etwas siehst du dort nicht...\n");
 	return true;
 }

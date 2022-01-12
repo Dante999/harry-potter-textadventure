@@ -41,6 +41,19 @@ Room Room_persistency::load(const std::string &gamedata_dir, const std::string &
 		}
 	}
 
+	std::vector<Room::Detail> details;
+
+	if (d.HasMember("details")) {
+
+		for (auto &e : d["details"].GetArray()) {
+			const auto name        = e["name"].GetString();
+			const auto description = e["description"].GetString();
+			details.emplace_back(Room::Detail{name, description});
+		}
+	}
+
+	room.set_details(details);
+
 	std::vector<Room::Exit> exits;
 
 	for (auto &e : d["exits"].GetArray()) {
@@ -89,6 +102,21 @@ bool Room_persistency::save(const std::string &gamedata_dir, const Room &room)
 
 		writer.Key("item_id");
 		writer.String(i.item.get_id().c_str());
+		writer.EndObject();
+	}
+
+	writer.EndArray();
+
+	writer.Key("details");
+	writer.StartArray();
+
+	for (const auto &i : room.get_details()) {
+		writer.StartObject();
+		writer.Key("name");
+		writer.String(i.name.c_str());
+
+		writer.Key("description");
+		writer.String(i.description.c_str());
 		writer.EndObject();
 	}
 
