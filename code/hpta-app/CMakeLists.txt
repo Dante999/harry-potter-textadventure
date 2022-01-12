@@ -10,4 +10,5 @@ target_link_libraries(${PROJECT_NAME}
     PRIVATE project_options 
             project_warnings
             hpta-lib
+	    CONAN_PKG::docopt.cpp
 )

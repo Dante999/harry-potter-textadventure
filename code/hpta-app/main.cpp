@@ -7,6 +7,21 @@
 #include "hpta-lib/services/registry.hpp"
 #include "hpta-lib/visualizer.hpp"
 
+#include <docopt/docopt.h>
+
+static const char USAGE[] =
+    R"(Harry Potter Textadveture
+
+    Usage:
+      hpta-editor [--gamedata_dir=<path>]
+      hpta-editor (-h | --help)
+      hpta-editor --version
+
+    Options:
+      --gamedata_dir=<path>   Path to the gamedata dir [default: gamedata]
+      -h --help               Show this screen.
+)";
+
 int main(int argc, char *argv[])
 {
 	// clang-format off
@@ -21,8 +36,11 @@ int main(int argc, char *argv[])
 	Screen::print(R"(                                                                        )" "\n");
 	// clang-format on
 
-	if (argc == 2)
-		Registry::m_gamedata_dir = argv[1];
+	std::map<std::string, docopt::value> args = docopt::docopt(USAGE, {argv + 1, argv + argc},
+	                                                           true, // show help if requested
+	                                                           "Harry Potter Textadventure v1.0"); // version string
+
+	Registry::m_gamedata_dir = args.find("--gamedata_dir")->second.asString();
 
 	Interpreter interpreter;
 
