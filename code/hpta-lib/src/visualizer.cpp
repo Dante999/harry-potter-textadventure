@@ -59,7 +59,7 @@ void show(const Item &item)
 	Screen::box_end();
 }
 
-void Visualizer::show(const Room::Detail &detail)
+void show(const Room::Detail &detail)
 {
 	Screen::box_start(detail.name);
 

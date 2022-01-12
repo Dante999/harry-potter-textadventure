@@ -29,9 +29,15 @@ struct UI_room {
 	char description[1024];
 };
 
-static UI_room              g_room;
-static std::vector<UI_exit> g_exits;
-static std::vector<UI_item> g_items;
+struct UI_detail {
+	char name[255];
+	char description[1024];
+};
+
+static UI_room                g_room;
+static std::vector<UI_exit>   g_exits;
+static std::vector<UI_item>   g_items;
+static std::vector<UI_detail> g_details;
 
 } // namespace
 
@@ -43,16 +49,20 @@ void Panel_room_attributes::save_room()
 	room.set_description(Hpta_strings::remove_newlines(g_room.description));
 
 	std::vector<Room::Exit> exits;
-
 	for (const auto &exit : g_exits) {
 		exits.emplace_back(Room::Exit{exit.direction, exit.description, exit.room_id});
 	}
-
 	room.set_exits(exits);
 
 	for (const auto &item : g_items) {
 		room.add_item({item.quantity, Item{item.id}});
 	}
+
+	std::vector<Room::Detail> details;
+	for (const auto &detail : g_details) {
+		details.emplace_back(Room::Detail{detail.name, detail.description});
+	}
+	room.set_details(details);
 
 	Room_persistency::save(Hpta_config::get_string(Settings::gamedata_dir), room);
 
@@ -178,6 +188,57 @@ void Panel_room_attributes::show_item_tab_content()
 	}
 }
 
+void Panel_room_attributes::show_detail_tab_content()
+{
+	ImGui::BeginTable("Details", 3,
+	                  ImGuiTableFlags_Resizable + ImGuiTableFlags_Borders); //
+
+	ImGui::TableSetupColumn("Action");
+	ImGui::TableSetupColumn("Name");
+	ImGui::TableSetupColumn("Description");
+
+	ImGui::TableHeadersRow();
+
+	int i = 0;
+	for (auto itr = g_details.begin(); itr != g_details.end(); ++itr) {
+		ImGui::PushID(itr->name);
+
+		ImGui::TableNextColumn();
+		ImGui::PushItemWidth(-1);
+		const auto delete_pressed = ImGui::Button(fmt::format("Delete##{}", itr->name).c_str());
+		ImGui::PopItemWidth();
+
+		if (delete_pressed) {
+			g_details.erase(itr);
+		}
+		else {
+
+			ImGui::TableNextColumn();
+			ImGui::PushItemWidth(-1);
+			ImGui::InputText("##name", itr->name, std::size(itr->name));
+			ImGui::PopItemWidth();
+
+			ImGui::TableNextColumn();
+			ImGui::PushItemWidth(-1);
+			ImGui::InputText("##item", itr->description, std::size(itr->description));
+			ImGui::PopItemWidth();
+		}
+
+		ImGui::PopID();
+
+		ImGui::TableNextRow();
+		++i;
+	}
+
+	ImGui::EndTable();
+
+	if (ImGui::Button("Add Detail")) {
+		UI_detail detail{"", ""};
+
+		g_details.emplace_back(detail);
+	}
+}
+
 void Panel_room_attributes::set_room(const std::string &room_id)
 {
 	auto room = Room_persistency::load(Hpta_config::get_string(Settings::gamedata_dir), room_id);
@@ -214,6 +275,17 @@ void Panel_room_attributes::set_room(Room &room)
 
 		g_items.emplace_back(item);
 	}
+
+	g_details.clear();
+
+	for (const auto &d : room.get_details()) {
+		UI_detail detail;
+
+		strncpy(detail.name, d.name.c_str(), std::size(detail.name) - 1);
+		strncpy(detail.description, d.description.c_str(), std::size(detail.description) - 1);
+
+		g_details.emplace_back(detail);
+	}
 }
 
 void Panel_room_attributes::refresh()
@@ -241,6 +313,11 @@ void Panel_room_attributes::refresh()
 
 	if (ImGui::BeginTabItem("Items")) {
 		show_item_tab_content();
+		ImGui::EndTabItem();
+	}
+
+	if (ImGui::BeginTabItem("Details")) {
+		show_detail_tab_content();
 		ImGui::EndTabItem();
 	}
 

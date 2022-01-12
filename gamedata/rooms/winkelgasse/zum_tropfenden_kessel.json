@@ -1,10 +1,15 @@
 {
     "name": "Zum Tropfenden Kessel",
-    "description": "Der Tropfende Kessel wirkt nicht wie ein bekannter und wichtiger Ort, sondern dunkel und schäbig. Heutzutage wird der kleine, schmuddelig wirkende Pub von dem schon älteren Wirt Tom geführt. Außer der kurzfristigen Bewirtung bietet der Tropfende Kessel auch Übernachtungsmöglichkeiten in der oberen Etage. Ausserdem führt hinter der Bar ein schmaler Gang in ein kleines Hinterzimmer, wo nach Absprache mit dem Wirt ungestörte Besprechungen stattfinden können.",
+    "description": "Der Tropfende Kessel wirkt nicht wie ein bekannter und wichtiger Ort, sondern dunkel und schäbig. Heutzutage wird der kleine, schmuddelig wirkende Pub von dem schon älteren Wirt Tom geführt. Außer der kurzfristigen Bewirtung bietet der Tropfende Kessel auch Übernachtungsmöglichkeiten in der oberen Etage. Ausserdem führt hinter der Bar ein schmaler Gang in ein kleines Hinterzimmer, wo nach Absprache mit dem Wirt ungestörte Besprechungen stattfinden können. ",
+    "items": [],
     "details": [
         {
             "name": "Bar",
             "description": "Die Bar ist mit kleinen Unebenheiten sowie ein paar Reste Kerzenwachs übersäht"
+        },
+        {
+            "name": "Tom",
+            "description": "Der Wirt des tropfenden Kessels"
         }
     ],
     "exits": [

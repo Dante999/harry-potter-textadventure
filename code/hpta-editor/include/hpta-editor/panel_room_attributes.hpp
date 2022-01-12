@@ -16,6 +16,7 @@ class Panel_room_attributes : public IPanel, public IEvent_handler {
 	void save_room();
 	void show_exit_tab_content();
 	void show_item_tab_content();
+	void show_detail_tab_content();
 
   public:
 	Panel_room_attributes(Event_engine &event_engine) : m_event_engine{event_engine} {}
