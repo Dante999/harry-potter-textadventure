@@ -38,6 +38,7 @@ add_library(${PROJECT_NAME}
     include/hpta-lib/commands/help.hpp
     include/hpta-lib/commands/take.hpp
     include/hpta-lib/interpreter.hpp
+    include/hpta-lib/persistency/json_filehandler.hpp
 
 )
 
