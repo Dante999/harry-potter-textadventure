@@ -1,0 +1,18 @@
+{
+    "name": "Eeylops Eulenkaufhaus",
+    "description": " ",
+    "items": [
+        {
+            "quantity": 5,
+            "item_id": "/items/eulenfeder.json"
+        }
+    ],
+    "details": [],
+    "exits": [
+        {
+            "direction": "Osten",
+            "description": "Winkelgassenstrasse 3",
+            "room_id": "/rooms/winkelgasse/winkelgassenstrasse_3.json"
+        }
+    ]
+}
