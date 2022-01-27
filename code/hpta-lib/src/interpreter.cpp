@@ -31,7 +31,7 @@ const std::vector<std::string> Interpreter::split_text_by_words(const std::strin
 	return out;
 }
 
-void Interpreter::parse(const std::string &text)
+void Interpreter::parse(Context &context, const std::string &text)
 {
 	if (text.empty()) {
 		return;
@@ -40,7 +40,7 @@ void Interpreter::parse(const std::string &text)
 	const auto tokens = split_text_by_words(text);
 
 	for (auto &cmd : m_commands) {
-		if (cmd->interprete(tokens)) {
+		if (cmd->interprete(context, tokens)) {
 			return;
 		}
 	}

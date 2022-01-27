@@ -1,7 +1,7 @@
 #include "hpta-lib/commands/walk.hpp"
 
 #include "hpta-lib/screen.hpp"
-#include "hpta-lib/services/registry.hpp"
+#include "hpta-lib/services/player_walk_service.hpp"
 #include "hpta-lib/util/hpta_strings.hpp"
 
 #include <algorithm>
@@ -25,8 +25,9 @@ std::string Walk::get_direction_from_single_word_command(const std::string &s)
 		return "";
 }
 
-bool Walk::interprete(const std::vector<std::string> &token)
+bool Walk::interprete(Context &context, const std::vector<std::string> &token)
 {
+	std::ignore = context;
 
 	std::string direction;
 
@@ -46,7 +47,7 @@ bool Walk::interprete(const std::vector<std::string> &token)
 		return false;
 	}
 
-	if (direction.empty() || !Registry::get_gameengine().walk(direction)) {
+	if (direction.empty() || !context.service_registry.get<Player_walk_service>()->walk(direction)) {
 		Screen::print("dorthin kannst du nicht gehen...\n");
 	}
 

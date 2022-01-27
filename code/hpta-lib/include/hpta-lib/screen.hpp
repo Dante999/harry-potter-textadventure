@@ -5,6 +5,7 @@
 
 namespace Screen {
 constexpr uint8_t column_width = 80;
+constexpr uint8_t tab_width    = 8;
 
 void hline();
 void print(const std::string &msg);

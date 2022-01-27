@@ -17,7 +17,7 @@ class Interpreter {
 
   public:
 	Interpreter();
-	void parse(const std::string &text);
+	void parse(Context &context, const std::string &text);
 };
 
 #endif /* INTERPRETER_H */

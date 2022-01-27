@@ -1,4 +1,0 @@
-#ifndef TEST_HEADER_HPP
-#define TEST_HEADER_HPP
-
-#endif // TEST_HEADER_HPP

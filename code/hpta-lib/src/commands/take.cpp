@@ -1,13 +1,13 @@
 #include "hpta-lib/commands/take.hpp"
 
 #include "hpta-lib/screen.hpp"
-#include "hpta-lib/services/registry.hpp"
+#include "hpta-lib/services/room_cache_service.hpp"
 #include "hpta-lib/util/hpta_strings.hpp"
 
 #include <algorithm>
 #include <fmt/core.h>
 
-bool Take::interprete(const std::vector<std::string> &token)
+bool Take::interprete(Context &context, const std::vector<std::string> &token)
 {
 	if (token.at(0) != "nimm")
 		return false;
@@ -30,8 +30,7 @@ bool Take::interprete(const std::vector<std::string> &token)
 		object_name += token.at(i) + " ";
 	}
 
-	auto &player = Registry::get_gameengine().get_player();
-	auto &room   = Registry::get_persistence().get_room(player->get_room_id());
+	auto &room = context.service_registry.get<Room_cache_service>()->get_room(context.player->get_room_id());
 
 	const auto &storage_entries = room.get_items();
 
@@ -48,7 +47,7 @@ bool Take::interprete(const std::vector<std::string> &token)
 	Item item{result->item};
 
 	const auto removed_quantity = room.remove_item({quantity, item});
-	player->add_item({removed_quantity, item});
+	context.player->add_item({removed_quantity, item});
 
 	Screen::print(fmt::format("{}x {} aufgenommen!\n\n", removed_quantity, item.get_name()));
 

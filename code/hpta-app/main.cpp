@@ -4,8 +4,12 @@
 #include "hpta-lib/objects/player.hpp"
 #include "hpta-lib/persistency/item_persistency.hpp"
 #include "hpta-lib/screen.hpp"
-#include "hpta-lib/services/registry.hpp"
+#include "hpta-lib/util/hpta_config.hpp"
 #include "hpta-lib/visualizer.hpp"
+
+#include "hpta-lib/services/player_walk_service.hpp"
+#include "hpta-lib/services/room_cache_service.hpp"
+#include "hpta-lib/services/service_registry.hpp"
 
 #include <docopt/docopt.h>
 
@@ -40,20 +44,24 @@ int main(int argc, char *argv[])
 	                                                           true, // show help if requested
 	                                                           "Harry Potter Textadventure v1.0"); // version string
 
-	Registry::m_gamedata_dir = args.find("--gamedata_dir")->second.asString();
+	const auto gamedata_dir = args.find("--gamedata_dir")->second.asString();
 
 	Interpreter interpreter;
 
 	auto player = std::make_shared<Player>("Harry", "/rooms/winkelgasse/zum_tropfenden_kessel.json");
 
-	player->add_item({30, Item_persistency::load(Registry::m_gamedata_dir, "/items/knut.json")});
+	player->add_item({30, Item_persistency::load(gamedata_dir, "/items/knut.json")});
 
-	Registry::get_gameengine().set_player(player);
+	Service_registry service_registry;
+	service_registry.add(std::make_shared<Room_cache_service>(gamedata_dir));
+	service_registry.add(std::make_shared<Player_walk_service>(service_registry, player));
 
-	Visualizer::show(Registry::get_persistence().get_room(player->get_room_id()));
+	Visualizer::show(service_registry.get<Room_cache_service>()->get_room(player->get_room_id()));
+
+	Context context{player, service_registry};
 
 	while (1) {
 		const auto input = Screen::ask_for("");
-		interpreter.parse(input);
+		interpreter.parse(context, input);
 	}
 }

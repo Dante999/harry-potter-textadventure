@@ -9,20 +9,16 @@ add_library(${PROJECT_NAME}
     src/commands/look.cpp
     src/commands/take.cpp
     src/objects/item_storage.cpp
-    src/services/persistence.cpp
-    src/services/gameengine.cpp
-    src/services/registry.cpp
     src/visualizer.cpp
     src/persistency/room_persistency.cpp
     src/persistency/item_persistency.cpp
     src/util/hpta_string.cpp
     src/util/hpta_config.cpp
+    src/services/room_cache_service.cpp
+    src/services/player_walk_service.cpp
     include/hpta-lib/util/hpta_strings.hpp
     include/hpta-lib/util/hpta_algorithms.hpp
     include/hpta-lib/util/hpta_config.hpp
-    include/hpta-lib/services/persistence.hpp
-    include/hpta-lib/services/registry.hpp
-    include/hpta-lib/services/gameengine.hpp
     include/hpta-lib/persistency/room_persistency.hpp
     include/hpta-lib/persistency/item_persistency.hpp
     include/hpta-lib/visualizer.hpp
@@ -39,7 +35,9 @@ add_library(${PROJECT_NAME}
     include/hpta-lib/commands/take.hpp
     include/hpta-lib/interpreter.hpp
     include/hpta-lib/persistency/json_filehandler.hpp
-
+    include/hpta-lib/services/room_cache_service.hpp
+    include/hpta-lib/services/player_walk_service.hpp
+    include/hpta-lib/services/service_registry.hpp
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC ./include)

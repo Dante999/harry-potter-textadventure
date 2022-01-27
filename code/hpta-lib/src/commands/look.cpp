@@ -1,13 +1,12 @@
 #include "hpta-lib/commands/look.hpp"
 
-#include "hpta-lib/services/registry.hpp"
+#include "hpta-lib/services/room_cache_service.hpp"
 #include "hpta-lib/util/hpta_strings.hpp"
 #include "hpta-lib/visualizer.hpp"
 
-bool Look::interprete(const std::vector<std::string> &token)
+bool Look::interprete(Context &context, const std::vector<std::string> &token)
 {
-	auto &player = Registry::get_gameengine().get_player();
-	auto &room   = Registry::get_persistence().get_room(player->get_room_id());
+	auto &room = context.service_registry.get<Room_cache_service>()->get_room(context.player->get_room_id());
 
 	if (!Hpta_strings::equals_one_of(token.at(0), {"schau", "untersuche"}))
 		return false;
