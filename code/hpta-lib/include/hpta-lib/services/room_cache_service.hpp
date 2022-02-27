@@ -13,7 +13,7 @@ class Room_cache_service {
 	const std::string           m_gamedata_dir;
 
   public:
-	Room_cache_service(const std::string gamedata_dir) : m_gamedata_dir{gamedata_dir} {}
+	explicit Room_cache_service(const std::string gamedata_dir) : m_gamedata_dir{gamedata_dir} {}
 
 	Room &get_room(const std::string &id);
 };

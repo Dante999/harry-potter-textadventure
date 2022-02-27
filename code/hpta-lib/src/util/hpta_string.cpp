@@ -5,12 +5,7 @@
 
 [[nodiscard]] bool Hpta_strings::equals_one_of(const std::string &s, const std::vector<std::string> &s_list)
 {
-	for (const auto &s2 : s_list) {
-		if (s == s2)
-			return true;
-	}
-
-	return false;
+	return std::any_of(std::begin(s_list), std::end(s_list), [&s](const auto& rhs) {return s==rhs;});
 }
 
 namespace Hpta_strings {

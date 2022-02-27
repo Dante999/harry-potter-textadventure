@@ -18,7 +18,7 @@ class Panel_item_attributes : public IPanel, public IEvent_handler {
 	void show_item_tab_content();
 
   public:
-	Panel_item_attributes(Event_engine &event_engine) : m_event_engine{event_engine} {}
+	explicit Panel_item_attributes(Event_engine &event_engine) : m_event_engine{event_engine} {}
 
 	void set_item(const std::string &item_id);
 	void set_item(Item &item);

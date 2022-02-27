@@ -3,7 +3,7 @@
 
 #include <algorithm>
 
-namespace Hpta_algorithms {
+namespace hpta {
 
 template <typename T>
 bool is_between_or_equal(T min, T max, T value)
@@ -14,15 +14,15 @@ bool is_between_or_equal(T min, T max, T value)
 template <typename T>
 T get_middlepoint(T a, T b)
 {
-	return (a + b) /2;
+	return (a + b) / 2;
 }
 
 template <typename T>
-T get_distance( T a, T b)
+T get_distance(T a, T b)
 {
-	return std::abs(a-b);
+	return std::abs(a - b);
 }
 
-} // namespace Hpta_algorithms
+} // namespace hpta
 
 #endif // HPTA_ALGORITHMS_HPP

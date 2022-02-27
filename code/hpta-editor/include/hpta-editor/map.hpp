@@ -18,7 +18,7 @@ class Map : public IPanel, public IEvent_handler {
 	void init();
 
   public:
-	Map(sf::RenderWindow &window, Room_cache &room_cache, Event_engine &event_engine)
+	explicit Map(sf::RenderWindow &window, Room_cache &room_cache, Event_engine &event_engine)
 	    : m_window{window}, m_room_cache{room_cache}, m_event_engine{event_engine}
 	{
 		init();

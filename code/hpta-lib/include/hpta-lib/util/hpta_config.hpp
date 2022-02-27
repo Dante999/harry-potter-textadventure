@@ -20,15 +20,14 @@ class Hpta_config {
 		m_values[Hpta_strings::trim(key)] = Hpta_strings::trim(std::to_string(value));
 	}
 
-
 	static void add(const std::string &key, const std::string &value)
 	{
 		m_values[Hpta_strings::trim(key)] = Hpta_strings::trim(value);
 	}
 
 	static std::string &get_string(const std::string &key);
-	static float get_float(const std::string &key);
-	static int get_int(const std::string &key);
+	static float        get_float(const std::string &key);
+	static int          get_int(const std::string &key);
 	static unsigned int get_uint(const std::string &key);
 };
 

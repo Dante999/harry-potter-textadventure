@@ -11,7 +11,7 @@ class Map_navigation {
 	bool      m_has_focus{true};
 
   public:
-	Map_navigation(sf::View &view) : m_view{view} {}
+	explicit Map_navigation(sf::View &view) : m_view{view} {}
 
 	bool is_map_focused();
 	void handle();

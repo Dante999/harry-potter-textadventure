@@ -123,10 +123,10 @@ static float get_final_y(const Node &node)
 
 static bool position_hits_node(int x, int y, const Node_ptr &node)
 {
-	return (Hpta_algorithms::is_between_or_equal(get_final_x(*node), get_final_x(*node) + g_room_object_width,
-	                                             static_cast<float>(x)) &&
-	        Hpta_algorithms::is_between_or_equal(get_final_y(*node), get_final_y(*node) + g_room_object_height,
-	                                             static_cast<float>(y)));
+	return (hpta::is_between_or_equal(get_final_x(*node), get_final_x(*node) + g_room_object_width,
+	                                  static_cast<float>(x)) &&
+	        hpta::is_between_or_equal(get_final_y(*node), get_final_y(*node) + g_room_object_height,
+	                                  static_cast<float>(y)));
 }
 
 static sf::Vector2f get_node_center(const Node &node)
@@ -145,14 +145,14 @@ static std::tuple<sf::RectangleShape, sf::CircleShape> get_arrow(sf::Vector2f a,
 
 	if (a.x == b.x) {
 		rect_x = a.x;
-		rect_y = Hpta_algorithms::get_middlepoint(a.y, b.y);
+		rect_y = hpta::get_middlepoint(a.y, b.y);
 		width  = g_room_link_thickness;
-		heigth = Hpta_algorithms::get_distance(a.y, b.y) - space;
+		heigth = hpta::get_distance(a.y, b.y) - space;
 	}
 	else if (a.y == b.y) {
-		rect_x = Hpta_algorithms::get_middlepoint(a.x, b.x);
+		rect_x = hpta::get_middlepoint(a.x, b.x);
 		rect_y = a.y;
-		width  = Hpta_algorithms::get_distance(a.x, b.x) - space;
+		width  = hpta::get_distance(a.x, b.x) - space;
 		heigth = g_room_link_thickness;
 	}
 	else {
@@ -166,7 +166,7 @@ static std::tuple<sf::RectangleShape, sf::CircleShape> get_arrow(sf::Vector2f a,
 	center_shape(rect_x, rect_y, line);
 
 	auto tip = sf::CircleShape(g_room_link_arrow_size, 4);
-	center_shape(Hpta_algorithms::get_middlepoint(rect_x, b.x), Hpta_algorithms::get_middlepoint(rect_y, b.y), tip);
+	center_shape(hpta::get_middlepoint(rect_x, b.x), hpta::get_middlepoint(rect_y, b.y), tip);
 
 	return std::make_tuple(line, tip);
 }

@@ -11,7 +11,7 @@ class Item {
 
   public:
 	// clang-format off
-	Item(const std::string& id) : m_id(id) {}
+	explicit Item(const std::string& id) : m_id(id) {}
 
 	void set_name(const std::string& name) {m_name = name;}
 	void set_description(const std::string& description) {m_description = description;}

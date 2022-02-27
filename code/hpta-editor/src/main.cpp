@@ -104,7 +104,7 @@ int main(int argc, char *argv[])
 	auto panel_item_attributes = std::make_shared<Panel_item_attributes>(event_engine);
 
 	std::vector<std::shared_ptr<IPanel>> panels{map, panel_item_list, panel_room_attributes, panel_room_list,
-		                                    panel_item_attributes};
+	                                            panel_item_attributes};
 	event_engine.add_event_handler(map);
 	event_engine.add_event_handler(panel_room_attributes);
 	event_engine.add_event_handler(panel_item_attributes);

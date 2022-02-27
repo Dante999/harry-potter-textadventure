@@ -19,7 +19,7 @@ class Panel_room_attributes : public IPanel, public IEvent_handler {
 	void show_detail_tab_content();
 
   public:
-	Panel_room_attributes(Event_engine &event_engine) : m_event_engine{event_engine} {}
+	explicit Panel_room_attributes(Event_engine &event_engine) : m_event_engine{event_engine} {}
 
 	void set_room(const std::string &room_id);
 	void set_room(Room &room);
