@@ -9,8 +9,6 @@ option(CPP_STARTER_USE_IMGUI "Enable compilation of ImGui sample" ON)
 add_library(project_options INTERFACE)
 target_compile_features(project_options INTERFACE cxx_std_17)
 
-
-
 # standard compiler warnings
 add_library(project_warnings INTERFACE)
 include(cmake/compiler-warnings.cmake)
@@ -21,6 +19,7 @@ include(cmake/standard-project-settings.cmake)
 
 include(cmake/conan.cmake)
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS true)
 
 # set(CONAN_EXTRA_REQUIRES ${CONAN_EXTRA_REQUIRES} 
 #     fmt/6.2.0
