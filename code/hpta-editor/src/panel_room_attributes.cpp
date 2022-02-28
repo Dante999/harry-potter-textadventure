@@ -2,7 +2,7 @@
 
 #include "hpta-editor/map.hpp"
 #include "hpta-editor/settings.hpp"
-#include "hpta-lib/persistency/room_persistency.hpp"
+#include "hpta-lib/persistency/persistency.hpp"
 #include "hpta-lib/util/hpta_strings.hpp"
 
 #include <cstring>
@@ -64,7 +64,7 @@ void Panel_room_attributes::save_room()
 	}
 	room.set_details(details);
 
-	Room_persistency::save(Hpta_config::get_string(Settings::gamedata_dir), room);
+	persistency::save_room(Hpta_config::get_string(Settings::gamedata_dir), room);
 
 	m_event_engine.publish({Event::Type::ROOM_CHANGED});
 }
@@ -241,7 +241,7 @@ void Panel_room_attributes::show_detail_tab_content()
 
 void Panel_room_attributes::set_room(const std::string &room_id)
 {
-	auto room = Room_persistency::load(Hpta_config::get_string(Settings::gamedata_dir), room_id);
+	auto room = persistency::load_room(Hpta_config::get_string(Settings::gamedata_dir), room_id);
 
 	set_room(room);
 }

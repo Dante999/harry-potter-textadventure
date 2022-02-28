@@ -14,6 +14,7 @@ const std::string WHITESPACE = " \n\r\t\f\v";
 
 const std::vector<std::string> split_text_into_lines(const std::string &text, size_t column_width)
 {
+
 	std::vector<std::string> lines;
 
 	if (text.length() < column_width) {

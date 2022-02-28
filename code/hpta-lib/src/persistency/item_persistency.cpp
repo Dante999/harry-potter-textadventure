@@ -1,8 +1,9 @@
-#include "hpta-lib/persistency/item_persistency.hpp"
+#include "hpta-lib/persistency/persistency.hpp"
 
-#include "hpta-lib/persistency/json_filehandler.hpp"
+#include "json_filehandler.hpp"
 
-Item Item_persistency::load(const std::string &gamedata_dir, const std::string &id)
+namespace persistency {
+Item load_item(const std::string &gamedata_dir, const std::string &id)
 {
 	Item item(id);
 
@@ -14,7 +15,7 @@ Item Item_persistency::load(const std::string &gamedata_dir, const std::string &
 	return item;
 }
 
-bool Item_persistency::save(const std::string &gamedata_dir, const Item &item)
+bool save_item(const std::string &gamedata_dir, const Item &item)
 {
 	Json_filehandler::save(gamedata_dir, item.get_id(), [&item](auto &writer) {
 		writer.StartObject();
@@ -30,3 +31,4 @@ bool Item_persistency::save(const std::string &gamedata_dir, const Item &item)
 
 	return true;
 }
+} // namespace persistency

@@ -12,6 +12,7 @@ add_library(${PROJECT_NAME}
     src/visualizer.cpp
     src/persistency/room_persistency.cpp
     src/persistency/item_persistency.cpp
+    src/persistency/json_filehandler.hpp
     src/util/hpta_string.cpp
     src/util/hpta_config.cpp
     src/services/room_cache_service.cpp
@@ -19,8 +20,6 @@ add_library(${PROJECT_NAME}
     include/hpta-lib/util/hpta_strings.hpp
     include/hpta-lib/util/hpta_algorithms.hpp
     include/hpta-lib/util/hpta_config.hpp
-    include/hpta-lib/persistency/room_persistency.hpp
-    include/hpta-lib/persistency/item_persistency.hpp
     include/hpta-lib/visualizer.hpp
     include/hpta-lib/screen.hpp
     include/hpta-lib/objects/player.hpp
@@ -34,7 +33,6 @@ add_library(${PROJECT_NAME}
     include/hpta-lib/commands/help.hpp
     include/hpta-lib/commands/take.hpp
     include/hpta-lib/interpreter.hpp
-    include/hpta-lib/persistency/json_filehandler.hpp
     include/hpta-lib/services/room_cache_service.hpp
     include/hpta-lib/services/player_walk_service.hpp
     include/hpta-lib/services/service_registry.hpp

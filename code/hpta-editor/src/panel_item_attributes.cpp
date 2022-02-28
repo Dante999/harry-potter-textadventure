@@ -1,7 +1,7 @@
 #include "hpta-editor/panel_item_attributes.hpp"
 
 #include "hpta-editor/settings.hpp"
-#include "hpta-lib/persistency/item_persistency.hpp"
+#include "hpta-lib/persistency/persistency.hpp"
 #include "hpta-lib/util/hpta_strings.hpp"
 
 #include <cstring>
@@ -29,14 +29,14 @@ void Panel_item_attributes::save_room()
 	item.set_name(g_item.name);
 	item.set_description(Hpta_strings::remove_newlines(g_item.description));
 
-	Item_persistency::save(Hpta_config::get_string(Settings::gamedata_dir), item);
+	persistency::save_item(Hpta_config::get_string(Settings::gamedata_dir), item);
 
 	m_event_engine.publish({Event::Type::ITEM_CHANGED});
 }
 
 void Panel_item_attributes::set_item(const std::string &item_id)
 {
-	auto item = Item_persistency::load(Hpta_config::get_string(Settings::gamedata_dir), item_id);
+	auto item = persistency::load_item(Hpta_config::get_string(Settings::gamedata_dir), item_id);
 
 	set_item(item);
 }

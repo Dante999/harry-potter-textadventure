@@ -9,17 +9,16 @@
 
 #include "hpta-editor/settings.hpp"
 #include "hpta-lib/util/hpta_config.hpp"
+#include "hpta-lib/persistency/persistency.hpp"
 
-#include "hpta-lib/persistency/item_persistency.hpp"
-#include "hpta-lib/persistency/room_persistency.hpp"
 
-template <typename Tobject, typename Tpersistency>
+template <typename Tobject, auto TloadFunction>
 class Object_cache;
 
-using Item_cache = Object_cache<Item, Item_persistency>;
-using Room_cache = Object_cache<Room, Room_persistency>;
+using Item_cache = Object_cache<Item, persistency::load_item>;
+using Room_cache = Object_cache<Room, persistency::load_room>;
 
-template <typename Tobject, typename Tpersistency>
+template <typename Tobject, auto TloadFunction>
 class Object_cache {
   private:
 	std::vector<Tobject> m_objects;
@@ -52,7 +51,7 @@ class Object_cache {
 				continue;
 			}
 
-			m_objects.emplace_back(Tpersistency::load(m_gamedata_dir, item_id));
+			m_objects.emplace_back(TloadFunction(m_gamedata_dir, item_id));
 		}
 
 		std::sort(m_objects.begin(), m_objects.end(), [](auto a, auto b) { return a.get_id() < b.get_id(); });

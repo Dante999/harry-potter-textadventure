@@ -1,9 +1,10 @@
-#include "hpta-lib/persistency/room_persistency.hpp"
 
-#include "hpta-lib/persistency/item_persistency.hpp"
-#include "hpta-lib/persistency/json_filehandler.hpp"
+#include "hpta-lib/persistency/persistency.hpp"
 
-Room Room_persistency::load(const std::string &gamedata_dir, const std::string &id)
+#include "json_filehandler.hpp"
+
+namespace persistency {
+Room load_room(const std::string &gamedata_dir, const std::string &id)
 {
 	Room room(id);
 
@@ -17,7 +18,7 @@ Room Room_persistency::load(const std::string &gamedata_dir, const std::string &
 				const auto item_quantity = e["quantity"].GetInt();
 				const auto item_id       = e["item_id"].GetString();
 
-				room.add_item({item_quantity, Item_persistency::load(gamedata_dir, item_id)});
+				room.add_item({item_quantity, persistency::load_item(gamedata_dir, item_id)});
 			}
 		}
 
@@ -49,7 +50,7 @@ Room Room_persistency::load(const std::string &gamedata_dir, const std::string &
 	return room;
 }
 
-bool Room_persistency::save(const std::string &gamedata_dir, const Room &room)
+bool save_room(const std::string &gamedata_dir, const Room &room)
 {
 	Json_filehandler::save(gamedata_dir, room.get_id(), [&](auto &writer) {
 		writer.StartObject();
@@ -113,3 +114,5 @@ bool Room_persistency::save(const std::string &gamedata_dir, const Room &room)
 
 	return true;
 }
+} // namespace persistency
+
