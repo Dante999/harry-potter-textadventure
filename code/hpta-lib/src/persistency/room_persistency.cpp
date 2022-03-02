@@ -23,7 +23,6 @@ Room load_room(const std::string &gamedata_dir, const std::string &id)
 		}
 
 		std::vector<Room::Detail> details;
-
 		if (d.HasMember("details")) {
 
 			for (auto &e : d["details"].GetArray()) {
@@ -32,19 +31,24 @@ Room load_room(const std::string &gamedata_dir, const std::string &id)
 				details.emplace_back(Room::Detail{name, description});
 			}
 		}
-
 		room.set_details(details);
 
 		std::vector<Room::Exit> exits;
-
 		for (auto &e : d["exits"].GetArray()) {
 			const auto direction   = e["direction"].GetString();
 			const auto description = e["description"].GetString();
 			const auto room_id     = e["room_id"].GetString();
 			exits.emplace_back(Room::Exit{direction, description, room_id});
 		}
-
 		room.set_exits(exits);
+
+		std::vector<Npc> npcs;
+		for (auto &n : d["npcs"].GetArray()) {
+			const auto npc_id = n["id"].GetString();
+			
+			npcs.emplace_back(persistency::load_npc(gamedata_dir, npc_id));
+		}
+		room.set_npcs(npcs);
 	});
 
 	return room;

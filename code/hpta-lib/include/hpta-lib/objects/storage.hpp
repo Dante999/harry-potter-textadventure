@@ -1,11 +1,11 @@
-#ifndef ITEM_STORAGE_H
-#define ITEM_STORAGE_H
+#ifndef STORAGE_H
+#define STORAGE_H
 
 #include "hpta-lib/objects/item.hpp"
 
 #include <vector>
 
-class Item_storage {
+class Storage {
 
   public:
 	struct Entry {
@@ -17,16 +17,15 @@ class Item_storage {
 	std::vector<Entry> m_items;
 
   private:
-	auto find_entry(const Item &item);
+	[[nodiscard]] auto find_entry(const Item &item);
 
   public:
 	int add_item(const Entry &entry);
 	int remove_item(const Entry &&entry);
 
-	auto &get_items() const
-	{
-		return m_items;
-	}
+	// clang-format off
+	[[nodiscard]] auto &get_items() const {return m_items;}
+	// clang-format on
 };
 
-#endif /* ITEM_STORAGE_H */
+#endif /* STORAGE_H */

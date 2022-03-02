@@ -18,5 +18,10 @@
             "description": "Winkelgassenstraße 1",
             "room_id": "/rooms/winkelgasse/winkelgassenstrasse_1.json"
         }
-    ]
+    ],
+	"npcs": [
+		{
+			"id" : "/npcs/tom_vom_tropfenden_kessel.json"
+		}
+	]
 }

@@ -10,17 +10,6 @@ add_executable(${PROJECT_NAME}
 	src/object_cache.cpp
 	src/event_engine.cpp
 	src/map_navigation.cpp
-	include/hpta-editor/ipanel.hpp
-	include/hpta-editor/panel_room_attributes.hpp
-	include/hpta-editor/panel_item_attributes.hpp
-	include/hpta-editor/panel_room_list.hpp
-	include/hpta-editor/panel_item_list.hpp
-	include/hpta-editor/settings.hpp
-	include/hpta-editor/map.hpp
-	include/hpta-editor/object_cache.hpp
-	include/hpta-editor/event_engine.hpp
-	include/hpta-editor/ievent_handler.hpp
-	include/hpta-editor/map_navigation.hpp
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC ./include)

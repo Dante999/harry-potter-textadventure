@@ -2,6 +2,7 @@
 
 #include <fmt/core.h>
 
+#include "hpta-lib/util/hpta_algorithms.hpp"
 #include "hpta-lib/util/hpta_strings.hpp"
 
 namespace Visualizer {
@@ -12,6 +13,12 @@ void show(const Room &room)
 
 	for (const auto &line : Hpta_strings::split_text_into_lines(room.get_description(), Screen::column_width)) {
 		Screen::print(line + "\n");
+	}
+
+	Screen::print("\n");
+	for (auto &npc : room.get_npcs()) {
+		std::string phrase = hpta::get_random_entry(npc.get_phrases());
+		Screen::print(fmt::format("{} sagt: {}\n", npc.get_name(), phrase));
 	}
 
 	Screen::print("\n");

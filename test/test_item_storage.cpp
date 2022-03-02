@@ -1,17 +1,17 @@
 #include <gtest/gtest.h>
 
-#include "hpta-lib/objects/item_storage.hpp"
+#include "hpta-lib/objects/storage.hpp"
 
 TEST(ItemStorage, emptyStorage)
 {
-	Item_storage sut;
+	Storage sut;
 
 	ASSERT_EQ(0, sut.get_items().size());
 }
 
 TEST(ItemStorage, addItem)
 {
-	Item_storage sut;
+	Storage sut;
 
 	sut.add_item({10, Item("my-id")});
 
@@ -22,7 +22,7 @@ TEST(ItemStorage, addItem)
 
 TEST(ItemStorage, addItemToExisting)
 {
-	Item_storage sut;
+	Storage sut;
 
 	sut.add_item({10, Item("my-id")});
 	sut.add_item({10, Item("my-id")});
@@ -34,7 +34,7 @@ TEST(ItemStorage, addItemToExisting)
 
 TEST(ItemStorage, removeItem)
 {
-	Item_storage sut;
+	Storage sut;
 
 	sut.add_item({10, Item("my-id")});
 	sut.remove_item({7, Item("my-id")});

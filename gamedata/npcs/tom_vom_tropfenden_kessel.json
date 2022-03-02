@@ -1,0 +1,8 @@
+{
+    "name" : "Tom",
+    "description" : "Tom ist der Wirt und Besitzer des tropfenden Kessels",
+	"phrases" : [
+		"Willkommen im tropfenden Kessel!",
+		"Darf es was zu trinken sein?"
+	]
+}
