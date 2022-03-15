@@ -3,11 +3,13 @@
 
 #include <functional>
 #include <string>
+#include <errno.h>
 
 #include <rapidjson/document.h>
 #include <rapidjson/filereadstream.h>
 #include <rapidjson/filewritestream.h>
 #include <rapidjson/prettywriter.h>
+#include <fmt/format.h>
 
 namespace Json_filehandler {
 
@@ -19,7 +21,8 @@ inline void load(const std::string &gamedata_dir, const std::string &id,
 	FILE *fp = fopen(filepath.c_str(), "rb"); // non-Windows use "r"
 
 	if (fp == NULL) {
-		throw std::runtime_error("Can not find file " + filepath);
+		const auto error = errno;
+		throw std::runtime_error(fmt::format("Can't load file {}: {}", filepath, strerror(error)));
 	}
 
 	char readBuffer[65536];
@@ -42,7 +45,8 @@ inline void save(const std::string &gamedata_dir, const std::string &id,
 	FILE *fp = fopen(filepath.c_str(), "wb"); // non-Windows use "r"
 
 	if (fp == NULL) {
-		throw std::runtime_error("Can open file " + filepath);
+		const auto error = errno;
+		throw std::runtime_error(fmt::format("Can't save file {}: {}", filepath, strerror(error)));
 	}
 
 	char writeBuffer[65536];

@@ -33,6 +33,15 @@ bool save_npc(const std::string &gamedata_dir, const Npc &npc)
 		writer.Key("description");
 		writer.String(npc.get_description().c_str());
 
+		writer.Key("phrases");
+		writer.StartArray();
+
+		for (const auto &i : npc.get_phrases()) {		
+			writer.String(i.c_str());
+		}
+
+		writer.EndArray();
+
 		writer.EndObject();
 	});
 

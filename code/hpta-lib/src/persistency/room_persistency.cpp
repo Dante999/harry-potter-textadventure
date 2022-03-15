@@ -43,11 +43,14 @@ Room load_room(const std::string &gamedata_dir, const std::string &id)
 		room.set_exits(exits);
 
 		std::vector<Npc> npcs;
-		for (auto &n : d["npcs"].GetArray()) {
-			const auto npc_id = n["id"].GetString();
-			
-			npcs.emplace_back(persistency::load_npc(gamedata_dir, npc_id));
+		if (d.HasMember("npcs")) {
+			for (auto &n : d["npcs"].GetArray()) {
+				const auto npc_id = n["id"].GetString();
+				
+				npcs.emplace_back(persistency::load_npc(gamedata_dir, npc_id));
+			}
 		}
+
 		room.set_npcs(npcs);
 	});
 

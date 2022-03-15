@@ -18,7 +18,7 @@ class Npc : public Storage, public Gameobject {
 	// clang-format off
 	void set_phrases(const std::vector<std::string>& phrases) {m_phrases = phrases;}
 
-	[[nodiscard]] auto get_phrases() {return m_phrases;}
+	[[nodiscard]] auto get_phrases() const {return m_phrases;}
 	// clang-format on
 };
 

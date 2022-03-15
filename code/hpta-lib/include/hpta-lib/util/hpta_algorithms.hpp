@@ -2,6 +2,7 @@
 #define HPTA_ALGORITHMS_HPP
 
 #include <algorithm>
+#include <random>
 
 namespace hpta {
 
@@ -27,12 +28,14 @@ template <typename T>
 auto get_random_entry(const T &values)
 {
 	/* @todo FIX ME */
-    // T out; 
-	// std::sample(std::begin(values), std::end(values), std::back_inserter(out), 1, std::mt19937{std::random_device{}()});
+    //T::iterator out; 
+	T out;
+	std::sample(std::begin(values), std::end(values), std::back_inserter(out), 1, std::mt19937{std::random_device{}()});
 
-	// return out.at(0);
+	return out.at(0);
+	
 
-	return values.at(0);
+	// return values.at(0);
 }
 
 } // namespace hpta

@@ -2,7 +2,8 @@ project(unittest)
 
 add_executable(${PROJECT_NAME}
 	test_hpta_utils.cpp
-	test_item_storage.cpp)
+	test_item_storage.cpp
+	persistency/test_persistency)
 
 
 target_link_libraries(${PROJECT_NAME}
