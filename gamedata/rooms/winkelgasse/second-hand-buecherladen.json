@@ -1,6 +1,13 @@
 {
     "name": "Second-Hand Bücherladen",
-    "description": "Hier sollte noch weiterer Inhalt stehen",
+    "description": "Hier sollte noch weiterer Inhalt stehen ",
+    "items": [
+        {
+            "quantity": 1,
+            "item_id": "/items/buch-irrwichte.json"
+        }
+    ],
+    "details": [],
     "exits": [
         {
             "direction": "Westen",

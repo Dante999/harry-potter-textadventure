@@ -5,30 +5,30 @@
 #include <string>
 #include <vector>
 
-#include "hpta-lib/objects/storage.hpp"
 #include "hpta-lib/objects/gameobject.hpp"
 #include "hpta-lib/objects/npc.hpp"
+#include "hpta-lib/objects/storage.hpp"
 
 class Room : public Storage, public Gameobject {
   public:
-	struct Exit {
-		std::string direction;
-		std::string description;
-		std::string room_id;
-	};
+    struct Exit {
+        std::string direction;
+        std::string description;
+        std::string room_id;
+    };
 
-	struct Detail {
-		std::string name;
-		std::string description;
-	};
+    struct Detail {
+        std::string name;
+        std::string description;
+    };
 
   private:
-	std::vector<Exit>   m_exits;
-	std::vector<Detail> m_details;
-	std::vector<Npc>    m_npcs;
+    std::vector<Exit>   m_exits;
+    std::vector<Detail> m_details;
+    std::vector<Npc>    m_npcs;
 
   public:
-	// clang-format off
+    // clang-format off
 	explicit Room(const std::string &id) : Gameobject{id} {}
 
 	void set_exits(const std::vector<Exit> &exits) {m_exits = exits;}
@@ -38,7 +38,7 @@ class Room : public Storage, public Gameobject {
 	[[nodiscard]] auto get_exits() const {return m_exits;}
 	[[nodiscard]] auto get_details() const {return m_details;}
 	[[nodiscard]] auto get_npcs() const {return m_npcs;}
-	// clang-format on
+    // clang-format on
 };
 
 #endif /* ROOM_H */

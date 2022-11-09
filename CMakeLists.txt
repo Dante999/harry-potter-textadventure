@@ -18,30 +18,19 @@ include(cmake/standard-project-settings.cmake)
 
 
 include(cmake/conan.cmake)
-
-set(CMAKE_EXPORT_COMPILE_COMMANDS true)
-
-# set(CONAN_EXTRA_REQUIRES ${CONAN_EXTRA_REQUIRES} 
-#     fmt/6.2.0
-#     rapidjson/1.1.0
-#     imgui-sfml/2.3@bincrafters/stable
-# )
 conan_add_remote(NAME bincrafters
                  INDEX 1
                  URL https://bincrafters.jfrog.io/artifactory/api/conan/conan
                  VERIFY_SSL True)
-
-
-
-conan_cmake_run(REQUIRES 
-	        fmt/8.0.1
-                rapidjson/1.1.0
-		gtest/cci.20210126
-		imgui-sfml/2.5@bincrafters/stable
-		spdlog/1.9.2
-		docopt.cpp/0.6.3
+				 
+conan_cmake_run(CONANFILE conanfile.txt  # or relative build/conanfile.txt
                 BASIC_SETUP CMAKE_TARGETS
                 BUILD missing)
+
+set(CMAKE_EXPORT_COMPILE_COMMANDS true)
+
+
+
 
 
 add_subdirectory(code/hpta-lib)

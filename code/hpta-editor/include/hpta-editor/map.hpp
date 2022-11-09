@@ -10,22 +10,22 @@
 
 class Map : public IPanel, public IEvent_handler {
   private:
-	sf::RenderWindow &m_window;
-	Room_cache &      m_room_cache;
-	Event_engine &    m_event_engine;
+    sf::RenderWindow &m_window;
+    Room_cache &      m_room_cache;
+    Event_engine &    m_event_engine;
 
   private:
-	void init();
+    void init();
 
   public:
-	explicit Map(sf::RenderWindow &window, Room_cache &room_cache, Event_engine &event_engine)
-	    : m_window{window}, m_room_cache{room_cache}, m_event_engine{event_engine}
-	{
-		init();
-	}
+    explicit Map(sf::RenderWindow &window, Room_cache &room_cache, Event_engine &event_engine)
+        : m_window{window}, m_room_cache{room_cache}, m_event_engine{event_engine}
+    {
+        init();
+    }
 
-	void refresh() override;
-	void on_event(Event event) override;
+    void refresh() override;
+    void on_event(Event event) override;
 };
 
 #endif // MAP_HPP

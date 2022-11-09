@@ -3,8 +3,8 @@
 BasedOnStyle: LLVM
 IndentWidth: 4
 TabWidth: 4
-UseTab: ForIndentation
-#UseTab: Never
+#UseTab: ForIndentation
+UseTab: Never
 
 ColumnLimit: 120
 

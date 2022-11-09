@@ -23,17 +23,17 @@ static auto g_font = sf::Font();
 struct Link;
 
 struct Node {
-	Node(float _x, float _y, Room _room) : x(_x), y(_y), room(_room) {}
+    Node(float _x, float _y, Room _room) : x(_x), y(_y), room(_room) {}
 
-	float             x;
-	float             y;
-	Room              room;
-	std::vector<Link> links = {};
+    float             x;
+    float             y;
+    Room              room;
+    std::vector<Link> links = {};
 };
 
 struct Link {
-	std::string           direction;
-	std::shared_ptr<Node> target;
+    std::string           direction;
+    std::shared_ptr<Node> target;
 };
 
 using Node_ptr = std::shared_ptr<Node>;
@@ -55,147 +55,147 @@ float g_mouse_debounce_ms;
 
 static void init_config_values()
 {
-	g_font_scale           = Hpta_config::get_float(Settings::editor_font_scale);
-	g_room_object_width    = Hpta_config::get_float(Settings::room_object_width);
-	g_room_object_height   = Hpta_config::get_float(Settings::room_object_height);
-	g_room_link_thickness  = Hpta_config::get_float(Settings::room_link_thickness);
-	g_room_link_margin     = Hpta_config::get_float(Settings::room_link_margin);
-	g_room_spread_factor   = Hpta_config::get_float(Settings::room_spread_factor);
-	g_room_center_width    = Hpta_config::get_float(Settings::room_center_width);
-	g_room_center_height   = Hpta_config::get_float(Settings::room_center_height);
-	g_map_start_x          = Hpta_config::get_float(Settings::map_start_x);
-	g_map_start_y          = Hpta_config::get_float(Settings::map_start_y);
-	g_mouse_debounce_ms    = Hpta_config::get_float(Settings::mouse_debounce_ms);
-	g_room_link_arrow_size = Hpta_config::get_float(Settings::room_link_arrow_size);
+    g_font_scale           = Hpta_config::get_float(Settings::editor_font_scale);
+    g_room_object_width    = Hpta_config::get_float(Settings::room_object_width);
+    g_room_object_height   = Hpta_config::get_float(Settings::room_object_height);
+    g_room_link_thickness  = Hpta_config::get_float(Settings::room_link_thickness);
+    g_room_link_margin     = Hpta_config::get_float(Settings::room_link_margin);
+    g_room_spread_factor   = Hpta_config::get_float(Settings::room_spread_factor);
+    g_room_center_width    = Hpta_config::get_float(Settings::room_center_width);
+    g_room_center_height   = Hpta_config::get_float(Settings::room_center_height);
+    g_map_start_x          = Hpta_config::get_float(Settings::map_start_x);
+    g_map_start_y          = Hpta_config::get_float(Settings::map_start_y);
+    g_mouse_debounce_ms    = Hpta_config::get_float(Settings::mouse_debounce_ms);
+    g_room_link_arrow_size = Hpta_config::get_float(Settings::room_link_arrow_size);
 }
 
 static void add_neighbours(const std::vector<Room> &rooms, Node_ptr &node)
 {
 
-	for (auto &exit : node->room.get_exits()) {
-		const auto &next_room =
-		    std::find_if(rooms.begin(), rooms.end(), [&exit](const auto &r) { return r.get_id() == exit.room_id; });
+    for (auto &exit : node->room.get_exits()) {
+        const auto &next_room =
+            std::find_if(rooms.begin(), rooms.end(), [&exit](const auto &r) { return r.get_id() == exit.room_id; });
 
-		if (next_room == rooms.end())
-			continue;
+        if (next_room == rooms.end())
+            continue;
 
-		const auto &existing_node = std::find_if(
-		    g_nodes.begin(), g_nodes.end(), [&](const auto &n) { return n->room.get_id() == next_room->get_id(); });
+        const auto &existing_node = std::find_if(
+            g_nodes.begin(), g_nodes.end(), [&](const auto &n) { return n->room.get_id() == next_room->get_id(); });
 
-		// node already exists, nothing to do
-		if (existing_node != g_nodes.end()) {
-			node->links.emplace_back(Link{exit.direction, *existing_node});
-			continue;
-		}
+        // node already exists, nothing to do
+        if (existing_node != g_nodes.end()) {
+            node->links.emplace_back(Link{exit.direction, *existing_node});
+            continue;
+        }
 
-		auto new_node = std::make_shared<Node>(node->x, node->y, Room{*next_room});
+        auto new_node = std::make_shared<Node>(node->x, node->y, Room{*next_room});
 
-		if (Hpta_strings::equals_ignorecase(exit.direction, "norden")) {
-			--new_node->y;
-		}
-		else if (Hpta_strings::equals_ignorecase(exit.direction, "osten")) {
-			++new_node->x;
-		}
-		else if (Hpta_strings::equals_ignorecase(exit.direction, "süden")) {
-			++new_node->y;
-		}
-		else if (Hpta_strings::equals_ignorecase(exit.direction, "westen")) {
-			--new_node->x;
-		}
+        if (Hpta_strings::equals_ignorecase(exit.direction, "norden")) {
+            --new_node->y;
+        }
+        else if (Hpta_strings::equals_ignorecase(exit.direction, "osten")) {
+            ++new_node->x;
+        }
+        else if (Hpta_strings::equals_ignorecase(exit.direction, "süden")) {
+            ++new_node->y;
+        }
+        else if (Hpta_strings::equals_ignorecase(exit.direction, "westen")) {
+            --new_node->x;
+        }
 
-		// TODO: Link is only added to the node scoped in this function, not to that one in g_nodes
-		node->links.emplace_back(Link{exit.direction, new_node});
+        // TODO: Link is only added to the node scoped in this function, not to that one in g_nodes
+        node->links.emplace_back(Link{exit.direction, new_node});
 
-		g_nodes.emplace_back(new_node);
-		add_neighbours(rooms, new_node);
-	}
+        g_nodes.emplace_back(new_node);
+        add_neighbours(rooms, new_node);
+    }
 }
 
 static float get_final_x(const Node &node)
 {
-	return g_map_start_x + (node.x * g_room_spread_factor);
+    return g_map_start_x + (node.x * g_room_spread_factor);
 }
 
 static float get_final_y(const Node &node)
 {
-	return g_map_start_y + (node.y * g_room_spread_factor);
+    return g_map_start_y + (node.y * g_room_spread_factor);
 }
 
 static bool position_hits_node(int x, int y, const Node_ptr &node)
 {
-	return (hpta::is_between_or_equal(get_final_x(*node), get_final_x(*node) + g_room_object_width,
-	                                  static_cast<float>(x)) &&
-	        hpta::is_between_or_equal(get_final_y(*node), get_final_y(*node) + g_room_object_height,
-	                                  static_cast<float>(y)));
+    return (hpta::is_between_or_equal(get_final_x(*node), get_final_x(*node) + g_room_object_width,
+                                      static_cast<float>(x)) &&
+            hpta::is_between_or_equal(get_final_y(*node), get_final_y(*node) + g_room_object_height,
+                                      static_cast<float>(y)));
 }
 
 static sf::Vector2f get_node_center(const Node &node)
 {
-	return {get_final_x(node) + (g_room_object_width / 2), get_final_y(node) + (g_room_object_height / 2)};
+    return {get_final_x(node) + (g_room_object_width / 2), get_final_y(node) + (g_room_object_height / 2)};
 }
 
 static void center_shape(float x, float y, sf::Shape &shape)
 {
-	shape.setPosition(x - (shape.getGlobalBounds().width / 2), y - (shape.getGlobalBounds().height / 2));
+    shape.setPosition(x - (shape.getGlobalBounds().width / 2), y - (shape.getGlobalBounds().height / 2));
 }
 
 static std::tuple<sf::RectangleShape, sf::CircleShape> get_arrow(sf::Vector2f a, sf::Vector2f b, float space)
 {
-	float rect_x, rect_y, width, heigth;
+    float rect_x, rect_y, width, heigth;
 
-	if (a.x == b.x) {
-		rect_x = a.x;
-		rect_y = hpta::get_middlepoint(a.y, b.y);
-		width  = g_room_link_thickness;
-		heigth = hpta::get_distance(a.y, b.y) - space;
-	}
-	else if (a.y == b.y) {
-		rect_x = hpta::get_middlepoint(a.x, b.x);
-		rect_y = a.y;
-		width  = hpta::get_distance(a.x, b.x) - space;
-		heigth = g_room_link_thickness;
-	}
-	else {
-		rect_x = 0;
-		rect_y = 0;
-		width  = 1;
-		heigth = 1;
-	}
+    if (a.x == b.x) {
+        rect_x = a.x;
+        rect_y = hpta::get_middlepoint(a.y, b.y);
+        width  = g_room_link_thickness;
+        heigth = hpta::get_distance(a.y, b.y) - space;
+    }
+    else if (a.y == b.y) {
+        rect_x = hpta::get_middlepoint(a.x, b.x);
+        rect_y = a.y;
+        width  = hpta::get_distance(a.x, b.x) - space;
+        heigth = g_room_link_thickness;
+    }
+    else {
+        rect_x = 0;
+        rect_y = 0;
+        width  = 1;
+        heigth = 1;
+    }
 
-	auto line = sf::RectangleShape({width, heigth});
-	center_shape(rect_x, rect_y, line);
+    auto line = sf::RectangleShape({width, heigth});
+    center_shape(rect_x, rect_y, line);
 
-	auto tip = sf::CircleShape(g_room_link_arrow_size, 4);
-	center_shape(hpta::get_middlepoint(rect_x, b.x), hpta::get_middlepoint(rect_y, b.y), tip);
+    auto tip = sf::CircleShape(g_room_link_arrow_size, 4);
+    center_shape(hpta::get_middlepoint(rect_x, b.x), hpta::get_middlepoint(rect_y, b.y), tip);
 
-	return std::make_tuple(line, tip);
+    return std::make_tuple(line, tip);
 }
 
 void Map::init()
 {
-	g_nodes.clear();
-	g_font.loadFromFile(Hpta_config::get_string(Settings::gamedata_dir) + "/fonts/" +
-	                    Hpta_config::get_string(Settings::editor_font));
+    g_nodes.clear();
+    g_font.loadFromFile(Hpta_config::get_string(Settings::gamedata_dir) + "/fonts/" +
+                        Hpta_config::get_string(Settings::editor_font));
 
-	init_config_values();
+    init_config_values();
 
-	m_room_cache.refresh();
+    m_room_cache.refresh();
 
-	const auto &rooms = m_room_cache.get_list();
+    const auto &rooms = m_room_cache.get_list();
 
-	if (rooms.empty())
-		return;
+    if (rooms.empty())
+        return;
 
-	Node_ptr nptr = std::make_shared<Node>(0, 0, rooms.at(0));
+    Node_ptr nptr = std::make_shared<Node>(0, 0, rooms.at(0));
 
-	g_nodes.emplace_back(nptr);
+    g_nodes.emplace_back(nptr);
 
-	add_neighbours(rooms, g_nodes.at(0));
+    add_neighbours(rooms, g_nodes.at(0));
 
-	for (const auto &n : g_nodes) {
-		spdlog::debug("logical room position {}\tx={}\ty={}\tlinks={}", n->room.get_name(), n->x, n->y,
-		              n->links.size());
-	}
+    for (const auto &n : g_nodes) {
+        spdlog::debug("logical room position {}\tx={}\ty={}\tlinks={}", n->room.get_name(), n->x, n->y,
+                      n->links.size());
+    }
 }
 
 // static sf::CircleShape get_arrow(sf::RectangleShape line, sf::Vector2f target, float space)
@@ -232,83 +232,83 @@ void Map::init()
 void Map::refresh()
 {
 
-	for (auto &node : g_nodes) {
+    for (auto &node : g_nodes) {
 
-		const float x = get_final_x(*node);
-		const float y = get_final_y(*node);
+        const float x = get_final_x(*node);
+        const float y = get_final_y(*node);
 
-		sf::RectangleShape node_rect{{g_room_object_width, g_room_object_height}};
-		node_rect.setPosition(x, y);
-		node_rect.setOutlineColor(sf::Color::White);
-		node_rect.setOutlineThickness(1.0f);
+        sf::RectangleShape node_rect{{g_room_object_width, g_room_object_height}};
+        node_rect.setPosition(x, y);
+        node_rect.setOutlineColor(sf::Color::White);
+        node_rect.setOutlineThickness(1.0f);
 
-		const auto pixelPos = sf::Mouse::getPosition(m_window);
-		const auto position = m_window.mapPixelToCoords(pixelPos);
+        const auto pixelPos = sf::Mouse::getPosition(m_window);
+        const auto position = m_window.mapPixelToCoords(pixelPos);
 
-		if (position_hits_node(static_cast<int>(position.x), static_cast<int>(position.y), node)) {
-			node_rect.setFillColor(sf::Color::White);
-		}
-		else {
-			node_rect.setFillColor(sf::Color::Transparent);
-		}
+        if (position_hits_node(static_cast<int>(position.x), static_cast<int>(position.y), node)) {
+            node_rect.setFillColor(sf::Color::White);
+        }
+        else {
+            node_rect.setFillColor(sf::Color::Transparent);
+        }
 
-		m_window.draw(node_rect);
+        m_window.draw(node_rect);
 
-		std::string room_name{node->room.get_name()};
-		auto        text = sf::Text(sf::String::fromUtf8(room_name.begin(), room_name.end()), g_font);
+        std::string room_name{node->room.get_name()};
+        auto        text = sf::Text(sf::String::fromUtf8(room_name.begin(), room_name.end()), g_font);
 
-		text.scale(g_font_scale, g_font_scale);
+        text.scale(g_font_scale, g_font_scale);
 
-		text.setPosition(x + g_room_object_width - text.getGlobalBounds().width / 2, y - g_room_object_height);
-		m_window.draw(text);
+        text.setPosition(x + g_room_object_width - text.getGlobalBounds().width / 2, y - g_room_object_height);
+        m_window.draw(text);
 
-		const auto node_center = get_node_center(*node);
+        const auto node_center = get_node_center(*node);
 
-		sf::RectangleShape center_marker({g_room_center_width, g_room_center_height});
+        sf::RectangleShape center_marker({g_room_center_width, g_room_center_height});
 
-		center_shape(node_center.x, node_center.y, center_marker);
-		center_marker.setFillColor(sf::Color::Yellow);
-		m_window.draw(center_marker);
+        center_shape(node_center.x, node_center.y, center_marker);
+        center_marker.setFillColor(sf::Color::Yellow);
+        m_window.draw(center_marker);
 
-		for (auto &link : node->links) {
-			//			auto link_line  = get_line(get_node_center(*node), get_node_center(*link.target), link_spacer);
-			auto link_arrow = get_arrow(get_node_center(*node), get_node_center(*link.target), g_room_link_margin);
+        for (auto &link : node->links) {
+            //			auto link_line  = get_line(get_node_center(*node), get_node_center(*link.target), link_spacer);
+            auto link_arrow = get_arrow(get_node_center(*node), get_node_center(*link.target), g_room_link_margin);
 
-			m_window.draw(std::get<0>(link_arrow));
-			m_window.draw(std::get<1>(link_arrow));
-		}
-	}
+            m_window.draw(std::get<0>(link_arrow));
+            m_window.draw(std::get<1>(link_arrow));
+        }
+    }
 
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 
-		static auto last_time_pressed = std::chrono::system_clock::now();
+        static auto last_time_pressed = std::chrono::system_clock::now();
 
-		std::chrono::duration<float, std::milli> duration = std::chrono::system_clock::now() - last_time_pressed;
+        std::chrono::duration<float, std::milli> duration = std::chrono::system_clock::now() - last_time_pressed;
 
-		if (duration.count() > g_mouse_debounce_ms) {
-			const auto pixelPos = sf::Mouse::getPosition(m_window);
-			const auto position = m_window.mapPixelToCoords(pixelPos);
+        if (duration.count() > g_mouse_debounce_ms) {
+            const auto pixelPos = sf::Mouse::getPosition(m_window);
+            const auto position = m_window.mapPixelToCoords(pixelPos);
 
-			for (const auto &node : g_nodes) {
+            for (const auto &node : g_nodes) {
 
-				if (position_hits_node(static_cast<int>(position.x), static_cast<int>(position.y), node)) {
-					spdlog::info("Clicked on node {}", node->room.get_name());
-					m_event_engine.publish({Event::Type::ROOM_SELECTED, node->room.get_id()});
-				}
-			}
+                if (position_hits_node(static_cast<int>(position.x), static_cast<int>(position.y), node)) {
+                    spdlog::info("Clicked on node {}", node->room.get_name());
+                    m_event_engine.publish({Event::Type::ROOM_SELECTED, node->room.get_id()});
+                }
+            }
 
-			last_time_pressed = std::chrono::system_clock::now();
-		}
-	}
+            last_time_pressed = std::chrono::system_clock::now();
+        }
+    }
 }
 
 void Map::on_event(Event event)
 {
-	switch (event.event_type) {
-	case Event::Type::ROOM_CHANGED:
-		init();
-		break;
-	default:
-		break;
-	}
+    switch (event.event_type) {
+    case Event::Type::ROOM_CHANGED:
+        init();
+        break;
+    default:
+        break;
+    }
 }

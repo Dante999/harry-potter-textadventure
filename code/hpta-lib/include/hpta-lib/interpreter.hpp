@@ -10,14 +10,14 @@
 class Interpreter {
 
   private:
-	std::vector<std::shared_ptr<ICommand>> m_commands;
+    std::vector<std::shared_ptr<ICommand>> m_commands;
 
   private:
-	static const std::vector<std::string> split_text_by_words(const std::string &text);
+    static const std::vector<std::string> split_text_by_words(const std::string &text);
 
   public:
-	Interpreter();
-	void parse(Context &context, const std::string &text);
+    Interpreter();
+    void parse(Context &context, const std::string &text);
 };
 
 #endif /* INTERPRETER_H */

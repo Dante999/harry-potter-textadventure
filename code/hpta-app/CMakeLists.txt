@@ -1,14 +1,12 @@
 project(hpta-app CXX)
 
-add_executable(${PROJECT_NAME}
-    main.cpp
-)
+add_executable(${PROJECT_NAME} main.cpp)
 
 target_include_directories(${PROJECT_NAME} PUBLIC .)
 
 target_link_libraries(${PROJECT_NAME} 
     PRIVATE project_options 
-            project_warnings
+            project_warnings 
             hpta-lib
-	    CONAN_PKG::docopt.cpp
+            CONAN_PKG::docopt.cpp
 )

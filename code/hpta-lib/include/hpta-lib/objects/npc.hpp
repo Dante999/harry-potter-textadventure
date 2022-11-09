@@ -10,16 +10,16 @@
 class Npc : public Storage, public Gameobject {
 
   private:
-	std::vector<std::string> m_phrases;
+    std::vector<std::string> m_phrases;
 
   public:
-	Npc(std::string id) : Gameobject{id} {}
+    explicit Npc(const std::string& id) : Gameobject{id} {}
 
-	// clang-format off
+    // clang-format off
 	void set_phrases(const std::vector<std::string>& phrases) {m_phrases = phrases;}
 
 	[[nodiscard]] auto get_phrases() const {return m_phrases;}
-	// clang-format on
+    // clang-format on
 };
 
 #endif /* NPC_HPP */

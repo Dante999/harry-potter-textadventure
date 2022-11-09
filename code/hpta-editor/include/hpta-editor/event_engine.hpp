@@ -9,11 +9,11 @@
 class Event_engine {
 
   private:
-	std::vector<std::shared_ptr<IEvent_handler>> m_event_handler;
+    std::vector<std::shared_ptr<IEvent_handler>> m_event_handler;
 
   public:
-	void add_event_handler(std::shared_ptr<IEvent_handler> handler);
-	void publish(Event event);
+    void add_event_handler(std::shared_ptr<IEvent_handler> handler);
+    void publish(Event event);
 };
 
 #endif // EVENT_ENGINE_HPP

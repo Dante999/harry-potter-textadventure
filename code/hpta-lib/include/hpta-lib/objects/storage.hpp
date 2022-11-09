@@ -8,24 +8,24 @@
 class Storage {
 
   public:
-	struct Entry {
-		int  quantity;
-		Item item;
-	};
+    struct Entry {
+        int  quantity;
+        Item item;
+    };
 
   private:
-	std::vector<Entry> m_items;
+    std::vector<Entry> m_items;
 
   private:
-	[[nodiscard]] auto find_entry(const Item &item);
+    [[nodiscard]] auto find_entry(const Item &item);
 
   public:
-	int add_item(const Entry &entry);
-	int remove_item(const Entry &&entry);
+    int add_item(const Entry &entry);
+    int remove_item(const Entry &&entry);
 
-	// clang-format off
+    // clang-format off
 	[[nodiscard]] auto &get_items() const {return m_items;}
-	// clang-format on
+    // clang-format on
 };
 
 #endif /* STORAGE_H */

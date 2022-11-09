@@ -3,13 +3,14 @@
 #include "hpta-lib/interpreter.hpp"
 #include "hpta-lib/objects/player.hpp"
 #include "hpta-lib/persistency/persistency.hpp"
-#include "hpta-lib/screen.hpp"
+#include "hpta-lib/screen/screen_terminal.hpp"
 #include "hpta-lib/util/hpta_config.hpp"
 #include "hpta-lib/visualizer.hpp"
 
 #include "hpta-lib/services/player_walk_service.hpp"
 #include "hpta-lib/services/room_cache_service.hpp"
 #include "hpta-lib/services/service_registry.hpp"
+#include "hpta-lib/services/user_interaction_service.hpp"
 
 #include <docopt/docopt.h>
 
@@ -28,40 +29,45 @@ static const char USAGE[] =
 
 int main(int argc, char *argv[])
 {
-	// clang-format off
-	Screen::print(R"(        _  _                     ___     _   _                          )" "\n");
-	Screen::print(R"(       | || |__ _ _ _ _ _ _  _  | _ \___| |_| |_ ___ _ _                )" "\n");
-	Screen::print(R"(       | __ / _` | '_| '_| || | |  _/ _ \  _|  _/ -_) '_|               )" "\n");
-	Screen::print(R"(       |_||_\__,_|_| |_|  \_, | |_| \___/\__|\__\___|_|                 )" "\n");
-	Screen::print(R"(          _     _____     |__/           _             _                )" "\n");
-	Screen::print(R"(         /_\   |_   _|____ _| |_ __ _ __| |_ _____ _ _| |_ _  _ _ _ ___ )" "\n");
-	Screen::print(R"(        / _ \    | |/ -_) \ /  _/ _` / _` \ V / -_) ' \  _| || | '_/ -_))" "\n");
-	Screen::print(R"(       /_/ \_\   |_|\___/_\_\\__\__,_\__,_|\_/\___|_||_\__|\_,_|_| \___|)" "\n");
-	Screen::print(R"(                                                                        )" "\n");
-	// clang-format on
+    std::shared_ptr<IScreen> screen = std::make_shared<Screen_Terminal>();
 
-	std::map<std::string, docopt::value> args = docopt::docopt(USAGE, {argv + 1, argv + argc},
-	                                                           true, // show help if requested
-	                                                           "Harry Potter Textadventure v1.0"); // version string
+    // clang-format off
+	screen->print(R"(        _  _                     ___     _   _                          )" "\n");
+	screen->print(R"(       | || |__ _ _ _ _ _ _  _  | _ \___| |_| |_ ___ _ _                )" "\n");
+	screen->print(R"(       | __ / _` | '_| '_| || | |  _/ _ \  _|  _/ -_) '_|               )" "\n");
+	screen->print(R"(       |_||_\__,_|_| |_|  \_, | |_| \___/\__|\__\___|_|                 )" "\n");
+	screen->print(R"(          _     _____     |__/           _             _                )" "\n");
+	screen->print(R"(         /_\   |_   _|____ _| |_ __ _ __| |_ _____ _ _| |_ _  _ _ _ ___ )" "\n");
+	screen->print(R"(        / _ \    | |/ -_) \ /  _/ _` / _` \ V / -_) ' \  _| || | '_/ -_))" "\n");
+	screen->print(R"(       /_/ \_\   |_|\___/_\_\\__\__,_\__,_|\_/\___|_||_\__|\_,_|_| \___|)" "\n");
+	screen->print(R"(                                                                        )" "\n");
+    // clang-format on
 
-	const auto gamedata_dir = args.find("--gamedata_dir")->second.asString();
+    std::map<std::string, docopt::value> args = docopt::docopt(USAGE, {argv + 1, argv + argc},
+                                                               true, // show help if requested
+                                                               "Harry Potter Textadventure v1.0"); // version string
 
-	Interpreter interpreter;
+    const auto gamedata_dir = args.find("--gamedata_dir")->second.asString();
 
-	auto player = std::make_shared<Player>("Harry", "/rooms/winkelgasse/zum_tropfenden_kessel.json");
+    Interpreter interpreter;
 
-	player->add_item({30, persistency::load_item(gamedata_dir, "/items/knut.json")});
+    auto player = std::make_shared<Player>("Harry", "/rooms/winkelgasse/zum_tropfenden_kessel.json");
 
-	Service_registry service_registry;
-	service_registry.add(std::make_shared<Room_cache_service>(gamedata_dir));
-	service_registry.add(std::make_shared<Player_walk_service>(service_registry, player));
+    player->add_item({30, persistency::load_item(gamedata_dir, "/items/knut.json")});
 
-	Visualizer::show(service_registry.get<Room_cache_service>()->get_room(player->get_room_id()));
+    Service_registry service_registry;
+    service_registry.add(std::make_shared<Room_cache_service>(gamedata_dir));
+    service_registry.add(std::make_shared<Player_walk_service>(service_registry, player));
+    service_registry.add(std::make_shared<User_Interaction_Service>(screen));
 
-	Context context{player, service_registry};
+    const auto visualizer = service_registry.get<User_Interaction_Service>()->get_visualizer();
 
-	while (1) {
-		const auto input = Screen::ask_for("");
-		interpreter.parse(context, input);
-	}
+    visualizer->show(service_registry.get<Room_cache_service>()->get_room(player->get_room_id()));
+
+    Context context{player, service_registry};
+
+    while (1) {
+        const auto input = screen->ask_for("");
+        interpreter.parse(context, input);
+    }
 }

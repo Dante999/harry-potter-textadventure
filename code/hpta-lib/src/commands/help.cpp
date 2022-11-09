@@ -1,6 +1,6 @@
 #include "hpta-lib/commands/help.hpp"
 
-#include "hpta-lib/screen.hpp"
+#include "hpta-lib/services/user_interaction_service.hpp"
 #include "hpta-lib/util/hpta_strings.hpp"
 
 #include <algorithm>
@@ -9,24 +9,27 @@
 
 bool Help::interprete(Context &context, const std::vector<std::string> &token)
 {
-	std::ignore = context;
+    std::ignore = context;
 
-	const auto &word = token.at(0);
+    const auto screen = context.service_registry.get<User_Interaction_Service>()->get_screen();
 
-	if (word != "hilfe")
-		return false;
+    const auto &word = token.at(0);
 
-	for (auto &cmd : m_commands) {
-		Screen::print(fmt::format(fmt::emphasis::bold, "{}\n", cmd->get_command()));
-		const auto lines =
-		    Hpta_strings::split_text_into_lines(cmd->get_description(), Screen::column_width - Screen::tab_width);
+    if (word != "hilfe")
+        return false;
 
-		for (const auto &line : lines) {
-			Screen::print(fmt::format("\t{}\n", line));
-		}
+    for (auto &cmd : m_commands) {
 
-		Screen::print("\n");
-	}
+        screen->print(fmt::format(fmt::emphasis::bold, "{}\n", cmd->get_command()));
+        const auto lines = Hpta_strings::split_text_into_lines(
+            cmd->get_description(), static_cast<size_t>(screen->column_width - screen->tab_width));
 
-	return true;
+        for (const auto &line : lines) {
+            screen->print(fmt::format("\t{}\n", line));
+        }
+
+        screen->print("\n");
+    }
+
+    return true;
 }

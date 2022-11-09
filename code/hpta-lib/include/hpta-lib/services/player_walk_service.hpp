@@ -8,20 +8,20 @@
 
 class Player_walk_service {
   private:
-	Service_registry &      m_service_registry;
-	std::shared_ptr<Player> m_player;
+    Service_registry &      m_service_registry;
+    std::shared_ptr<Player> m_player;
 
   public:
-	Player_walk_service(Service_registry &service_registry, std::shared_ptr<Player> player)
-	    : m_service_registry{service_registry}, m_player{player}
-	{
-	}
+    Player_walk_service(Service_registry &service_registry, std::shared_ptr<Player> player)
+        : m_service_registry{service_registry}, m_player{player}
+    {
+    }
 
-	bool walk(const std::string &direction);
+    bool walk(const std::string &direction);
 
-	// clang-format off
+    // clang-format off
 	[[nodiscard]] auto &get_player() {return m_player;}
-	// clang-format on
+    // clang-format on
 };
 
 #endif // WALK_SERVICE_HPP

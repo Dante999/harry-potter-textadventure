@@ -3,9 +3,9 @@
 
 class IPanel {
   public:
-	virtual void refresh() = 0;
+    virtual void refresh() = 0;
 
-	virtual ~IPanel() = default;
+    virtual ~IPanel() = default;
 };
 
 #endif // IPANEL_HPP

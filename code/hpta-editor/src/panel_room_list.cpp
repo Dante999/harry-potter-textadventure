@@ -9,45 +9,45 @@
 
 void Panel_room_list::refresh()
 {
-	ImGui::Begin("Room List");
-	ImGui::SetWindowFontScale(Hpta_config::get_float(Settings::scale_factor));
+    ImGui::Begin("Room List");
+    ImGui::SetWindowFontScale(Hpta_config::get_float(Settings::scale_factor));
 
-	if (ImGui::Button("Refresh")) {
-		m_room_cache.refresh();
-		m_event_engine.publish({Event::Type::ROOM_CHANGED});
-	}
+    if (ImGui::Button("Refresh")) {
+        m_room_cache.refresh();
+        m_event_engine.publish({Event::Type::ROOM_CHANGED});
+    }
 
-	ImGui::SameLine();
-	if (ImGui::Button("Add")) {
-		m_event_engine.publish({Event::Type::CREATE_ROOM});
-	}
+    ImGui::SameLine();
+    if (ImGui::Button("Add")) {
+        m_event_engine.publish({Event::Type::CREATE_ROOM});
+    }
 
-	ImGui::Separator();
+    ImGui::Separator();
 
-	ImGui::BeginChild("Scrolling");
+    ImGui::BeginChild("Scrolling");
 
-	for (auto &room : m_room_cache.get_list()) {
+    for (auto &room : m_room_cache.get_list()) {
 
-		if (ImGui::Button(room.get_id().c_str())) {
-			m_event_engine.publish({Event::Type::ROOM_SELECTED, room.get_id()});
-		}
+        if (ImGui::Button(room.get_id().c_str())) {
+            m_event_engine.publish({Event::Type::ROOM_SELECTED, room.get_id()});
+        }
 
-		ImGuiDragDropFlags src_flags = 0;
-		src_flags |= ImGuiDragDropFlags_SourceNoDisableHover; // Keep the source displayed as hovered
-		src_flags |= ImGuiDragDropFlags_SourceNoHoldToOpenOthers;
+        ImGuiDragDropFlags src_flags = 0;
+        src_flags |= ImGuiDragDropFlags_SourceNoDisableHover; // Keep the source displayed as hovered
+        src_flags |= ImGuiDragDropFlags_SourceNoHoldToOpenOthers;
 
-		if (ImGui::BeginDragDropSource(src_flags)) {
+        if (ImGui::BeginDragDropSource(src_flags)) {
 
-			if (!(src_flags & ImGuiDragDropFlags_SourceNoPreviewTooltip)) {
-				ImGui::Text("Moving \"%s\"", room.get_id().c_str());
-			}
+            if (!(src_flags & ImGuiDragDropFlags_SourceNoPreviewTooltip)) {
+                ImGui::Text("Moving \"%s\"", room.get_id().c_str());
+            }
 
-			ImGui::SetDragDropPayload("ROOM_ID", room.get_id().c_str(), strlen(room.get_id().c_str()) + 1);
-			ImGui::EndDragDropSource();
-		}
-	}
+            ImGui::SetDragDropPayload("ROOM_ID", room.get_id().c_str(), strlen(room.get_id().c_str()) + 1);
+            ImGui::EndDragDropSource();
+        }
+    }
 
-	ImGui::EndChild();
+    ImGui::EndChild();
 
-	ImGui::End();
+    ImGui::End();
 }

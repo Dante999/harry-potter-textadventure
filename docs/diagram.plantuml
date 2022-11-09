@@ -1,0 +1,20 @@
+@startuml
+
+
+Storage <|-- Player
+Storage <|-- Room
+Storage <|-- Npc
+Storage "1" --> "*" Item
+
+Room "1" --> "1" Npc
+Room *-- Exit
+Exit --> Room
+Room *-- Details
+
+Player "1" --> "1" Room
+
+
+
+
+
+@enduml
