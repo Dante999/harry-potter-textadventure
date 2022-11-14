@@ -56,10 +56,7 @@ class Object_cache {
         std::sort(m_objects.begin(), m_objects.end(), [](auto a, auto b) { return a.get_id() < b.get_id(); });
     }
 
-    std::vector<Tobject> get_list()
-    {
-        return m_objects;
-    }
+    std::vector<Tobject> get_list() { return m_objects; }
 };
 
 #endif // OBJECT_CACHE_HPP

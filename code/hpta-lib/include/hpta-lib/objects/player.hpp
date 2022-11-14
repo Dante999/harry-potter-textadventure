@@ -24,18 +24,15 @@ class Player : public Storage, public Gameobject {
         set_name(name);
     }
 
-    // clang-format off
-	void set_room_id(const std::string &room_id) {m_room_id = room_id;}
+    void set_room_id(const std::string &room_id) { m_room_id = room_id; }
 
-	[[nodiscard]] auto get_room_id() const {return m_room_id;}
-	[[nodiscard]] auto get_strength() const {return m_strength;}
-	[[nodiscard]] auto get_dextery() const {return m_dextery;}
-	[[nodiscard]] auto get_vitality() const {return m_vitality;}
-	[[nodiscard]] auto get_magic() const {return m_magic;}
-	[[nodiscard]] auto get_life_points() const {return m_life_points;}
-	[[nodiscard]] auto get_mana_points() const {return m_mana_points;}
-
-    // clang-format on
+    [[nodiscard]] auto get_room_id() const { return m_room_id; }
+    [[nodiscard]] auto get_strength() const { return m_strength; }
+    [[nodiscard]] auto get_dextery() const { return m_dextery; }
+    [[nodiscard]] auto get_vitality() const { return m_vitality; }
+    [[nodiscard]] auto get_magic() const { return m_magic; }
+    [[nodiscard]] auto get_life_points() const { return m_life_points; }
+    [[nodiscard]] auto get_mana_points() const { return m_mana_points; }
 };
 
 #endif /* PLAYER_HPP */

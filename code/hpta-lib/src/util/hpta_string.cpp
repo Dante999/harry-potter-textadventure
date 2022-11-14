@@ -22,23 +22,26 @@ const std::vector<std::string> split_text_into_lines(const std::string &text, si
         return lines;
     }
 
-    size_t idx_line = 0;
-    size_t idx_old  = 0;
-    size_t idx_new  = text.find(' ', idx_line);
+    size_t idx_linestart = 0;
+    size_t idx_spaceold  = 0;
+    size_t idx_spacenew  = text.find(' ', idx_linestart);
 
-    while (idx_new != std::string::npos) {
-        if (idx_new - idx_line < column_width) {
-            idx_old = idx_new;
+    while (idx_spacenew != std::string::npos) {
+
+        // TODO: Ignore nonprintable characters
+
+        if (idx_spacenew - idx_linestart < column_width) {
+            idx_spaceold = idx_spacenew;
         }
         else {
-            lines.emplace_back(text.substr(idx_line, idx_old - idx_line));
-            idx_line = idx_old + 1;
+            lines.emplace_back(text.substr(idx_linestart, idx_spaceold - idx_linestart));
+            idx_linestart = idx_spaceold + 1;
         }
 
-        idx_new = text.find(' ', idx_new + 1);
+        idx_spacenew = text.find(' ', idx_spacenew + 1);
 
-        if (idx_new == std::string::npos) {
-            lines.emplace_back(text.substr(idx_line, text.length() - idx_line));
+        if (idx_spacenew == std::string::npos) {
+            lines.emplace_back(text.substr(idx_linestart, text.length() - idx_linestart));
         }
     }
 
@@ -98,14 +101,35 @@ std::string rtrim(const std::string &s)
     return (end == std::string::npos) ? "" : s.substr(0, end + 1);
 }
 
-std::string trim(const std::string &s)
+std::string trim(const std::string &s) { return rtrim(ltrim(s)); }
+
+bool ends_with(const std::string &s, const std::string &end) { return (s.substr(s.length() - end.length()) == end); }
+
+[[nodiscard]] const std::vector<std::string> get_highlighted_text(const std::string &text, char marker_start, char marker_end)
 {
-    return rtrim(ltrim(s));
+    std::vector<std::string> result;
+
+    size_t idx_start = text.find(marker_start, 0);
+    size_t idx_end   = text.find(marker_end, idx_start+1);
+
+    while( idx_start != std::string::npos && idx_end != std::string::npos)
+    {
+        result.emplace_back(text.substr(idx_start, idx_end-idx_start+1));
+
+        idx_start = text.find(marker_start, idx_end+1);
+        idx_end   = text.find(marker_end, idx_start+1);
+    }
+    
+    return result;
 }
 
-bool ends_with(const std::string &s, const std::string &end)
+void replace(std::string &text, const std::string &old_word, const std::string &new_word)
 {
-    return (s.substr(s.length() - end.length()) == end);
+
+    while (text.find(old_word) != std::string::npos) {
+        text.replace(text.find(old_word), old_word.length(), new_word);
+    }
+
 }
 
 } // namespace Hpta_strings

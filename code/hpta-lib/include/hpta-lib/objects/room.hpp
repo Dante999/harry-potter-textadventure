@@ -28,17 +28,15 @@ class Room : public Storage, public Gameobject {
     std::vector<Npc>    m_npcs;
 
   public:
-    // clang-format off
-	explicit Room(const std::string &id) : Gameobject{id} {}
+    explicit Room(const std::string &id) : Gameobject{id} {}
 
-	void set_exits(const std::vector<Exit> &exits) {m_exits = exits;}
-	void set_details(const std::vector<Detail> &details) {m_details = details;}
-	void set_npcs(const std::vector<Npc> &npcs) {m_npcs = npcs;}
+    void set_exits(const std::vector<Exit> &exits) { m_exits = exits; }
+    void set_details(const std::vector<Detail> &details) { m_details = details; }
+    void set_npcs(const std::vector<Npc> &npcs) { m_npcs = npcs; }
 
-	[[nodiscard]] auto get_exits() const {return m_exits;}
-	[[nodiscard]] auto get_details() const {return m_details;}
-	[[nodiscard]] auto get_npcs() const {return m_npcs;}
-    // clang-format on
+    [[nodiscard]] auto get_exits() const { return m_exits; }
+    [[nodiscard]] auto get_details() const { return m_details; }
+    [[nodiscard]] auto get_npcs() const { return m_npcs; }
 };
 
 #endif /* ROOM_H */

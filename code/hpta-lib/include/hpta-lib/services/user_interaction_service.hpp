@@ -15,15 +15,9 @@ class User_Interaction_Service {
     explicit User_Interaction_Service(std::shared_ptr<IScreen> screen)
         : m_screen{screen}, m_visualizer{std::make_shared<Visualizer>(m_screen)} {};
 
-    const auto get_screen() const
-    {
-        return m_screen;
-    }
+    const auto get_screen() const { return m_screen; }
 
-    const auto get_visualizer() const
-    {
-        return m_visualizer;
-    }
+    const auto get_visualizer() const { return m_visualizer; }
 };
 
 #endif /* USER_INTERACTION_SERVICE_HPP */

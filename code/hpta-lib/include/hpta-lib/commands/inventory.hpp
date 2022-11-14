@@ -10,14 +10,8 @@ class Inventory : public ICommand {
     bool              interprete(Context &context, const std::vector<std::string> &token) override;
 };
 
-inline const std::string Inventory::get_command()
-{
-    return "inventar";
-}
+inline const std::string Inventory::get_command() { return "inventar"; }
 
-inline const std::string Inventory::get_description()
-{
-    return "zeigt den Inhalt deines Inventars an.";
-}
+inline const std::string Inventory::get_description() { return "zeigt den Inhalt deines Inventars an."; }
 
 #endif /* INVENTORY_HPP */

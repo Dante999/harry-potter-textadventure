@@ -11,10 +11,7 @@ class Look : public ICommand {
     bool interprete(Context &context, const std::vector<std::string> &token) override;
 };
 
-inline const std::string Look::get_command()
-{
-    return "untersuche <objekt>";
-}
+inline const std::string Look::get_command() { return "untersuche <objekt>"; }
 
 inline const std::string Look::get_description()
 {

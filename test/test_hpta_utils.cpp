@@ -26,6 +26,25 @@ TEST(HptaStrings, ends_with)
 	ASSERT_FALSE(Hpta_strings::ends_with("myfile.json", ".JSON"));
 }
 
+TEST(HptaStrings, get_highlightet_text)
+{
+    const auto text = "hello *world*. This is *an* example!";
+
+    const auto result = Hpta_strings::get_highlighted_text(text , '*', '*');
+
+    ASSERT_EQ( 2, result.size());
+    ASSERT_EQ( "*world*", result.at(0));
+    ASSERT_EQ( "*an*", result.at(1));
+}
+
+TEST(HptaStrings, replace)
+{
+    std::string input = "hello there!";
+    Hpta_strings::replace(input, "there", "world");
+
+    ASSERT_EQ("hello world!", input);
+}
+
 TEST(HptaConfig, read)
 {
 	std::stringstream ss;
@@ -40,3 +59,4 @@ TEST(HptaConfig, read)
 	ASSERT_EQ("value2", Hpta_config::get_string("key2"));
 	ASSERT_EQ("value3", Hpta_config::get_string("key3"));
 }
+

@@ -7,9 +7,7 @@
 class Item : public Gameobject {
   private:
   public:
-    // clang-format off
-	explicit Item(const std::string& id) : Gameobject{id} {}
-    // clang-format on
+    explicit Item(const std::string &id) : Gameobject{id} {}
 };
 
 #endif // ITEM_HPP

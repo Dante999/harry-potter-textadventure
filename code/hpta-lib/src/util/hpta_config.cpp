@@ -38,15 +38,9 @@ std::string &Hpta_config::get_string(const std::string &key)
     throw std::runtime_error("no value for key '" + key + "' found!");
 }
 
-float Hpta_config::get_float(const std::string &key)
-{
-    return std::stof(get_string(key));
-}
+float Hpta_config::get_float(const std::string &key) { return std::stof(get_string(key)); }
 
-int Hpta_config::get_int(const std::string &key)
-{
-    return std::stoi(get_string(key));
-}
+int Hpta_config::get_int(const std::string &key) { return std::stoi(get_string(key)); }
 
 unsigned int Hpta_config::get_uint(const std::string &key)
 {

@@ -19,9 +19,7 @@ class Player_walk_service {
 
     bool walk(const std::string &direction);
 
-    // clang-format off
-	[[nodiscard]] auto &get_player() {return m_player;}
-    // clang-format on
+    [[nodiscard]] auto &get_player() { return m_player; }
 };
 
 #endif // WALK_SERVICE_HPP

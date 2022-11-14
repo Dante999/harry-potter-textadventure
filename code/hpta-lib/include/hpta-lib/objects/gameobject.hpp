@@ -12,15 +12,12 @@ class Gameobject {
   public:
     explicit Gameobject(const std::string &id) : m_id{id} {}
 
-    // clang-format off
-	[[nodiscard]] auto get_id() const {return m_id;}
-	[[nodiscard]] auto get_name() const {return m_name;}
-	[[nodiscard]] auto get_description() const {return m_description;}
+    [[nodiscard]] auto get_id() const { return m_id; }
+    [[nodiscard]] auto get_name() const { return m_name; }
+    [[nodiscard]] auto get_description() const { return m_description; }
 
-	void set_name(const std::string &name) {m_name = name;}
-	void set_description(const std::string &description) {m_description = description;}
-
-    // clang-format on
+    void set_name(const std::string &name) { m_name = name; }
+    void set_description(const std::string &description) { m_description = description; }
 };
 
 #endif /* ORGANISM_HPP */

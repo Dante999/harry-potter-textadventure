@@ -18,14 +18,8 @@ class Help : public ICommand {
     bool interprete(Context &context, const std::vector<std::string> &token) override;
 };
 
-inline const std::string Help::get_command()
-{
-    return "hilfe";
-}
+inline const std::string Help::get_command() { return "hilfe"; }
 
-inline const std::string Help::get_description()
-{
-    return "zeigt diesen Hilfetext an";
-}
+inline const std::string Help::get_description() { return "zeigt diesen Hilfetext an"; }
 
 #endif /* HELP_H */

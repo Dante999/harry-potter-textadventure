@@ -5,12 +5,22 @@
 #include "hpta-lib/util/hpta_algorithms.hpp"
 #include "hpta-lib/util/hpta_strings.hpp"
 
+
 void Visualizer::show(const Room &room)
 {
 
+    std::vector<std::string> highlighted_text = Hpta_strings::get_highlighted_text(room.get_description(), '*', '*');
+
+    std::string modified_description = room.get_description();
+
+    for( const auto& text : highlighted_text )
+    {
+        Hpta_strings::replace(modified_description, text, m_screen->highlight( text.substr(1, text.length()-2)) );
+    }
+
     m_screen->box_start(room.get_name());
 
-    for (const auto &line : Hpta_strings::split_text_into_lines(room.get_description(), m_screen->column_width)) {
+    for (const auto &line : Hpta_strings::split_text_into_lines(modified_description, m_screen->column_width)) {
         m_screen->print(line + "\n");
     }
 

@@ -14,10 +14,7 @@ class Walk : public ICommand {
     bool interprete(Context &context, const std::vector<std::string> &token) override;
 };
 
-inline const std::string Walk::get_command()
-{
-    return "gehe nach <richtung>";
-}
+inline const std::string Walk::get_command() { return "gehe nach <richtung>"; }
 
 inline const std::string Walk::get_description()
 {

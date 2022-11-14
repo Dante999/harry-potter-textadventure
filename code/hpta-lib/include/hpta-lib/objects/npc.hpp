@@ -13,13 +13,11 @@ class Npc : public Storage, public Gameobject {
     std::vector<std::string> m_phrases;
 
   public:
-    explicit Npc(const std::string& id) : Gameobject{id} {}
+    explicit Npc(const std::string &id) : Gameobject{id} {}
 
-    // clang-format off
-	void set_phrases(const std::vector<std::string>& phrases) {m_phrases = phrases;}
+    void set_phrases(const std::vector<std::string> &phrases) { m_phrases = phrases; }
 
-	[[nodiscard]] auto get_phrases() const {return m_phrases;}
-    // clang-format on
+    [[nodiscard]] auto get_phrases() const { return m_phrases; }
 };
 
 #endif /* NPC_HPP */

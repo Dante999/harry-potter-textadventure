@@ -1,10 +1,18 @@
 #include "hpta-lib/screen/screen_terminal.hpp"
 
+#include <algorithm>
 #include <cstdint>
 #include <iostream>
 
 #include <fmt/color.h>
 #include <fmt/core.h>
+
+const std::string Screen_Terminal::highlight(const std::string &msg)
+{
+    std::string result{msg};
+    std::transform(result.begin(), result.end(), result.begin(), ::toupper);
+    return result;
+}
 
 void Screen_Terminal::hline()
 {
@@ -15,10 +23,8 @@ void Screen_Terminal::hline()
     fmt::print("\n");
 }
 
-void Screen_Terminal::print(const std::string &msg)
-{
-    fmt::print(msg);
-}
+void Screen_Terminal::print(const std::string &msg) { fmt::print(msg); }
+void Screen_Terminal::println(const std::string &msg) { fmt::print("{}\n", msg); }
 
 const std::string Screen_Terminal::ask_for(const std::string &msg)
 {

@@ -31,17 +31,15 @@ int main(int argc, char *argv[])
 {
     std::shared_ptr<IScreen> screen = std::make_shared<Screen_Terminal>();
 
-    // clang-format off
-	screen->print(R"(        _  _                     ___     _   _                          )" "\n");
-	screen->print(R"(       | || |__ _ _ _ _ _ _  _  | _ \___| |_| |_ ___ _ _                )" "\n");
-	screen->print(R"(       | __ / _` | '_| '_| || | |  _/ _ \  _|  _/ -_) '_|               )" "\n");
-	screen->print(R"(       |_||_\__,_|_| |_|  \_, | |_| \___/\__|\__\___|_|                 )" "\n");
-	screen->print(R"(          _     _____     |__/           _             _                )" "\n");
-	screen->print(R"(         /_\   |_   _|____ _| |_ __ _ __| |_ _____ _ _| |_ _  _ _ _ ___ )" "\n");
-	screen->print(R"(        / _ \    | |/ -_) \ /  _/ _` / _` \ V / -_) ' \  _| || | '_/ -_))" "\n");
-	screen->print(R"(       /_/ \_\   |_|\___/_\_\\__\__,_\__,_|\_/\___|_||_\__|\_,_|_| \___|)" "\n");
-	screen->print(R"(                                                                        )" "\n");
-    // clang-format on
+    screen->println(R"(        _  _                     ___     _   _                          )");
+    screen->println(R"(       | || |__ _ _ _ _ _ _  _  | _ \___| |_| |_ ___ _ _                )");
+    screen->println(R"(       | __ / _` | '_| '_| || | |  _/ _ \  _|  _/ -_) '_|               )");
+    screen->println(R"(       |_||_\__,_|_| |_|  \_, | |_| \___/\__|\__\___|_|                 )");
+    screen->println(R"(          _     _____     |__/           _             _                )");
+    screen->println(R"(         /_\   |_   _|____ _| |_ __ _ __| |_ _____ _ _| |_ _  _ _ _ ___ )");
+    screen->println(R"(        / _ \    | |/ -_) \ /  _/ _` / _` \ V / -_) ' \  _| || | '_/ -_))");
+    screen->println(R"(       /_/ \_\   |_|\___/_\_\\__\__,_\__,_|\_/\___|_||_\__|\_,_|_| \___|)");
+    screen->println(R"(                                                                        )");
 
     std::map<std::string, docopt::value> args = docopt::docopt(USAGE, {argv + 1, argv + argc},
                                                                true, // show help if requested

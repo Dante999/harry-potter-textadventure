@@ -9,7 +9,8 @@ Storage "1" --> "*" Item
 Room "1" --> "1" Npc
 Room *-- Exit
 Exit --> Room
-Room *-- Details
+Room *-- Detail
+Room *-- Secret
 
 Player "1" --> "1" Room
 

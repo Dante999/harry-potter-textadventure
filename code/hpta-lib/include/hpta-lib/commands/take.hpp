@@ -11,10 +11,7 @@ class Take : public ICommand {
     bool interprete(Context &context, const std::vector<std::string> &token) override;
 };
 
-inline const std::string Take::get_command()
-{
-    return "nimm <anzahl>x <objekt> [von <Behälter>]";
-}
+inline const std::string Take::get_command() { return "nimm <anzahl>x <objekt> [von <Behälter>]"; }
 
 inline const std::string Take::get_description()
 {

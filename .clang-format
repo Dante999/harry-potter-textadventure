@@ -50,4 +50,5 @@ AlwaysBreakTemplateDeclarations: Yes
 
 
 AllowAllParametersOfDeclarationOnNextLine: true
-AllowShortFunctionsOnASingleLine: Empty
+#AllowShortFunctionsOnASingleLine: Empty
+AllowShortFunctionsOnASingleLine: All

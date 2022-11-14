@@ -111,15 +111,9 @@ static void add_neighbours(const std::vector<Room> &rooms, Node_ptr &node)
     }
 }
 
-static float get_final_x(const Node &node)
-{
-    return g_map_start_x + (node.x * g_room_spread_factor);
-}
+static float get_final_x(const Node &node) { return g_map_start_x + (node.x * g_room_spread_factor); }
 
-static float get_final_y(const Node &node)
-{
-    return g_map_start_y + (node.y * g_room_spread_factor);
-}
+static float get_final_y(const Node &node) { return g_map_start_y + (node.y * g_room_spread_factor); }
 
 static bool position_hits_node(int x, int y, const Node_ptr &node)
 {

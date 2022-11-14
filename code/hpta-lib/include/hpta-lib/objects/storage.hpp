@@ -23,9 +23,7 @@ class Storage {
     int add_item(const Entry &entry);
     int remove_item(const Entry &&entry);
 
-    // clang-format off
-	[[nodiscard]] auto &get_items() const {return m_items;}
-    // clang-format on
+    [[nodiscard]] auto &get_items() const { return m_items; }
 };
 
 #endif /* STORAGE_H */
