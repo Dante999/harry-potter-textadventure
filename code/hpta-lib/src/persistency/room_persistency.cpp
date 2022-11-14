@@ -52,6 +52,30 @@ Room load_room(const std::string &gamedata_dir, const std::string &id)
         }
 
         room.set_npcs(npcs);
+
+        std::vector<Room::Secret> secrets;
+        if (d.HasMember("secrets")) {
+            for (auto &s : d["secrets"].GetArray()) {
+
+                const auto get_str_or_empty = [&](auto &node, const std::string &key) {
+                    return node.HasMember(key.c_str()) ? node[key.c_str()].GetString() : "";
+                };
+
+                Room::Secret secret;
+                secret.is_revealed               = false;
+                secret.name                      = s["name"].GetString();
+                secret.description_before_reveal = s["description_before_reveal"].GetString();
+                secret.description_after_reveal  = s["description_after_reveal"].GetString();
+                secret.needs_item_id             = get_str_or_empty(s, "needs_item");
+                secret.needs_password            = get_str_or_empty(s, "needs_password");
+                secret.needs_spell_id            = get_str_or_empty(s, "needs_spell");
+                secret.reveals_item_id           = get_str_or_empty(s, "reveals_item");
+
+                secrets.emplace_back(secret);
+            }
+        }
+
+        room.set_secrets(secrets);
     });
 
     return room;
@@ -111,6 +135,46 @@ bool save_room(const std::string &gamedata_dir, const Room &room)
 
             writer.Key("room_id");
             writer.String(e.room_id.c_str());
+            writer.EndObject();
+        }
+
+        writer.EndArray();
+
+        writer.Key("secrets");
+        writer.StartArray();
+
+        for (const auto &secret : room.get_secrets()) {
+            writer.StartObject();
+
+            writer.Key("name");
+            writer.String(secret.name.c_str());
+
+            writer.Key("description_before_reveal");
+            writer.String(secret.description_before_reveal.c_str());
+
+            writer.Key("description_after_reveal");
+            writer.String(secret.description_after_reveal.c_str());
+
+            if (!secret.needs_item_id.empty()) {
+                writer.Key("needs_item");
+                writer.String(secret.needs_item_id.c_str());
+            }
+
+            if (!secret.needs_password.empty()) {
+                writer.Key("needs_password");
+                writer.String(secret.needs_password.c_str());
+            }
+
+            if (!secret.needs_spell_id.empty()) {
+                writer.Key("needs_spell");
+                writer.String(secret.needs_spell_id.c_str());
+            }
+
+            if (!secret.reveals_item_id.empty()) {
+                writer.Key("reveals_item");
+                writer.String(secret.reveals_item_id.c_str());
+            }
+
             writer.EndObject();
         }
 

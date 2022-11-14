@@ -105,21 +105,21 @@ std::string trim(const std::string &s) { return rtrim(ltrim(s)); }
 
 bool ends_with(const std::string &s, const std::string &end) { return (s.substr(s.length() - end.length()) == end); }
 
-[[nodiscard]] const std::vector<std::string> get_highlighted_text(const std::string &text, char marker_start, char marker_end)
+[[nodiscard]] const std::vector<std::string> get_highlighted_text(const std::string &text, char marker_start,
+                                                                  char marker_end)
 {
     std::vector<std::string> result;
 
     size_t idx_start = text.find(marker_start, 0);
-    size_t idx_end   = text.find(marker_end, idx_start+1);
+    size_t idx_end   = text.find(marker_end, idx_start + 1);
 
-    while( idx_start != std::string::npos && idx_end != std::string::npos)
-    {
-        result.emplace_back(text.substr(idx_start, idx_end-idx_start+1));
+    while (idx_start != std::string::npos && idx_end != std::string::npos) {
+        result.emplace_back(text.substr(idx_start, idx_end - idx_start + 1));
 
-        idx_start = text.find(marker_start, idx_end+1);
-        idx_end   = text.find(marker_end, idx_start+1);
+        idx_start = text.find(marker_start, idx_end + 1);
+        idx_end   = text.find(marker_end, idx_start + 1);
     }
-    
+
     return result;
 }
 
@@ -129,7 +129,6 @@ void replace(std::string &text, const std::string &old_word, const std::string &
     while (text.find(old_word) != std::string::npos) {
         text.replace(text.find(old_word), old_word.length(), new_word);
     }
-
 }
 
 } // namespace Hpta_strings

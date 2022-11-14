@@ -42,6 +42,8 @@
         },
         {
             "name" : "Kerze",
+            "description_before_reveal":  "Die Kerze ist noch warm und genügend Wachs ist vorhanden, scheit als hätte ein Windstoss sie vor kurzen gelöscht. Mit einem Zauber könntest du sie vielleicht wieder entzünden.",
+            "description_after_reveal":  "Die Kerze flackert langsam vor sich hin",
             "needs_spell" : "/spell/incendio.json",
             "text_on_reveal" : "Die Kerze beginnt zu brennen und verstrahlt ein heimeliges Gefühl"
         }
