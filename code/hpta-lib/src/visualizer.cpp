@@ -73,6 +73,17 @@ void Visualizer::show(const Item &item)
     m_screen->box_end();
 }
 
+void Visualizer::show(const Room::Secret &secret)
+{
+    m_screen->box_start(secret.name);
+    for (const auto &line : Hpta_strings::split_text_into_lines(secret.is_revealed ? secret.description_after_reveal
+                                                                                   : secret.description_before_reveal,
+                                                                m_screen->column_width)) {
+        m_screen->println(line);
+    }
+    m_screen->box_end();
+}
+
 void Visualizer::show(const Room::Detail &detail)
 {
     m_screen->box_start(detail.name);

@@ -20,7 +20,7 @@ namespace Hpta_strings {
 [[nodiscard]] std::string rtrim(const std::string &s);
 [[nodiscard]] std::string trim(const std::string &s);
 
-void                      replace(std::string &text, const std::string &old_word, const std::string &new_word);
+void replace(std::string &text, const std::string &old_word, const std::string &new_word);
 
 [[nodiscard]] bool ends_with(const std::string &s, const std::string &end);
 

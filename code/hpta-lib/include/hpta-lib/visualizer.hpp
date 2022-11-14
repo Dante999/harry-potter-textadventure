@@ -20,6 +20,7 @@ class Visualizer {
     void show(const Player &player);
     void show(const Item &item);
     void show(const Room::Detail &detail);
+    void show(const Room::Secret &secret);
 };
 
 #endif

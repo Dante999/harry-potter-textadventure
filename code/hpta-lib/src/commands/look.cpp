@@ -40,6 +40,13 @@ bool Look::interprete(Context &context, const std::vector<std::string> &token)
         }
     }
 
+    for (const auto &secret : room.get_secrets()) {
+        if (Hpta_strings::equals_ignorecase(secret.name, object_name)) {
+            visualizer->show(secret);
+            return true;
+        }
+    }
+
     screen->print("So etwas siehst du dort nicht...\n");
 
     return true;
