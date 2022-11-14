@@ -8,6 +8,7 @@ add_library(${PROJECT_NAME}
     src/commands/inventory.cpp 
     src/commands/look.cpp 
     src/commands/take.cpp 
+    src/commands/say.cpp
     src/objects/storage.cpp 
     src/visualizer.cpp 
     src/persistency/room_persistency.cpp 

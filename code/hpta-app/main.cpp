@@ -62,7 +62,7 @@ int main(int argc, char *argv[])
 
     visualizer->show(service_registry.get<Room_cache_service>()->get_room(player->get_room_id()));
 
-    Context context{player, service_registry};
+    Context context{player, service_registry, gamedata_dir};
 
     while (1) {
         const auto input = screen->ask_for("");

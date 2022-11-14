@@ -66,6 +66,7 @@ Room load_room(const std::string &gamedata_dir, const std::string &id)
                 secret.name                      = s["name"].GetString();
                 secret.description_before_reveal = s["description_before_reveal"].GetString();
                 secret.description_after_reveal  = s["description_after_reveal"].GetString();
+                secret.text_on_reveal            = s["text_on_reveal"].GetString();
                 secret.needs_item_id             = get_str_or_empty(s, "needs_item");
                 secret.needs_password            = get_str_or_empty(s, "needs_password");
                 secret.needs_spell_id            = get_str_or_empty(s, "needs_spell");

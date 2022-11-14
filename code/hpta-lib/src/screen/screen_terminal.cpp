@@ -1,5 +1,7 @@
 #include "hpta-lib/screen/screen_terminal.hpp"
 
+#include "hpta-lib/util/hpta_strings.hpp"
+
 #include <algorithm>
 #include <cstdint>
 #include <iostream>
@@ -25,6 +27,15 @@ void Screen_Terminal::hline()
 
 void Screen_Terminal::print(const std::string &msg) { fmt::print(msg); }
 void Screen_Terminal::println(const std::string &msg) { fmt::print("{}\n", msg); }
+
+void Screen_Terminal::print_wrapped(const std::string &msg)
+{
+    const auto lines = Hpta_strings::split_text_into_lines(msg, column_width);
+
+    for (const auto &line : lines) {
+        println(line);
+    }
+}
 
 const std::string Screen_Terminal::ask_for(const std::string &msg)
 {

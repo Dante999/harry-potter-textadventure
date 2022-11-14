@@ -6,6 +6,7 @@
 #include "hpta-lib/commands/help.hpp"
 #include "hpta-lib/commands/inventory.hpp"
 #include "hpta-lib/commands/look.hpp"
+#include "hpta-lib/commands/say.hpp"
 #include "hpta-lib/commands/take.hpp"
 #include "hpta-lib/commands/walk.hpp"
 
@@ -15,6 +16,7 @@ Interpreter::Interpreter()
     m_commands.emplace_back(std::make_shared<Look>());
     m_commands.emplace_back(std::make_shared<Inventory>());
     m_commands.emplace_back(std::make_shared<Take>());
+    m_commands.emplace_back(std::make_shared<Say>());
     m_commands.emplace_back(std::make_shared<Help>(m_commands));
 }
 

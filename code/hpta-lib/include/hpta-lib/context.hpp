@@ -9,6 +9,7 @@
 struct Context {
     std::shared_ptr<Player> player;
     Service_registry &      service_registry;
+    const std::string       gamedata_dir;
 };
 
 #endif /* CONTEXT_HPP */
