@@ -30,7 +30,7 @@
             "description_before_reveal":  "Du wirst das gefühl nicht los, das Tintenfass wäre dir sehr dankbar, wenn du ihm eine neue Feder bringen würdest.",
             "description_after_reveal":  "Das Tintenfass ist dank deiner Hilfe wieder mit einer Feder vereint",
             "needs_item" : "/items/eulenfeder.json",
-            "text_on_reveal" : "Du steckst die Eulenfeder in das Tintenfass. Freudig springt die Feder heraus und kritzelt 'das Porträpasswort ist Butterbier' auf die Bar bevor sie wieder zurück in das Tintenfass hüpft."
+            "text_on_reveal" : "Du steckst die Eulenfeder in das Tintenfass. Freudig springt die Feder heraus und kritzelt 'das Porträtpasswort ist Butterbier' auf die Bar bevor sie wieder zurück in das Tintenfass hüpft."
         },
         {
             "name" : "Porträt",
@@ -44,7 +44,7 @@
             "name" : "Kerze",
             "description_before_reveal":  "Die Kerze ist noch warm und genügend Wachs ist vorhanden, scheit als hätte ein Windstoss sie vor kurzen gelöscht. Mit einem Zauber könntest du sie vielleicht wieder entzünden.",
             "description_after_reveal":  "Die Kerze flackert langsam vor sich hin",
-            "needs_spell" : "/spell/incendio.json",
+            "needs_spell" : "/spells/incendio.json",
             "text_on_reveal" : "Die Kerze beginnt zu brennen und verstrahlt ein heimeliges Gefühl"
         }
 

@@ -9,11 +9,13 @@ add_library(${PROJECT_NAME}
     src/commands/look.cpp 
     src/commands/take.cpp 
     src/commands/say.cpp
+    src/commands/cast.cpp
     src/objects/storage.cpp 
     src/visualizer.cpp 
     src/persistency/room_persistency.cpp 
     src/persistency/item_persistency.cpp 
     src/persistency/npc_persistency.cpp 
+    src/persistency/spell_persistency.cpp
     src/persistency/json_filehandler.hpp 
     src/util/hpta_string.cpp 
     src/util/hpta_config.cpp 

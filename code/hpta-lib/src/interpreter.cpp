@@ -9,6 +9,7 @@
 #include "hpta-lib/commands/say.hpp"
 #include "hpta-lib/commands/take.hpp"
 #include "hpta-lib/commands/walk.hpp"
+#include "hpta-lib/commands/cast.hpp"
 
 Interpreter::Interpreter()
 {
@@ -17,6 +18,7 @@ Interpreter::Interpreter()
     m_commands.emplace_back(std::make_shared<Inventory>());
     m_commands.emplace_back(std::make_shared<Take>());
     m_commands.emplace_back(std::make_shared<Say>());
+    m_commands.emplace_back(std::make_shared<Cast>());
     m_commands.emplace_back(std::make_shared<Help>(m_commands));
 }
 
