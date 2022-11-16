@@ -1,4 +1,4 @@
-#include "hpta-editor/map.hpp"
+#include "map.hpp"
 
 #include <chrono>
 #include <fmt/core.h>
@@ -12,11 +12,11 @@
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Window/Mouse.hpp>
 
-#include "hpta-editor/panel_room_attributes.hpp"
-#include "hpta-editor/settings.hpp"
 #include "hpta-lib/objects/room.hpp"
 #include "hpta-lib/util/hpta_algorithms.hpp"
 #include "hpta-lib/util/hpta_strings.hpp"
+#include "panel_room_attributes.hpp"
+#include "settings.hpp"
 
 static auto g_font = sf::Font();
 
@@ -55,7 +55,7 @@ float g_mouse_debounce_ms;
 
 static void init_config_values()
 {
-    g_font_scale           = Hpta_config::get_float(Settings::editor_font_scale);
+    g_font_scale           = Hpta_config::get_float(Settings::map_font_scale);
     g_room_object_width    = Hpta_config::get_float(Settings::room_object_width);
     g_room_object_height   = Hpta_config::get_float(Settings::room_object_height);
     g_room_link_thickness  = Hpta_config::get_float(Settings::room_link_thickness);
@@ -169,7 +169,7 @@ void Map::init()
 {
     g_nodes.clear();
     g_font.loadFromFile(Hpta_config::get_string(Settings::gamedata_dir) + "/fonts/" +
-                        Hpta_config::get_string(Settings::editor_font));
+                        Hpta_config::get_string(Settings::map_font));
 
     init_config_values();
 

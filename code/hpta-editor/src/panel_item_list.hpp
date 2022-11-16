@@ -3,9 +3,9 @@
 
 #include <string>
 
-#include "hpta-editor/event_engine.hpp"
-#include "hpta-editor/ipanel.hpp"
-#include "hpta-editor/object_cache.hpp"
+#include "event_engine.hpp"
+#include "ipanel.hpp"
+#include "object_cache.hpp"
 
 class Panel_item_list : public IPanel {
   private:

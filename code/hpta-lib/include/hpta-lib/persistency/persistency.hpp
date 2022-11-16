@@ -7,9 +7,9 @@
 #include "hpta-lib/objects/spell.hpp"
 
 namespace persistency {
-[[nodiscard]] Room load_room(const std::string &gamedata_dir, const std::string &id);
-[[nodiscard]] Item load_item(const std::string &gamedata_dir, const std::string &id);
-[[nodiscard]] Npc  load_npc(const std::string &gamedata_dir, const std::string &id);
+[[nodiscard]] Room  load_room(const std::string &gamedata_dir, const std::string &id);
+[[nodiscard]] Item  load_item(const std::string &gamedata_dir, const std::string &id);
+[[nodiscard]] Npc   load_npc(const std::string &gamedata_dir, const std::string &id);
 [[nodiscard]] Spell load_spell(const std::string &gamedata_dir, const std::string &id);
 
 bool save_room(const std::string &gamedata_dir, const Room &room);

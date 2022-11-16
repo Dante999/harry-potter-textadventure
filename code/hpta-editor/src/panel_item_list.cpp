@@ -1,4 +1,4 @@
-#include "hpta-editor/panel_item_list.hpp"
+#include "panel_item_list.hpp"
 
 #include <imgui.h>
 

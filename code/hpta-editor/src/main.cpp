@@ -14,16 +14,19 @@
 #include <spdlog/cfg/argv.h>
 #include <spdlog/spdlog.h>
 
-#include "hpta-editor/event_engine.hpp"
-#include "hpta-editor/ipanel.hpp"
-#include "hpta-editor/map.hpp"
-#include "hpta-editor/map_navigation.hpp"
-#include "hpta-editor/object_cache.hpp"
-#include "hpta-editor/panel_item_attributes.hpp"
-#include "hpta-editor/panel_item_list.hpp"
-#include "hpta-editor/panel_room_attributes.hpp"
-#include "hpta-editor/panel_room_list.hpp"
-#include "hpta-editor/settings.hpp"
+#include "event_engine.hpp"
+#include "ipanel.hpp"
+#include "map.hpp"
+#include "map_navigation.hpp"
+#include "object_cache.hpp"
+#include "panel_item_attributes.hpp"
+#include "panel_item_list.hpp"
+#include "panel_room_attributes.hpp"
+#include "panel_room_list.hpp"
+#include "panel_spells.hpp"
+#include "settings.hpp"
+#include "window_items.hpp"
+#include "window_spells.hpp"
 
 static const char USAGE[] =
     R"(Harry Potter Textadveture Editor
@@ -92,22 +95,23 @@ int main(int argc, char *argv[])
     window.resetGLStates(); // call it if you only draw ImGui. Otherwise not needed.
 
     // --------------------------------------------------------------------------------
-    Item_cache item_cache(Hpta_config::get_string(Settings::gamedata_dir), "/items");
-    Room_cache room_cache(Hpta_config::get_string(Settings::gamedata_dir), "/rooms");
+    Item_cache  item_cache(Hpta_config::get_string(Settings::gamedata_dir), "/items");
+    Room_cache  room_cache(Hpta_config::get_string(Settings::gamedata_dir), "/rooms");
+    Spell_Cache spell_cache(Hpta_config::get_string(Settings::gamedata_dir), "/spells");
 
     Event_engine event_engine;
 
     auto map                   = std::make_shared<Map>(window, room_cache, event_engine);
-    auto panel_item_list       = std::make_shared<Panel_item_list>(item_cache, event_engine);
     auto panel_room_attributes = std::make_shared<Panel_room_attributes>(event_engine);
     auto panel_room_list       = std::make_shared<Panel_room_list>(room_cache, event_engine);
-    auto panel_item_attributes = std::make_shared<Panel_item_attributes>(event_engine);
 
-    std::vector<std::shared_ptr<IPanel>> panels{map, panel_item_list, panel_room_attributes, panel_room_list,
-                                                panel_item_attributes};
+    auto window_items  = std::make_shared<Window_Items>("Items", item_cache);
+    auto window_spells = std::make_shared<Window_Spells>("Spells", spell_cache);
+
+    std::vector<std::shared_ptr<IPanel>> panels{map, panel_room_attributes, panel_room_list, window_items,
+                                                window_spells};
     event_engine.add_event_handler(map);
     event_engine.add_event_handler(panel_room_attributes);
-    event_engine.add_event_handler(panel_item_attributes);
 
     Map_navigation map_navigation(view);
     // --------------------------------------------------------------------------------
@@ -145,6 +149,7 @@ int main(int argc, char *argv[])
         window.clear();
 
         // ----------------------------------------
+
         for (const auto &i : panels) {
             i->refresh();
         }

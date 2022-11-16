@@ -3,9 +3,9 @@
 
 #include <SFML/Graphics/RenderWindow.hpp>
 
-#include "hpta-editor/event_engine.hpp"
-#include "hpta-editor/ievent_handler.hpp"
-#include "hpta-editor/ipanel.hpp"
+#include "event_engine.hpp"
+#include "ievent_handler.hpp"
+#include "ipanel.hpp"
 #include "object_cache.hpp"
 
 class Map : public IPanel, public IEvent_handler {

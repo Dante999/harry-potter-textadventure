@@ -1,4 +1,4 @@
-#include "hpta-editor/event_engine.hpp"
+#include "event_engine.hpp"
 
 #include <spdlog/spdlog.h>
 

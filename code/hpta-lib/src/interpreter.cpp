@@ -3,13 +3,13 @@
 #include <iostream>
 #include <sstream>
 
+#include "hpta-lib/commands/cast.hpp"
 #include "hpta-lib/commands/help.hpp"
 #include "hpta-lib/commands/inventory.hpp"
 #include "hpta-lib/commands/look.hpp"
 #include "hpta-lib/commands/say.hpp"
 #include "hpta-lib/commands/take.hpp"
 #include "hpta-lib/commands/walk.hpp"
-#include "hpta-lib/commands/cast.hpp"
 
 Interpreter::Interpreter()
 {

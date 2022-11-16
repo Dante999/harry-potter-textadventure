@@ -4,8 +4,8 @@
 #include "hpta-lib/objects/room.hpp"
 #include <string>
 
-#include "hpta-editor/event_engine.hpp"
-#include "hpta-editor/ipanel.hpp"
+#include "event_engine.hpp"
+#include "ipanel.hpp"
 
 class Panel_room_attributes : public IPanel, public IEvent_handler {
 

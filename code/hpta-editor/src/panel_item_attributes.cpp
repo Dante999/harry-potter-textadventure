@@ -1,8 +1,8 @@
-#include "hpta-editor/panel_item_attributes.hpp"
+#include "panel_item_attributes.hpp"
 
-#include "hpta-editor/settings.hpp"
 #include "hpta-lib/persistency/persistency.hpp"
 #include "hpta-lib/util/hpta_strings.hpp"
+#include "settings.hpp"
 
 #include <cstring>
 #include <fmt/core.h>

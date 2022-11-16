@@ -7,15 +7,16 @@
 
 #include <spdlog/spdlog.h>
 
-#include "hpta-editor/settings.hpp"
 #include "hpta-lib/persistency/persistency.hpp"
 #include "hpta-lib/util/hpta_config.hpp"
+#include "settings.hpp"
 
 template <typename Tobject, auto TloadFunction>
 class Object_cache;
 
-using Item_cache = Object_cache<Item, persistency::load_item>;
-using Room_cache = Object_cache<Room, persistency::load_room>;
+using Item_cache  = Object_cache<Item, persistency::load_item>;
+using Room_cache  = Object_cache<Room, persistency::load_room>;
+using Spell_Cache = Object_cache<Spell, persistency::load_spell>;
 
 template <typename Tobject, auto TloadFunction>
 class Object_cache {

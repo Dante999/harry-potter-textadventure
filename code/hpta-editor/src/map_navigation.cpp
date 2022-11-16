@@ -1,4 +1,4 @@
-#include "hpta-editor/map_navigation.hpp"
+#include "map_navigation.hpp"
 
 #include <SFML/Window/Mouse.hpp>
 #include <imgui.h>

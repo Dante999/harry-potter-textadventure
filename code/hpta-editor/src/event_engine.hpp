@@ -16,4 +16,4 @@ class Event_engine {
     void publish(Event event);
 };
 
-#endif // EVENT_ENGINE_HPP
+#endif /* EVENT_ENGINE_HPP */

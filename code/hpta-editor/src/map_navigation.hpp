@@ -1,7 +1,7 @@
 #ifndef MAP_NAVIGATION_HPP
 #define MAP_NAVIGATION_HPP
 
-#include "hpta-editor/ievent_handler.hpp"
+#include "ievent_handler.hpp"
 
 #include <SFML/Graphics/View.hpp>
 

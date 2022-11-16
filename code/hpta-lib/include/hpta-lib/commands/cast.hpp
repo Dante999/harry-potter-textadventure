@@ -13,6 +13,9 @@ class Cast : public ICommand {
 
 inline const std::string Cast::get_command() { return "zauber <Zauberspruch> auf <Objekt>"; }
 
-inline const std::string Cast::get_description() { return "Bewirkt den ausgesprochenen Zauber auf das angegebene Objekt"; }
+inline const std::string Cast::get_description()
+{
+    return "Bewirkt den ausgesprochenen Zauber auf das angegebene Objekt";
+}
 
 #endif /* CAST_HPP */

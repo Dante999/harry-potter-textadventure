@@ -18,13 +18,10 @@ bool Cast::interprete(Context &context, const std::vector<std::string> &token)
     Spell spell{"undefined"};
     try {
         spell = persistency::load_spell(context.gamedata_dir, "/spells/" + token.at(1) + ".json");
-    }
-    catch(std::runtime_error &e)
-    {
+    } catch (std::runtime_error &e) {
         screen->println("So einen Zauber kennst du nicht");
         return true;
     }
-
 
     std::string spell_target{};
 

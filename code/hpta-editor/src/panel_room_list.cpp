@@ -1,11 +1,11 @@
-#include "hpta-editor/panel_room_list.hpp"
+#include "panel_room_list.hpp"
 
 #include <imgui.h>
 
 #include <filesystem>
 #include <vector>
 
-#include "hpta-editor/settings.hpp"
+#include "settings.hpp"
 
 void Panel_room_list::refresh()
 {
