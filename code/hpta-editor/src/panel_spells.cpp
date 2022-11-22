@@ -77,7 +77,6 @@ void Panel_Spells::show_spell_attributes()
 void Panel_Spells::refresh()
 {
     ImGui::Begin("Panel Spells");
-    ImGui::SetWindowFontScale(Hpta_config::get_float(Settings::scale_factor));
 
     if (ImGui::Button("Refresh")) {
         m_spell_cache.refresh();

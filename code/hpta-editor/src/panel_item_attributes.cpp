@@ -57,8 +57,6 @@ void Panel_item_attributes::refresh()
         save_room();
     }
 
-    ImGui::SetWindowFontScale(Hpta_config::get_float(Settings::scale_factor));
-
     ImGui::PushItemWidth(-ImGui::GetWindowWidth() * 0.20f);
     ImGui::InputText("ID", g_item.id, std::size(g_item.id));
     ImGui::InputText("Name", g_item.name, std::size(g_item.name));

@@ -6,7 +6,7 @@ void Event_engine::add_event_handler(std::shared_ptr<IEvent_handler> handler) { 
 
 void Event_engine::publish(Event event)
 {
-    spdlog::info("publishing event {}", event.event_type);
+    spdlog::info("publishing event {} to {} handlers", event.event_type, m_event_handler.size());
 
     for (auto &handler : m_event_handler) {
         handler->on_event(event);

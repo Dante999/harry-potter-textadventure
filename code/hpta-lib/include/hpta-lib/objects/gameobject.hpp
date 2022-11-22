@@ -18,6 +18,7 @@ class Gameobject {
 
     void set_name(const std::string &name) { m_name = name; }
     void set_description(const std::string &description) { m_description = description; }
+    void set_id(const std::string &id) { m_id = id; }
 };
 
 #endif /* ORGANISM_HPP */

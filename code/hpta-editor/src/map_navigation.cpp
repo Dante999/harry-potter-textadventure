@@ -1,6 +1,5 @@
 #include "map_navigation.hpp"
 
-#include <SFML/Window/Mouse.hpp>
 #include <imgui.h>
 
 bool Map_navigation::is_map_focused()
@@ -30,5 +29,19 @@ void Map_navigation::handle()
         // save new mouse position if the user clicks from a window into the map again, otherwise the map
         // would go nuts and jumps from the old location to that one.
         old_position = sf::Mouse::getPosition();
+    }
+}
+
+void Map_navigation::handle(sf::Event::MouseWheelScrollEvent mousewheelscrool)
+{
+
+    if (mousewheelscrool.wheel == sf::Mouse::VerticalWheel && is_map_focused()) {
+
+        if (mousewheelscrool.delta > 0) {
+            m_view.zoom(0.90f);
+        }
+        else {
+            m_view.zoom(1.10f);
+        }
     }
 }

@@ -7,7 +7,6 @@
 void Panel_item_list::refresh()
 {
     ImGui::Begin("Item List");
-    ImGui::SetWindowFontScale(m_scale_factor);
 
     if (ImGui::Button("Refresh")) {
         m_item_cache.refresh();

@@ -3,7 +3,9 @@
 
 #include "ievent_handler.hpp"
 
+#include "SFML/Window/Event.hpp"
 #include <SFML/Graphics/View.hpp>
+#include <SFML/Window/Mouse.hpp>
 
 class Map_navigation {
   private:
@@ -15,6 +17,7 @@ class Map_navigation {
 
     bool is_map_focused();
     void handle();
+    void handle(sf::Event::MouseWheelScrollEvent mousewheelscrool);
 };
 
 #endif // MAP_NAVIGATION_HPP

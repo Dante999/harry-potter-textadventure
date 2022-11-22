@@ -1,5 +1,5 @@
-#ifndef BASE_WINDOW_HPP
-#define BASE_WINDOW_HPP
+#ifndef WINDOW_BASE_HPP
+#define WINDOW_BASE_HPP
 
 #include "ipanel.hpp"
 #include "object_cache.hpp"
@@ -7,21 +7,21 @@
 #include <imgui.h>
 
 template <typename Tobject>
-class Base_Window : public IPanel {
+class Window_Base : public IPanel {
   protected:
     const std::string m_name{};
     int               m_current_index{-1};
-    Tobject m_current_object{""};
+    Tobject           m_current_object{""};
 
   public:
-    explicit Base_Window(const std::string &name) : m_name{name} {}
+    explicit Window_Base(const std::string &name) : m_name{name} {}
 
-    virtual void                 create_object()                    = 0;
-    virtual void                 load_object(const Tobject &object) = 0;
-    virtual std::vector<Tobject> get_objects()                      = 0;
-    virtual void                 refresh_cache()                    = 0;
-    virtual void                 save_object()                      = 0;
-    virtual void                 show_attributes()                  = 0;
+    virtual void                 create_object()   = 0;
+    virtual void                 load_object()     = 0;
+    virtual std::vector<Tobject> get_objects()     = 0;
+    virtual void                 refresh_cache()   = 0;
+    virtual void                 save_object()     = 0;
+    virtual void                 show_attributes() = 0;
 
     void show_list()
     {
@@ -34,7 +34,7 @@ class Base_Window : public IPanel {
             if (ImGui::Selectable(object.get_id().c_str(), m_current_index == i)) {
                 m_current_index  = i;
                 m_current_object = object;
-                load_object(object);
+                load_object();
             }
         }
     }
@@ -42,7 +42,9 @@ class Base_Window : public IPanel {
     void refresh() override
     {
         ImGui::Begin(m_name.c_str());
-        ImGui::SetWindowFontScale(Hpta_config::get_float(Settings::scale_factor));
+        ImGui::PushID(m_name.c_str());
+
+        // ImGui::SetWindowFontScale(Hpta_config::get_float(Settings::scale_factor));
 
         if (ImGui::Button("Refresh")) {
             refresh_cache();
@@ -51,27 +53,33 @@ class Base_Window : public IPanel {
 
         ImGui::SameLine();
         if (ImGui::Button("Add")) {
+            m_current_index = -1;
             create_object();
+            load_object();
         }
 
         ImGui::SameLine();
         if (ImGui::Button("Save")) {
             save_object();
+            refresh_cache();
         }
 
         ImGui::Separator();
 
-        ImGui::BeginTable("table", 2, ImGuiTableFlags_Resizable | ImGuiTableFlags_Borders, ImVec2(0.0f, -1.0f), -1.0f);
-        ImGui::TableNextColumn();
-        ImGui::PushItemWidth(-1);
+        ImGui::BeginTable("table", 2, ImGuiTableFlags_Resizable | ImGuiTableFlags_Borders, ImVec2(0.0f, 0.0f), 0.0f);
+        ImGui::TableNextRow();
+
+        ImGui::TableSetColumnIndex(0);
         show_list();
-        ImGui::PopItemWidth();
-        ImGui::TableNextColumn();
+
+        ImGui::TableSetColumnIndex(1);
         show_attributes();
+
         ImGui::EndTable();
 
+        ImGui::PopID();
         ImGui::End();
     }
 };
 
-#endif /* BASE_WINDOW_HPP */
+#endif /* WINDOW_BASE_HPP */

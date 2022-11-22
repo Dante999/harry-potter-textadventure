@@ -2,6 +2,7 @@
 
 #include "hpta-lib/persistency/persistency.hpp"
 #include "hpta-lib/util/hpta_strings.hpp"
+#include "hpta_imgui.hpp"
 #include "map.hpp"
 #include "settings.hpp"
 #include "utils.hpp"
@@ -297,13 +298,11 @@ void Panel_room_attributes::refresh()
         save_room();
     }
 
-    ImGui::SetWindowFontScale(Hpta_config::get_float(Settings::scale_factor));
-
     ImGui::PushItemWidth(-ImGui::GetWindowWidth() * 0.20f);
+    ImGui::PushItemWidth(hpta_imgui::get_textwrapwidth());
     ImGui::InputText("ID", g_room.id, std::size(g_room.id));
     ImGui::InputText("Name", g_room.name, std::size(g_room.name));
-    utils::InputTextMultilineWrapped("Description", g_room.description, std::size(g_room.description), ImVec2(0, 0));
-    // ImGui::InputTextMultiline("Description", g_room.description, std::size(g_room.description), ImVec2(0, 0));
+    hpta_imgui::InputTextMultilineWrapped("Description", g_room.description, std::size(g_room.description));
     ImGui::PopItemWidth();
 
     ImGui::BeginTabBar("tabs");

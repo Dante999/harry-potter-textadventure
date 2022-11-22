@@ -5,8 +5,6 @@
 
 namespace utils {
 
-// static constexpr size_t column_width = 80;
-
 inline float calc_textwidth(size_t text_length)
 {
     const float fontsize = ImGui::GetFontSize();
@@ -22,32 +20,11 @@ inline std::string wrap_text(std::string text)
                                                      Hpta_config::get_uint(Settings::editor_textwraplen));
 }
 
-inline bool InputTextMultilineWrapped(const char *label, char *buf, size_t buf_size, const ImVec2 &size = ImVec2(0, 0),
-                                      ImGuiInputTextFlags flags = 0)
+inline const char *wrap_text(char *buf, size_t buf_size)
 {
-    flags |= ImGuiInputTextFlags_CallbackEdit;
-
-    auto on_text_edit = [](ImGuiInputTextCallbackData *data) -> int {
-        if (data->EventFlag != ImGuiInputTextFlags_CallbackEdit) {
-            return 0;
-        }
-
-        const size_t column_width = static_cast<size_t>(Hpta_config::get_uint(Settings::editor_textwraplen));
-
-        if (static_cast<size_t>(data->BufTextLen) % (column_width + 1) == 0) {
-
-            auto text = utils::wrap_text(data->Buf);
-
-            strncpy(data->Buf, text.c_str(), static_cast<size_t>(data->BufSize));
-            data->BufTextLen = static_cast<int>(strlen(data->Buf));
-
-            data->BufDirty = true;
-        }
-
-        return 0;
-    };
-
-    return ImGui::InputTextMultiline(label, buf, buf_size, size, flags, on_text_edit);
+    auto text_wrapped = utils::wrap_text(buf);
+    strncpy(buf, text_wrapped.c_str(), buf_size);
+    return buf;
 }
 
 } // namespace utils

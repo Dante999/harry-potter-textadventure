@@ -26,6 +26,7 @@
 #include "panel_spells.hpp"
 #include "settings.hpp"
 #include "window_items.hpp"
+#include "window_rooms.hpp"
 #include "window_spells.hpp"
 
 static const char USAGE[] =
@@ -94,6 +95,9 @@ int main(int argc, char *argv[])
 
     window.resetGLStates(); // call it if you only draw ImGui. Otherwise not needed.
 
+    ImGuiIO &io        = ImGui::GetIO();
+    io.FontGlobalScale = Hpta_config::get_float(Settings::scale_factor);
+
     // --------------------------------------------------------------------------------
     Item_cache  item_cache(Hpta_config::get_string(Settings::gamedata_dir), "/items");
     Room_cache  room_cache(Hpta_config::get_string(Settings::gamedata_dir), "/rooms");
@@ -107,9 +111,10 @@ int main(int argc, char *argv[])
 
     auto window_items  = std::make_shared<Window_Items>("Items", item_cache);
     auto window_spells = std::make_shared<Window_Spells>("Spells", spell_cache);
+    auto window_rooms  = std::make_shared<Window_Rooms>("Rooms", room_cache, event_engine);
 
-    std::vector<std::shared_ptr<IPanel>> panels{map, panel_room_attributes, panel_room_list, window_items,
-                                                window_spells};
+    std::vector<std::shared_ptr<IPanel>> panels{map,          panel_room_attributes, panel_room_list,
+                                                window_items, window_spells,         window_rooms};
     event_engine.add_event_handler(map);
     event_engine.add_event_handler(panel_room_attributes);
 
@@ -133,15 +138,8 @@ int main(int argc, char *argv[])
                 spdlog::debug("lost window focus");
                 g_has_focus = false;
             }
-            else if (event.type == sf::Event::MouseWheelScrolled &&
-                     event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel) {
-
-                if (event.mouseWheelScroll.delta > 0) {
-                    view.zoom(0.90f);
-                }
-                else {
-                    view.zoom(1.10f);
-                }
+            else if (event.type == sf::Event::MouseWheelScrolled) {
+                map_navigation.handle(event.mouseWheelScroll);
             }
         }
 
