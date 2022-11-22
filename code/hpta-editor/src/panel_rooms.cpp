@@ -186,7 +186,9 @@ void Panel_Rooms::show_tab_room_exits()
 
     int i = 0;
     for (auto itr = g_exits.begin(); itr != g_exits.end(); ++itr) {
-        ImGui::PushID(itr->direction.c_str());
+        const auto imgui_id = fmt::format("secret{}", i++);
+
+        ImGui::PushID(imgui_id.c_str());
 
         ImGui::TableNextColumn();
         ImGui::PushItemWidth(-1);
@@ -227,7 +229,6 @@ void Panel_Rooms::show_tab_room_exits()
         ImGui::PopID();
 
         ImGui::TableNextRow();
-        ++i;
     }
 
     ImGui::EndTable();
