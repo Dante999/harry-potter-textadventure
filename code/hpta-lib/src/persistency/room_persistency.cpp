@@ -156,6 +156,9 @@ bool save_room(const std::string &gamedata_dir, const Room &room)
             writer.Key("description_after_reveal");
             writer.String(secret.description_after_reveal.c_str());
 
+            writer.Key("text_on_reveal");
+            writer.String(secret.text_on_reveal.c_str());
+
             if (!secret.needs_item_id.empty()) {
                 writer.Key("needs_item");
                 writer.String(secret.needs_item_id.c_str());
