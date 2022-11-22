@@ -3,42 +3,38 @@
 #include "hpta_imgui.hpp"
 #include "utils.hpp"
 
-static constexpr size_t MAXLEN_DESCRIPTION = 1024;
-static constexpr size_t MAXLEN_NAME        = 255;
-static constexpr size_t MAXLEN_ID          = 255;
-
 namespace {
 struct UI_exit {
-    char direction[50];
-    char description[255];
-    char room_id[255];
+    std::string direction;
+    std::string description;
+    std::string room_id;
 };
 
 struct UI_item {
-    int  quantity;
-    char id[255];
+    int         quantity;
+    std::string id;
 };
 
 struct UI_room {
-    char id[255];
-    char name[255];
-    char description[1024];
+    std::string id;
+    std::string name;
+    std::string description;
 };
 
 struct UI_detail {
-    char name[255];
-    char description[1024];
+    std::string name;
+    std::string description;
 };
 
 struct UI_secret {
-    char name[MAXLEN_NAME];
-    char description_before_reveal[MAXLEN_DESCRIPTION];
-    char description_after_reveal[MAXLEN_DESCRIPTION];
-    char text_on_reveal[MAXLEN_DESCRIPTION];
-    char needs_spell_id[MAXLEN_ID];
-    char needs_item_id[MAXLEN_ID];
-    char needs_password[MAXLEN_NAME];
-    char reveals_item_id[MAXLEN_ID];
+    std::string name;
+    std::string description_before_reveal;
+    std::string description_after_reveal;
+    std::string text_on_reveal;
+    std::string needs_spell_id;
+    std::string needs_item_id;
+    std::string needs_password;
+    std::string reveals_item_id;
 };
 
 static UI_room                g_room;
@@ -51,22 +47,24 @@ static void show_popup_edit_secret(UI_secret &secret)
 {
     ImGui::PushID("edit_secret");
     ImGui::PushItemWidth(hpta_imgui::get_textwrapwidth());
-    
-    ImGui::InputText("Name", secret.name, std::size(secret.name));
-    ImGui::InputText("needs spell id", secret.needs_spell_id, std::size(secret.needs_spell_id));    
-    ImGui::InputText("needs item id", secret.needs_item_id, std::size(secret.needs_item_id));
-    ImGui::InputText("needs password", secret.needs_password, std::size(secret.needs_password));
-    ImGui::InputText("reveals item id", secret.reveals_item_id, std::size(secret.reveals_item_id));
-    hpta_imgui::InputTextMultilineWrapped("Description before reveal", secret.description_before_reveal,
-                                          std::size(secret.description_before_reveal));
-    hpta_imgui::InputTextMultilineWrapped("Description after reveal", secret.description_after_reveal,
-                                          std::size(secret.description_after_reveal));
-    hpta_imgui::InputTextMultilineWrapped("Text on reveal", secret.text_on_reveal, std::size(secret.text_on_reveal));
+
+    hpta_imgui::InputText("Name", secret.name);
+    hpta_imgui::InputText("needs spell id", secret.needs_spell_id);
+    hpta_imgui::InputText("needs item id", secret.needs_item_id);
+    hpta_imgui::InputText("needs password", secret.needs_password);
+    hpta_imgui::InputText("reveals item id", secret.reveals_item_id);
+    hpta_imgui::InputTextMultilineWrapped("Description before reveal", secret.description_before_reveal);
+    hpta_imgui::InputTextMultilineWrapped("Description after reveal", secret.description_after_reveal);
+    hpta_imgui::InputTextMultilineWrapped("Text on reveal", secret.text_on_reveal);
     ImGui::PopItemWidth();
     ImGui::PopID();
 }
 
 } // namespace
+
+std::vector<Room> Window_Rooms::get_objects() { return m_room_cache.get_list(); }
+
+void Window_Rooms::refresh_cache() { m_room_cache.refresh(); }
 
 void Window_Rooms::create_object()
 {
@@ -78,18 +76,17 @@ void Window_Rooms::create_object()
 
 void Window_Rooms::load_object()
 {
-    strncpy(g_room.id, m_current_object.get_id().c_str(), sizeof(g_room.id) - 1);
-    strncpy(g_room.name, m_current_object.get_name().c_str(), sizeof(g_room.name) - 1);
-    strncpy(g_room.description, utils::wrap_text(m_current_object.get_description()).c_str(),
-            sizeof(g_room.description) - 1);
+    g_room.id          = m_current_object.get_id();
+    g_room.name        = m_current_object.get_name();
+    g_room.description = utils::wrap_text(m_current_object.get_description());
 
     g_exits.clear();
     for (const auto &exit : m_current_object.get_exits()) {
         UI_exit ui_exit;
 
-        strncpy(ui_exit.direction, exit.direction.c_str(), sizeof(ui_exit.direction));
-        strncpy(ui_exit.description, exit.description.c_str(), sizeof(ui_exit.description));
-        strncpy(ui_exit.room_id, exit.room_id.c_str(), sizeof(ui_exit.room_id));
+        ui_exit.direction   = exit.direction;
+        ui_exit.description = exit.description;
+        ui_exit.room_id     = exit.room_id;
 
         g_exits.emplace_back(ui_exit);
     }
@@ -98,24 +95,18 @@ void Window_Rooms::load_object()
     for (const auto &secret : m_current_object.get_secrets()) {
         UI_secret ui_secret;
 
-        strncpy(ui_secret.name, secret.name.c_str(), sizeof(ui_secret.name));
-        strncpy(ui_secret.description_before_reveal, secret.description_before_reveal.c_str(),
-                sizeof(ui_secret.description_before_reveal));
-        strncpy(ui_secret.description_after_reveal, secret.description_after_reveal.c_str(),
-                sizeof(ui_secret.description_after_reveal));
-        strncpy(ui_secret.text_on_reveal, secret.text_on_reveal.c_str(), sizeof(ui_secret.text_on_reveal));
-        strncpy(ui_secret.needs_spell_id, secret.needs_spell_id.c_str(), sizeof(ui_secret.needs_spell_id));
-        strncpy(ui_secret.needs_item_id, secret.needs_item_id.c_str(), sizeof(ui_secret.needs_item_id));
-        strncpy(ui_secret.needs_password, secret.needs_password.c_str(), sizeof(ui_secret.needs_password));
-        strncpy(ui_secret.reveals_item_id, secret.reveals_item_id.c_str(), sizeof(ui_secret.reveals_item_id));
+        ui_secret.name                      = secret.name;
+        ui_secret.description_before_reveal = secret.description_before_reveal;
+        ui_secret.description_after_reveal  = secret.description_after_reveal;
+        ui_secret.text_on_reveal            = secret.text_on_reveal;
+        ui_secret.needs_spell_id            = secret.needs_spell_id;
+        ui_secret.needs_item_id             = secret.needs_item_id;
+        ui_secret.needs_password            = secret.needs_password;
+        ui_secret.reveals_item_id           = secret.reveals_item_id;
 
         g_secrets.emplace_back(ui_secret);
     }
 }
-
-std::vector<Room> Window_Rooms::get_objects() { return m_room_cache.get_list(); }
-
-void Window_Rooms::refresh_cache() { m_room_cache.refresh(); }
 
 void Window_Rooms::save_object()
 {
@@ -138,20 +129,19 @@ void Window_Rooms::save_object()
     std::vector<Room::Secret> secrets;
     for (const auto &ui_secret : g_secrets) {
         Room::Secret secret;
-        
-        secret.name = ui_secret.name;
+
+        secret.name                      = ui_secret.name;
         secret.description_before_reveal = ui_secret.description_before_reveal;
-        secret.description_after_reveal = ui_secret.description_after_reveal;
-        secret.text_on_reveal = ui_secret.text_on_reveal;
-        secret.needs_spell_id = ui_secret.needs_spell_id;
-        secret.needs_item_id = ui_secret.needs_item_id;
-        secret.needs_password = ui_secret.needs_password;
-        secret.reveals_item_id = ui_secret.reveals_item_id;
+        secret.description_after_reveal  = ui_secret.description_after_reveal;
+        secret.text_on_reveal            = ui_secret.text_on_reveal;
+        secret.needs_spell_id            = ui_secret.needs_spell_id;
+        secret.needs_item_id             = ui_secret.needs_item_id;
+        secret.needs_password            = ui_secret.needs_password;
+        secret.reveals_item_id           = ui_secret.reveals_item_id;
 
         secrets.emplace_back(secret);
     }
     m_current_object.set_secrets(secrets);
-
 
     persistency::save_room(Hpta_config::get_string(Settings::gamedata_dir), m_current_object);
 
@@ -161,9 +151,9 @@ void Window_Rooms::save_object()
 void Window_Rooms::show_attributes()
 {
     ImGui::PushItemWidth(-ImGui::GetWindowWidth() * 0.20f);
-    ImGui::InputText("ID", g_room.id, std::size(g_room.id));
-    ImGui::InputText("Name", g_room.name, std::size(g_room.name));
-    hpta_imgui::InputTextMultilineWrapped("Description", g_room.description, std::size(g_room.description));
+    hpta_imgui::InputText("ID", g_room.id);
+    hpta_imgui::InputText("Name", g_room.name);
+    hpta_imgui::InputTextMultilineWrapped("Description", g_room.description);
     ImGui::PopItemWidth();
 
     ImGui::BeginTabBar("tabs");
@@ -195,7 +185,7 @@ void Window_Rooms::show_tab_room_exits()
 
     int i = 0;
     for (auto itr = g_exits.begin(); itr != g_exits.end(); ++itr) {
-        ImGui::PushID(itr->direction);
+        ImGui::PushID(itr->direction.c_str());
 
         ImGui::TableNextColumn();
         ImGui::PushItemWidth(-1);
@@ -209,17 +199,17 @@ void Window_Rooms::show_tab_room_exits()
 
             ImGui::TableNextColumn();
             ImGui::PushItemWidth(-1);
-            ImGui::InputText("##direction", itr->direction, std::size(itr->direction));
+            hpta_imgui::InputText("##direction", itr->direction);
             ImGui::PopItemWidth();
 
             ImGui::TableNextColumn();
             ImGui::PushItemWidth(-1);
-            ImGui::InputText("##description", itr->description, std::size(itr->description));
+            hpta_imgui::InputText("##description", itr->description);
             ImGui::PopItemWidth();
 
             ImGui::TableNextColumn();
             ImGui::PushItemWidth(-1);
-            ImGui::InputText("##room_id", itr->room_id, std::size(itr->room_id));
+            hpta_imgui::InputText("##room_id", itr->room_id);
             ImGui::PopItemWidth();
 
             if (ImGui::BeginDragDropTarget()) {
@@ -227,7 +217,7 @@ void Window_Rooms::show_tab_room_exits()
 
                 target_flags |= ImGuiDragDropFlags_AcceptNoDrawDefaultRect; // Don't display the yellow rectangle
                 if (const ImGuiPayload *payload = ImGui::AcceptDragDropPayload("ROOM_ID", target_flags)) {
-                    strncpy(itr->room_id, static_cast<const char *>(payload->Data), std::size(itr->room_id));
+                    itr->room_id = static_cast<const char *>(payload->Data);
                 }
                 ImGui::EndDragDropTarget();
             }
@@ -260,9 +250,9 @@ void Window_Rooms::show_tab_room_secrets()
     ImGui::TableSetupColumn("Reveals item##secrets");
     ImGui::TableHeadersRow();
 
-    int i=0;
+    int i = 0;
     for (auto &ui_secret : g_secrets) {
-        
+
         const auto imgui_id = fmt::format("secret{}", i++);
 
         ImGui::PushID(imgui_id.c_str());
@@ -285,19 +275,19 @@ void Window_Rooms::show_tab_room_secrets()
         }
 
         ImGui::TableNextColumn();
-        ImGui::TextUnformatted(ui_secret.name);
+        ImGui::TextUnformatted(ui_secret.name.c_str());
 
         ImGui::TableNextColumn();
-        ImGui::TextUnformatted(ui_secret.needs_item_id);
+        ImGui::TextUnformatted(ui_secret.needs_item_id.c_str());
 
         ImGui::TableNextColumn();
-        ImGui::TextUnformatted(ui_secret.needs_password);
+        ImGui::TextUnformatted(ui_secret.needs_password.c_str());
 
         ImGui::TableNextColumn();
-        ImGui::TextUnformatted(ui_secret.needs_spell_id);
+        ImGui::TextUnformatted(ui_secret.needs_spell_id.c_str());
 
         ImGui::TableNextColumn();
-        ImGui::TextUnformatted(ui_secret.reveals_item_id);
+        ImGui::TextUnformatted(ui_secret.reveals_item_id.c_str());
 
         ImGui::PopID();
     }
@@ -306,11 +296,11 @@ void Window_Rooms::show_tab_room_secrets()
 
     if (ImGui::Button("Add Secret")) {
         UI_secret new_secret;
-    
-        strncpy(new_secret.name, "unamed secret", std::size(new_secret.name));
-        strncpy(new_secret.description_before_reveal, "<undefined>", std::size(new_secret.name));
-        strncpy(new_secret.description_after_reveal, "<undefined>", std::size(new_secret.name));
-        strncpy(new_secret.text_on_reveal, "<undefined>", std::size(new_secret.name));
+
+        new_secret.name                      = "unamed secret";
+        new_secret.description_before_reveal = "<undefined>";
+        new_secret.description_after_reveal  = "<undefined>";
+        new_secret.text_on_reveal            = "<undefined>";
         g_secrets.emplace_back(new_secret);
     }
 }
@@ -326,8 +316,7 @@ void Window_Rooms::on_event(Event event)
 
             const auto object = objects.at(static_cast<size_t>(i));
 
-            if( object.get_id() == event.room_id)
-            {
+            if (object.get_id() == event.room_id) {
                 m_current_index  = i;
                 m_current_object = object;
                 load_object();

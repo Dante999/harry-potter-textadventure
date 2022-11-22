@@ -28,7 +28,7 @@ class Window_Rooms : public Window_Base<Room>, public IEvent_handler {
     void              refresh_cache() override;
     void              save_object() override;
     void              show_attributes() override;
-    void on_event(Event event) override;
+    void              on_event(Event event) override;
 };
 
 #endif /* WINDOW_ROOMS_HPP */

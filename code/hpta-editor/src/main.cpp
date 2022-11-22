@@ -105,18 +105,14 @@ int main(int argc, char *argv[])
 
     Event_engine event_engine;
 
-    auto map                   = std::make_shared<Map>(window, room_cache, event_engine);
-    auto panel_room_attributes = std::make_shared<Panel_room_attributes>(event_engine);
-    auto panel_room_list       = std::make_shared<Panel_room_list>(room_cache, event_engine);
+    auto map = std::make_shared<Map>(window, room_cache, event_engine);
 
     auto window_items  = std::make_shared<Window_Items>("Items", item_cache);
     auto window_spells = std::make_shared<Window_Spells>("Spells", spell_cache);
     auto window_rooms  = std::make_shared<Window_Rooms>("Rooms", room_cache, event_engine);
 
-    std::vector<std::shared_ptr<IPanel>> panels{map,          panel_room_attributes, panel_room_list,
-                                                window_items, window_spells,         window_rooms};
+    std::vector<std::shared_ptr<IPanel>> panels{map, window_items, window_spells, window_rooms};
     event_engine.add_event_handler(map);
-    event_engine.add_event_handler(panel_room_attributes);
     event_engine.add_event_handler(window_rooms);
 
     Map_navigation map_navigation(view);

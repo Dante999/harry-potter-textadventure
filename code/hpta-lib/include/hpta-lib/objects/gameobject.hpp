@@ -1,5 +1,5 @@
-#ifndef ORGANISM_HPP
-#define ORGANISM_HPP
+#ifndef GAMEOBJECT_HPP
+#define GAMEOBJECT_HPP
 
 #include <string>
 
@@ -21,4 +21,4 @@ class Gameobject {
     void set_id(const std::string &id) { m_id = id; }
 };
 
-#endif /* ORGANISM_HPP */
+#endif /* GAMEOBJECT_HPP */

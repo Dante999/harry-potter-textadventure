@@ -17,7 +17,9 @@ inline float get_textwrapwidth()
            Hpta_config::get_float(Settings::editor_textwraplen);
 }
 
-bool InputTextMultilineWrapped(const char *label, char *buf, size_t buf_size, const ImVec2 &size = ImVec2(0, 0),
+bool InputText(const char *label, std::string &buf, ImGuiInputTextFlags flags = 0);
+
+bool InputTextMultilineWrapped(const char *label, std::string &buf, const ImVec2 &size = ImVec2(0, 0),
                                ImGuiInputTextFlags flags = 0);
 
 } // namespace hpta_imgui

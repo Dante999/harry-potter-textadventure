@@ -2,8 +2,8 @@ project(hpta-editor CXX)
 
 add_executable(${PROJECT_NAME}
     src/main.cpp
-    src/panel_room_attributes.cpp
-    src/panel_room_list.cpp
+    #src/panel_room_attributes.cpp
+    #src/panel_room_list.cpp
     #src/panel_item_attributes.cpp
     #src/panel_item_list.cpp
     #src/panel_spells.cpp
