@@ -1,4 +1,4 @@
-#include "window_rooms.hpp"
+#include "panel_rooms.hpp"
 
 #include "hpta_imgui.hpp"
 #include "utils.hpp"
@@ -62,11 +62,11 @@ static void show_popup_edit_secret(UI_secret &secret)
 
 } // namespace
 
-std::vector<Room> Window_Rooms::get_objects() { return m_room_cache.get_list(); }
+std::vector<Room> Panel_Rooms::get_objects() { return m_room_cache.get_list(); }
 
-void Window_Rooms::refresh_cache() { m_room_cache.refresh(); }
+void Panel_Rooms::refresh_cache() { m_room_cache.refresh(); }
 
-void Window_Rooms::create_object()
+void Panel_Rooms::create_object()
 {
     m_current_object = Room{"/rooms/unknown.json"};
 
@@ -74,7 +74,7 @@ void Window_Rooms::create_object()
     m_current_object.set_description("no description");
 }
 
-void Window_Rooms::load_object()
+void Panel_Rooms::load_object()
 {
     g_room.id          = m_current_object.get_id();
     g_room.name        = m_current_object.get_name();
@@ -108,7 +108,7 @@ void Window_Rooms::load_object()
     }
 }
 
-void Window_Rooms::save_object()
+void Panel_Rooms::save_object()
 {
     m_current_object.set_id(g_room.id);
     m_current_object.set_name(g_room.name);
@@ -148,7 +148,7 @@ void Window_Rooms::save_object()
     m_event_engine.publish(Event{Event::Type::ROOM_CHANGED, m_current_object.get_id(), ""});
 }
 
-void Window_Rooms::show_attributes()
+void Panel_Rooms::show_attributes()
 {
     ImGui::PushItemWidth(hpta_imgui::get_textwrapwidth());
 
@@ -172,7 +172,7 @@ void Window_Rooms::show_attributes()
     ImGui::EndTabBar();
 }
 
-void Window_Rooms::show_tab_room_exits()
+void Panel_Rooms::show_tab_room_exits()
 {
 
     ImGui::BeginTable("Directions", 4, ImGuiTableFlags_Resizable + ImGuiTableFlags_Borders);
@@ -239,7 +239,7 @@ void Window_Rooms::show_tab_room_exits()
     }
 }
 
-void Window_Rooms::show_tab_room_secrets()
+void Panel_Rooms::show_tab_room_secrets()
 {
     ImGui::BeginTable("Secrets", 6, ImGuiTableFlags_Resizable + ImGuiTableFlags_Borders);
 
@@ -306,7 +306,7 @@ void Window_Rooms::show_tab_room_secrets()
     }
 }
 
-void Window_Rooms::on_event(Event event)
+void Panel_Rooms::on_event(Event event)
 {
     switch (event.event_type) {
     case Event::Type::ROOM_SELECTED: {

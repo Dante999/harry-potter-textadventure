@@ -20,10 +20,10 @@
 #include "map.hpp"
 #include "map_navigation.hpp"
 #include "object_cache.hpp"
+#include "panel_items.hpp"
+#include "panel_rooms.hpp"
+#include "panel_spells.hpp"
 #include "settings.hpp"
-#include "window_items.hpp"
-#include "window_rooms.hpp"
-#include "window_spells.hpp"
 
 static const char USAGE[] =
     R"(Harry Potter Textadveture Editor
@@ -103,9 +103,9 @@ int main(int argc, char *argv[])
 
     auto map = std::make_shared<Map>(window, room_cache, event_engine);
 
-    auto window_items  = std::make_shared<Window_Items>("Items", item_cache);
-    auto window_spells = std::make_shared<Window_Spells>("Spells", spell_cache);
-    auto window_rooms  = std::make_shared<Window_Rooms>("Rooms", room_cache, event_engine);
+    auto window_items  = std::make_shared<Panel_Items>("Items", item_cache);
+    auto window_spells = std::make_shared<Panel_Spells>("Spells", spell_cache);
+    auto window_rooms  = std::make_shared<Panel_Rooms>("Rooms", room_cache, event_engine);
 
     std::vector<std::shared_ptr<IPanel>> panels{window_items, window_spells, window_rooms};
     event_engine.add_event_handler(map);

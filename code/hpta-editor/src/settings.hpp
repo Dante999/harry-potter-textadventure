@@ -31,4 +31,4 @@ constexpr auto editor_fontsize_ratio = "editor_fontsize_ratio";
 
 } // namespace Settings
 
-#endif // SETTINGS_HPP
+#endif /* SETTINGS_HPP */

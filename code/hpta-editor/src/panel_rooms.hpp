@@ -2,11 +2,11 @@
 #define WINDOW_ROOMS_HPP
 
 #include "event_engine.hpp"
-#include "window_base.hpp"
+#include "panel_base.hpp"
 
 #include "hpta-lib/objects/room.hpp"
 
-class Window_Rooms : public Window_Base<Room>, public IEvent_handler {
+class Panel_Rooms : public Panel_Base<Room>, public IEvent_handler {
 
   private:
     Room_cache    m_room_cache;
@@ -17,8 +17,8 @@ class Window_Rooms : public Window_Base<Room>, public IEvent_handler {
     void show_tab_room_secrets();
 
   public:
-    Window_Rooms(const std::string &name, Room_cache &cache, Event_engine &event_engine)
-        : Window_Base{name}, m_room_cache{cache}, m_event_engine{event_engine}
+    Panel_Rooms(const std::string &name, Room_cache &cache, Event_engine &event_engine)
+        : Panel_Base{name}, m_room_cache{cache}, m_event_engine{event_engine}
     {
     }
 

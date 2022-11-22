@@ -1,17 +1,17 @@
 #ifndef WINDOW_SPELLS_HPP
 #define WINDOW_SPELLS_HPP
 
-#include "window_base.hpp"
+#include "panel_base.hpp"
 
 #include "hpta-lib/objects/spell.hpp"
 
-class Window_Spells : public Window_Base<Spell> {
+class Panel_Spells : public Panel_Base<Spell> {
 
   private:
     Spell_Cache m_spell_cache;
 
   public:
-    Window_Spells(const std::string &name, Spell_Cache &cache) : Window_Base{name}, m_spell_cache{cache} {}
+    Panel_Spells(const std::string &name, Spell_Cache &cache) : Panel_Base{name}, m_spell_cache{cache} {}
 
     void               create_object() override;
     void               load_object() override;

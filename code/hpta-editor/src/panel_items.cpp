@@ -1,4 +1,4 @@
-#include "window_items.hpp"
+#include "panel_items.hpp"
 
 #include "utils.hpp"
 
@@ -15,11 +15,11 @@ struct UI_item {
 static UI_item g_item;
 } // namespace
 
-std::vector<Item> Window_Items::get_objects() { return m_item_cache.get_list(); }
+std::vector<Item> Panel_Items::get_objects() { return m_item_cache.get_list(); }
 
-void Window_Items::refresh_cache() { m_item_cache.refresh(); }
+void Panel_Items::refresh_cache() { m_item_cache.refresh(); }
 
-void Window_Items::create_object()
+void Panel_Items::create_object()
 {
     m_current_object = Item{"/items/unknown.json"};
 
@@ -27,14 +27,14 @@ void Window_Items::create_object()
     m_current_object.set_description("no description");
 }
 
-void Window_Items::load_object()
+void Panel_Items::load_object()
 {
     g_item.id          = m_current_object.get_id();
     g_item.name        = m_current_object.get_name();
     g_item.description = utils::wrap_text(m_current_object.get_description());
 }
 
-void Window_Items::save_object()
+void Panel_Items::save_object()
 {
     m_current_object.set_id(g_item.id);
     m_current_object.set_name(g_item.name);
@@ -43,7 +43,7 @@ void Window_Items::save_object()
     persistency::save_item(Hpta_config::get_string(Settings::gamedata_dir), m_current_object);
 }
 
-void Window_Items::show_attributes()
+void Panel_Items::show_attributes()
 {
     ImGui::PushItemWidth(hpta_imgui::get_textwrapwidth());
 

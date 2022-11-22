@@ -7,13 +7,13 @@
 #include <imgui.h>
 
 template <typename Tobject>
-class Window_Base : public IPanel {
+class Panel_Base : public IPanel {
   protected:
     int     m_current_index{-1};
     Tobject m_current_object{""};
 
   public:
-    explicit Window_Base(const std::string &name) : IPanel{name} {}
+    explicit Panel_Base(const std::string &name) : IPanel{name} {}
 
     virtual void                 create_object()   = 0;
     virtual void                 load_object()     = 0;
