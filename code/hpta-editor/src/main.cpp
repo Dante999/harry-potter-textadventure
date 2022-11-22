@@ -117,6 +117,7 @@ int main(int argc, char *argv[])
                                                 window_items, window_spells,         window_rooms};
     event_engine.add_event_handler(map);
     event_engine.add_event_handler(panel_room_attributes);
+    event_engine.add_event_handler(window_rooms);
 
     Map_navigation map_navigation(view);
     // --------------------------------------------------------------------------------
