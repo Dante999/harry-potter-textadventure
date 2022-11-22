@@ -9,12 +9,11 @@
 template <typename Tobject>
 class Window_Base : public IPanel {
   protected:
-    const std::string m_name{};
-    int               m_current_index{-1};
-    Tobject           m_current_object{""};
+    int     m_current_index{-1};
+    Tobject m_current_object{""};
 
   public:
-    explicit Window_Base(const std::string &name) : m_name{name} {}
+    explicit Window_Base(const std::string &name) : IPanel{name} {}
 
     virtual void                 create_object()   = 0;
     virtual void                 load_object()     = 0;
@@ -41,10 +40,7 @@ class Window_Base : public IPanel {
 
     void refresh() override
     {
-        ImGui::Begin(m_name.c_str());
         ImGui::PushID(m_name.c_str());
-
-        // ImGui::SetWindowFontScale(Hpta_config::get_float(Settings::scale_factor));
 
         if (ImGui::Button("Refresh")) {
             refresh_cache();
@@ -78,7 +74,6 @@ class Window_Base : public IPanel {
         ImGui::EndTable();
 
         ImGui::PopID();
-        ImGui::End();
     }
 };
 

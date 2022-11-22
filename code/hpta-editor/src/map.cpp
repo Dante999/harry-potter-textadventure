@@ -15,7 +15,6 @@
 #include "hpta-lib/objects/room.hpp"
 #include "hpta-lib/util/hpta_algorithms.hpp"
 #include "hpta-lib/util/hpta_strings.hpp"
-#include "panel_room_attributes.hpp"
 #include "settings.hpp"
 
 static auto g_font = sf::Font();

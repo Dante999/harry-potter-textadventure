@@ -16,14 +16,10 @@
 
 #include "event_engine.hpp"
 #include "ipanel.hpp"
+
 #include "map.hpp"
 #include "map_navigation.hpp"
 #include "object_cache.hpp"
-#include "panel_item_attributes.hpp"
-#include "panel_item_list.hpp"
-#include "panel_room_attributes.hpp"
-#include "panel_room_list.hpp"
-#include "panel_spells.hpp"
 #include "settings.hpp"
 #include "window_items.hpp"
 #include "window_rooms.hpp"
@@ -111,9 +107,31 @@ int main(int argc, char *argv[])
     auto window_spells = std::make_shared<Window_Spells>("Spells", spell_cache);
     auto window_rooms  = std::make_shared<Window_Rooms>("Rooms", room_cache, event_engine);
 
-    std::vector<std::shared_ptr<IPanel>> panels{map, window_items, window_spells, window_rooms};
+    std::vector<std::shared_ptr<IPanel>> panels{window_items, window_spells, window_rooms};
     event_engine.add_event_handler(map);
     event_engine.add_event_handler(window_rooms);
+
+    auto show_main_window = [&]() {
+        ImGui::Begin("Editor");
+
+        ImGui::BeginTabBar("tabs");
+
+        for (const auto &i : panels) {
+            if (ImGui::BeginTabItem(i->get_name().c_str())) {
+
+                ImGui::Dummy(ImVec2{0, ImGui::GetFontSize() * 2});
+
+                i->refresh();
+                ImGui::EndTabItem();
+            }
+        }
+
+        ImGui::EndTabBar();
+
+        ImGui::End();
+
+        map->refresh();
+    };
 
     Map_navigation map_navigation(view);
     // --------------------------------------------------------------------------------
@@ -145,9 +163,7 @@ int main(int argc, char *argv[])
 
         // ----------------------------------------
 
-        for (const auto &i : panels) {
-            i->refresh();
-        }
+        show_main_window();
 
         map_navigation.handle();
 

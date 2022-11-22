@@ -43,7 +43,7 @@ void Window_Spells::save_object()
 
 void Window_Spells::show_attributes()
 {
-    ImGui::PushItemWidth(-ImGui::GetWindowWidth() * 0.20f);
+    ImGui::PushItemWidth(hpta_imgui::get_textwrapwidth());
 
     hpta_imgui::InputText("ID", g_spell.id);
     hpta_imgui::InputText("Name", g_spell.name);

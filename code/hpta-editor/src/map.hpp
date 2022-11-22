@@ -8,7 +8,7 @@
 #include "ipanel.hpp"
 #include "object_cache.hpp"
 
-class Map : public IPanel, public IEvent_handler {
+class Map : public IEvent_handler {
   private:
     sf::RenderWindow &m_window;
     Room_cache &      m_room_cache;
@@ -24,7 +24,7 @@ class Map : public IPanel, public IEvent_handler {
         init();
     }
 
-    void refresh() override;
+    void refresh();
     void on_event(Event event) override;
 };
 
