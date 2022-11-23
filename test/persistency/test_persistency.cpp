@@ -44,7 +44,7 @@ static void compare(const Room::Secret &lhs, const Room::Secret &rhs)
     EXPECT_EQ(lhs.name, rhs.name);
     EXPECT_EQ(lhs.description_before_reveal, rhs.description_before_reveal);
     EXPECT_EQ(lhs.description_after_reveal, rhs.description_after_reveal);
-    EXPECT_EQ(lhs.text_on_reveal, rhs.text_on_reveal);
+    EXPECT_EQ(lhs.description_on_reveal, rhs.description_on_reveal);
     EXPECT_EQ(lhs.needs_spell_id, rhs.needs_spell_id);
     EXPECT_EQ(lhs.needs_item_id, rhs.needs_item_id);
     EXPECT_EQ(lhs.needs_password, rhs.needs_password);

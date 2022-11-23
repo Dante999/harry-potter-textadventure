@@ -27,7 +27,7 @@ class Room : public Storage, public Gameobject {
         std::string name;
         std::string description_before_reveal;
         std::string description_after_reveal;
-        std::string text_on_reveal;
+        std::string description_on_reveal;
         std::string needs_spell_id;
         std::string needs_item_id;
         std::string needs_password;

@@ -62,7 +62,7 @@ bool Use::interprete(Context &context, const std::vector<std::string> &token)
             Hpta_strings::equals_ignorecase(secret.needs_item_id, item->item.get_id())) {
 
             secret.is_revealed = true;
-            screen->print_wrapped(secret.text_on_reveal);
+            screen->print_wrapped(secret.description_on_reveal);
             screen->println("");
 
             if (!secret.reveals_item_id.empty()) {

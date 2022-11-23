@@ -30,7 +30,7 @@ struct UI_secret {
     std::string name;
     std::string description_before_reveal;
     std::string description_after_reveal;
-    std::string text_on_reveal;
+    std::string description_on_reveal;
     std::string needs_spell_id;
     std::string needs_item_id;
     std::string needs_password;
@@ -54,8 +54,8 @@ static void show_popup_edit_secret(UI_secret &secret)
     hpta_imgui::InputText("needs password", secret.needs_password);
     hpta_imgui::InputText("reveals item id", secret.reveals_item_id);
     hpta_imgui::InputTextMultilineWrapped("Description before reveal", secret.description_before_reveal);
-    hpta_imgui::InputTextMultilineWrapped("Description after reveal", secret.description_after_reveal);
-    hpta_imgui::InputTextMultilineWrapped("Text on reveal", secret.text_on_reveal);
+    hpta_imgui::InputTextMultilineWrapped("Description on reveal", secret.description_on_reveal);
+    hpta_imgui::InputTextMultilineWrapped("Description after reveal", secret.description_after_reveal);    
     ImGui::PopItemWidth();
     ImGui::PopID();
 }
@@ -98,7 +98,7 @@ void Panel_Rooms::load_object()
         ui_secret.name                      = secret.name;
         ui_secret.description_before_reveal = utils::wrap_text(secret.description_before_reveal);
         ui_secret.description_after_reveal  = utils::wrap_text(secret.description_after_reveal);
-        ui_secret.text_on_reveal            = utils::wrap_text(secret.text_on_reveal);
+        ui_secret.description_on_reveal            = utils::wrap_text(secret.description_on_reveal);
         ui_secret.needs_spell_id            = secret.needs_spell_id;
         ui_secret.needs_item_id             = secret.needs_item_id;
         ui_secret.needs_password            = secret.needs_password;
@@ -133,7 +133,7 @@ void Panel_Rooms::save_object()
         secret.name                      = ui_secret.name;
         secret.description_before_reveal = ui_secret.description_before_reveal;
         secret.description_after_reveal  = ui_secret.description_after_reveal;
-        secret.text_on_reveal            = ui_secret.text_on_reveal;
+        secret.description_on_reveal            = ui_secret.description_on_reveal;
         secret.needs_spell_id            = ui_secret.needs_spell_id;
         secret.needs_item_id             = ui_secret.needs_item_id;
         secret.needs_password            = ui_secret.needs_password;
@@ -302,7 +302,7 @@ void Panel_Rooms::show_tab_room_secrets()
         new_secret.name                      = "unamed secret";
         new_secret.description_before_reveal = "<undefined>";
         new_secret.description_after_reveal  = "<undefined>";
-        new_secret.text_on_reveal            = "<undefined>";
+        new_secret.description_on_reveal            = "<undefined>";
         g_secrets.emplace_back(new_secret);
     }
 }
