@@ -14,7 +14,7 @@ inline float calc_textwidth(size_t text_length)
     return (fontsize * scale) * textlen;
 }
 
-inline std::string wrap_text(std::string text)
+[[nodiscard]] inline std::string wrap_text(const std::string& text)
 {
     return Hpta_strings::add_newline_on_column_width(Hpta_strings::remove_newlines(text),
                                                      Hpta_config::get_uint(Settings::editor_textwraplen));

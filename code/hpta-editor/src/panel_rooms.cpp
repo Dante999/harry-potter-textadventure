@@ -96,9 +96,9 @@ void Panel_Rooms::load_object()
         UI_secret ui_secret;
 
         ui_secret.name                      = secret.name;
-        ui_secret.description_before_reveal = secret.description_before_reveal;
-        ui_secret.description_after_reveal  = secret.description_after_reveal;
-        ui_secret.text_on_reveal            = secret.text_on_reveal;
+        ui_secret.description_before_reveal = utils::wrap_text(secret.description_before_reveal);
+        ui_secret.description_after_reveal  = utils::wrap_text(secret.description_after_reveal);
+        ui_secret.text_on_reveal            = utils::wrap_text(secret.text_on_reveal);
         ui_secret.needs_spell_id            = secret.needs_spell_id;
         ui_secret.needs_item_id             = secret.needs_item_id;
         ui_secret.needs_password            = secret.needs_password;

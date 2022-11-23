@@ -3,14 +3,13 @@
         {
             "name": "Linux",
             "includePath": [
-                "${workspaceFolder}/code/hpta-lib/include",
-                "~/.conan/data/**"
+                "${workspaceFolder}/code/hpta-lib/include"
             ],
             "defines": [],
-            "compilerPath": "/usr/bin/g++",
-            "cStandard": "c11",
+            "compilerPath": "${default}",
+            "cStandard": "c17",
             "cppStandard": "c++17",
-            "intelliSenseMode": "clang-x64",
+            "intelliSenseMode": "${default}",
             "configurationProvider": "ms-vscode.cmake-tools",
             "compileCommands": "/media/dante999/Unix_1TB/projects/pc-textadventure/2_Software/harry-potter-textadventure/build/compile_commands.json"
         }

@@ -10,6 +10,7 @@
 #include "hpta-lib/commands/say.hpp"
 #include "hpta-lib/commands/take.hpp"
 #include "hpta-lib/commands/walk.hpp"
+#include "hpta-lib/commands/use.hpp"
 
 Interpreter::Interpreter()
 {
@@ -20,6 +21,7 @@ Interpreter::Interpreter()
     m_commands.emplace_back(std::make_shared<Say>());
     m_commands.emplace_back(std::make_shared<Cast>());
     m_commands.emplace_back(std::make_shared<Help>(m_commands));
+    m_commands.emplace_back(std::make_shared<Use>());
 }
 
 const std::vector<std::string> Interpreter::split_text_by_words(const std::string &text)

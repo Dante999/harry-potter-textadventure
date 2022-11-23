@@ -81,5 +81,7 @@ bool hpta_imgui::InputTextMultilineWrapped(const char *label, std::string &buf, 
         return 0;
     };
 
+    // buf = utils::wrap_text(buf);
+
     return ImGui::InputTextMultiline(label, buf_c, buf.capacity() + 1, size, flags, callback, &cb_user_data);
 }

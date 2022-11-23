@@ -52,6 +52,7 @@ int main(int argc, char *argv[])
     auto player = std::make_shared<Player>("Harry", "/rooms/winkelgasse/zum_tropfenden_kessel.json");
 
     player->add_item({30, persistency::load_item(gamedata_dir, "/items/knut.json")});
+    player->add_item({1, persistency::load_item(gamedata_dir, "/items/eulenfeder.json")});
 
     Service_registry service_registry;
     service_registry.add(std::make_shared<Room_cache_service>(gamedata_dir));

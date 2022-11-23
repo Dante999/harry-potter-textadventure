@@ -10,6 +10,7 @@ add_library(${PROJECT_NAME}
     src/commands/take.cpp 
     src/commands/say.cpp
     src/commands/cast.cpp
+    src/commands/use.cpp
     src/objects/storage.cpp 
     src/visualizer.cpp 
     src/persistency/room_persistency.cpp 

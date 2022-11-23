@@ -1,6 +1,6 @@
 {
     "name": "Zum Tropfenden Kessel",
-    "description": "Der Tropfende Kessel wirkt nicht wie ein bekannter und wichtiger Ort, sondern dunkel und schäbig. Heutzutage wird der kleine, schmuddelig wirkende Pub von dem schon älteren Wirt *Tom* geführt. Außer der kurzfristigen Bewirtung bietet der Tropfende Kessel auch Übernachtungsmöglichkeiten in der oberen Etage. Auf einer *Bar* befindet sich ein kleines *Tintenfass* welches eine Feder vermisst sowie eine *Kerze* die vor kurzen ausgegangen sein muss. Über der Bar befindet sich das *Porträt* von Wilhmelm, der Betrunkene. ",
+    "description": "Der Tropfende Kessel wirkt nicht wie ein bekannter und wichtiger Ort, sondern dunkel und schäbig. Heutzutage wird der kleine, schmuddelig wirkende Pub von dem schon älteren Wirt *Tom* geführt. Außer der kurzfristigen Bewirtung bietet der Tropfende Kessel auch Übernachtungsmöglichkeiten in der oberen Etage. Auf einer *Bar* befindet sich ein kleines *Tintenfass* welches eine Feder vermisst sowie eine *Kerze* die vor kurzen ausgegangen sein muss. Über der Bar befindet sich das *Porträt* von Wilhmelm, der Betrunkene.",
     "items": [],
     "details": [
         {
@@ -12,11 +12,6 @@
             "description": "Der Wirt des tropfenden Kessels"
         }
     ],
-    "npcs": [
-        {
-            "id" : "/npcs/tom_vom_tropfenden_kessel.json"
-        }
-    ],
     "exits": [
         {
             "direction": "Norden",
@@ -26,27 +21,26 @@
     ],
     "secrets": [
         {
-            "name" : "Tintenfass",
-            "description_before_reveal":  "Du wirst das gefühl nicht los, das Tintenfass wäre dir sehr dankbar, wenn du ihm eine neue Feder bringen würdest.",
-            "description_after_reveal":  "Das Tintenfass ist dank deiner Hilfe wieder mit einer Feder vereint",
-            "needs_item" : "/items/eulenfeder.json",
-            "text_on_reveal" : "Du steckst die Eulenfeder in das Tintenfass. Freudig springt die Feder heraus und kritzelt 'das Porträtpasswort ist Butterbier' auf die Bar bevor sie wieder zurück in das Tintenfass hüpft."
+            "name": "Tintenfass",
+            "description_before_reveal": "Du wirst das gefühl nicht los, das Tintenfass wäre dir sehr dankbar, wenn du\nihm eine neue Feder bringen würdest.\n",
+            "description_after_reveal": "Das Tintenfass ist dank deiner Hilfe wieder mit einer Feder vereint. Das\nPorträt Passwort 'Butterbier' steht nach wie vor auf der Bar.  \n",
+            "text_on_reveal": "Du steckst die Eulenfeder in das Tintenfass. Freudig springt die Feder heraus\nund kritzelt 'das Porträtpasswort ist Butterbier' auf die Bar bevor sie wieder\nzurück in das Tintenfass hüpft.\n",
+            "needs_item": "/items/eulenfeder.json"
         },
         {
-            "name" : "Porträt",
-            "description_before_reveal":  "Das Porträt zeigt den betrunken Zauberer Wilhelm, der mit schief hängenden Hut auf einem Bierkrug gestützt in der Ecke einer Kneipe sitzt.",
-            "description_after_reveal":  "Wilhelm der betrunkene zwinktert dir auf dem Porträt zu, sichtlich begeistert über die Wahl deines Getränkes",
-            "needs_password" : "Butterbier",
-            "text_on_reveal" : "Das Porträt mit Wilhelm dem Betrunkenen rutscht an der Wandhalterung entlang und offenbart eine kleine Schachfigur",
-            "reveals_item" : "/items/schachfigur_bauer.json"
+            "name": "Porträt",
+            "description_before_reveal": "Das Porträt zeigt den betrunken Zauberer Wilhelm, der mit schief hängenden\nHut auf einem Bierkrug gestützt in der Ecke einer Kneipe sitzt.\n",
+            "description_after_reveal": "Wilhelm der betrunkene zwinktert dir auf dem Porträt zu, sichtlich begeistert\nüber die Wahl deines Getränkes\n",
+            "text_on_reveal": "Das Porträt mit Wilhelm dem Betrunkenen rutscht an der Wandhalterung entlang\nund offenbart eine kleine Schachfigur\n",
+            "needs_password": "Butterbier",
+            "reveals_item": "/items/schachfigur_bauer.json"
         },
         {
-            "name" : "Kerze",
-            "description_before_reveal":  "Die Kerze ist noch warm und genügend Wachs ist vorhanden, scheit als hätte ein Windstoss sie vor kurzen gelöscht. Mit einem Zauber könntest du sie vielleicht wieder entzünden.",
-            "description_after_reveal":  "Die Kerze flackert langsam vor sich hin",
-            "needs_spell" : "/spells/incendio.json",
-            "text_on_reveal" : "Die Kerze beginnt zu brennen und verstrahlt ein heimeliges Gefühl"
+            "name": "Kerze",
+            "description_before_reveal": "Die Kerze ist noch warm und genügend Wachs ist vorhanden, scheit als hätte\nein Windstoss sie vor kurzen gelöscht. Mit einem Zauber könntest du sie\nvielleicht wieder entzünden.\n",
+            "description_after_reveal": "Die Kerze flackert langsam vor sich hin\n",
+            "text_on_reveal": "Die Kerze beginnt zu brennen und verstrahlt ein heimeliges Gefühl\n",
+            "needs_spell": "/spells/incendio.json"
         }
-
     ]
 }
