@@ -7,6 +7,8 @@
 #include <string>
 #include <vector>
 
+#include "hpta-lib/util/hpta_strings.hpp"
+
 enum class Category { ITEMS, ROOMS, NPCS };
 
 class Persistency_test_fixture : public ::testing::Test {
@@ -55,7 +57,7 @@ class Persistency_test_fixture : public ::testing::Test {
 
         for (const auto &file : std::filesystem::recursive_directory_iterator(m_gamedata_dir + base_dir())) {
 
-            if (!file.is_directory()) {
+            if (!file.is_directory() && Hpta_strings::ends_with(file.path(), ".json")) {
                 std::string id{file.path()};
 
                 result.emplace_back(id.erase(0, m_gamedata_dir.length()));
