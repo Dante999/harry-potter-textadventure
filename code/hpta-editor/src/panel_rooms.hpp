@@ -15,6 +15,7 @@ class Panel_Rooms : public Panel_Base<Room>, public IEvent_handler {
   private:
     void show_tab_room_exits();
     void show_tab_room_secrets();
+    void show_tab_room_items();
 
   public:
     Panel_Rooms(const std::string &name, Room_cache &cache, Event_engine &event_engine)

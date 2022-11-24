@@ -106,6 +106,16 @@ void Panel_Rooms::load_object()
 
         g_secrets.emplace_back(ui_secret);
     }
+
+    g_items.clear();
+    for (const auto &item : m_current_object.get_items()) {
+        UI_item ui_item;
+
+        ui_item.id       = item.item.get_id();
+        ui_item.quantity = item.quantity;
+
+        g_items.emplace_back(ui_item);
+    }
 }
 
 void Panel_Rooms::save_object()
@@ -146,6 +156,16 @@ void Panel_Rooms::save_object()
     }
     m_current_object.set_secrets(secrets);
 
+    for (const auto &ui_item : g_items) {
+        Storage::Entry entry {
+            ui_item.quantity,
+            Item(ui_item.id)
+        };
+
+        m_current_object.add_item(entry);
+    }
+    
+
     persistency::save_room(Hpta_config::get_string(Settings::gamedata_dir), m_current_object);
 
     m_event_engine.publish(Event{Event::Type::ROOM_CHANGED, m_current_object.get_id(), ""});
@@ -164,6 +184,11 @@ void Panel_Rooms::show_attributes()
 
     if (ImGui::BeginTabItem("Exits")) {
         show_tab_room_exits();
+        ImGui::EndTabItem();
+    }
+
+    if (ImGui::BeginTabItem("Items")) {
+        show_tab_room_items();
         ImGui::EndTabItem();
     }
 
@@ -331,6 +356,62 @@ void Panel_Rooms::show_tab_room_secrets()
         new_secret.description_after_reveal  = "<undefined>";
         new_secret.description_on_reveal     = "<undefined>";
         g_secrets.emplace_back(new_secret);
+    }
+}
+
+void Panel_Rooms::show_tab_room_items()
+{
+    ImGui::BeginTable("Items", 3, ImGuiTableFlags_Resizable + ImGuiTableFlags_Borders);
+
+    ImGui::TableSetupColumn("Action##items");
+    ImGui::TableSetupColumn("Quantity##items");
+    ImGui::TableSetupColumn("Item##items");
+
+    ImGui::TableHeadersRow();
+
+    int                      i = 0;
+    std::vector<std::string> items_to_delete{};
+    for (auto &ui_item : g_items) {
+        const auto imgui_id = fmt::format("item{}", i++);
+
+        ImGui::PushID(imgui_id.c_str());
+        ImGui::TableNextRow();
+
+        
+        ImGui::TableNextColumn();
+        if (ImGui::Button("Delete")) {
+            items_to_delete.emplace_back(ui_item.id);
+        }
+
+        
+        ImGui::TableNextColumn();
+        ImGui::PushItemWidth(-1);
+        ImGui::InputInt("##quantity", &ui_item.quantity, 1);
+        
+
+        ImGui::TableNextColumn();
+        ImGui::PushItemWidth(-1);
+        hpta_imgui::InputText("##id", ui_item.id);
+        ImGui::PopItemWidth();
+        
+        ImGui::PopID();
+    }
+
+    for (auto itr = g_items.begin(); itr != g_items.end();) {
+        if (Hpta_strings::equals_one_of(itr->id, items_to_delete)) {
+            itr = g_items.erase(itr);
+        }
+        else {
+            ++itr;
+        }
+    }
+
+    ImGui::EndTable();
+
+    if (ImGui::Button("Add Item")) {
+        UI_item item{1, "<unknown-id>"};
+
+        g_items.emplace_back(item);
     }
 }
 
