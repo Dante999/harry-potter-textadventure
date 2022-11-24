@@ -9,8 +9,8 @@
 #include "hpta-lib/commands/look.hpp"
 #include "hpta-lib/commands/say.hpp"
 #include "hpta-lib/commands/take.hpp"
-#include "hpta-lib/commands/walk.hpp"
 #include "hpta-lib/commands/use.hpp"
+#include "hpta-lib/commands/walk.hpp"
 
 Interpreter::Interpreter()
 {

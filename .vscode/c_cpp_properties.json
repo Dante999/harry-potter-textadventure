@@ -9,7 +9,8 @@
             "compilerPath": "${default}",
             "cStandard": "c17",
             "cppStandard": "c++17",
-            "intelliSenseMode": "${default}",
+            //"intelliSenseMode": "${default}",
+            "intelliSenseMode": "gcc-x64",
             "configurationProvider": "ms-vscode.cmake-tools",
             "compileCommands": "/media/dante999/Unix_1TB/projects/pc-textadventure/2_Software/harry-potter-textadventure/build/compile_commands.json"
         }

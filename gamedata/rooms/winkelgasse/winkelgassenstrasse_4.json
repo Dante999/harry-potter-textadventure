@@ -1,12 +1,14 @@
 {
     "name": "Winkelgassenstrasse 4",
-    "description": " ",
+    "description": "",
     "items": [],
+    "details": [],
     "exits": [
         {
             "direction": "Süden",
             "description": "Winkelgassenstrasse 3",
             "room_id": "/rooms/winkelgasse/winkelgassenstrasse_3.json"
         }
-    ]
+    ],
+    "secrets": []
 }

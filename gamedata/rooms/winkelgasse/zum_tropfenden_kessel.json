@@ -22,24 +22,24 @@
     "secrets": [
         {
             "name": "Tintenfass",
-            "description_before_reveal": "Du wirst das gefühl nicht los, das Tintenfass wäre dir sehr dankbar, wenn du\nihm eine neue Feder bringen würdest. \n",
-            "description_on_reveal": "Du steckst die Eulenfeder in das Tintenfass. Freudig springt die Feder heraus\nund kritzelt 'das Porträtpasswort ist Butterbier' auf die Bar bevor sie wieder\nzurück in das Tintenfass hüpft. \n",
-            "description_after_reveal": "Das Tintenfass ist dank deiner Hilfe wieder mit einer Feder vereint. Das\nPorträt Passwort 'Butterbier' steht nach wie vor auf der Bar zu lesen.  \n",
+            "description_before_reveal": "Du wirst das gefühl nicht los, das Tintenfass wäre dir sehr dankbar, wenn du ihm eine neue Feder bringen würdest.",
+            "description_on_reveal": "Du steckst die Eulenfeder in das Tintenfass. Freudig springt die Feder heraus und kritzelt 'das Porträtpasswort ist Butterbier' auf die Bar bevor sie wieder zurück in das Tintenfass hüpft.",
+            "description_after_reveal": "Das Tintenfass ist dank deiner Hilfe wieder mit einer Feder vereint. Das Porträt Passwort 'Butterbier' steht nach wie vor auf der Bar zu lesen.",
             "needs_item": "/items/eulenfeder.json"
         },
         {
             "name": "Porträt",
-            "description_before_reveal": "Das Porträt zeigt den betrunken Zauberer Wilhelm, der mit schief hängenden\nHut auf einem Bierkrug gestützt in der Ecke einer Kneipe sitzt. \n",
-            "description_on_reveal": "Das Porträt mit Wilhelm dem Betrunkenen rutscht an der Wandhalterung entlang\nund offenbart eine kleine Schachfigur \n",
-            "description_after_reveal": "Wilhelm der betrunkene zwinktert dir auf dem Porträt zu, sichtlich begeistert\nüber die Wahl deines Getränkes \n",
+            "description_before_reveal": "Das Porträt zeigt den betrunken Zauberer Wilhelm, der mit schief hängenden Hut auf einem Bierkrug gestützt in der Ecke einer Kneipe sitzt.",
+            "description_on_reveal": "Das Porträt mit Wilhelm dem Betrunkenen rutscht an der Wandhalterung entlang und offenbart eine kleine Schachfigur",
+            "description_after_reveal": "Wilhelm der betrunkene zwinktert dir auf dem Porträt zu, sichtlich begeistert über die Wahl deines Getränkes",
             "needs_password": "Butterbier",
             "reveals_item": "/items/schachfigur_bauer.json"
         },
         {
             "name": "Kerze",
-            "description_before_reveal": "Die Kerze ist noch warm und genügend Wachs ist vorhanden, scheit als hätte\nein Windstoss sie vor kurzen gelöscht. Mit einem Zauber könntest du sie\nvielleicht wieder entzünden. \n",
-            "description_on_reveal": "Die Kerze beginnt zu brennen und verstrahlt ein heimeliges Gefühl \n",
-            "description_after_reveal": "Die Kerze flackert langsam vor sich hin \n",
+            "description_before_reveal": "Die Kerze ist noch warm und genügend Wachs ist vorhanden, scheit als hätte ein Windstoss sie vor kurzen gelöscht. Mit einem Zauber könntest du sie vielleicht wieder entzünden.",
+            "description_on_reveal": "Die Kerze beginnt zu brennen und verstrahlt ein heimeliges Gefühl",
+            "description_after_reveal": "Die Kerze flackert langsam vor sich hin",
             "needs_spell": "/spells/incendio.json"
         }
     ]

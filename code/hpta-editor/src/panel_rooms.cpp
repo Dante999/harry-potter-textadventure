@@ -55,7 +55,7 @@ static void show_popup_edit_secret(UI_secret &secret)
     hpta_imgui::InputText("reveals item id", secret.reveals_item_id);
     hpta_imgui::InputTextMultilineWrapped("Description before reveal", secret.description_before_reveal);
     hpta_imgui::InputTextMultilineWrapped("Description on reveal", secret.description_on_reveal);
-    hpta_imgui::InputTextMultilineWrapped("Description after reveal", secret.description_after_reveal);    
+    hpta_imgui::InputTextMultilineWrapped("Description after reveal", secret.description_after_reveal);
     ImGui::PopItemWidth();
     ImGui::PopID();
 }
@@ -98,7 +98,7 @@ void Panel_Rooms::load_object()
         ui_secret.name                      = secret.name;
         ui_secret.description_before_reveal = utils::wrap_text(secret.description_before_reveal);
         ui_secret.description_after_reveal  = utils::wrap_text(secret.description_after_reveal);
-        ui_secret.description_on_reveal            = utils::wrap_text(secret.description_on_reveal);
+        ui_secret.description_on_reveal     = utils::wrap_text(secret.description_on_reveal);
         ui_secret.needs_spell_id            = secret.needs_spell_id;
         ui_secret.needs_item_id             = secret.needs_item_id;
         ui_secret.needs_password            = secret.needs_password;
@@ -130,14 +130,17 @@ void Panel_Rooms::save_object()
     for (const auto &ui_secret : g_secrets) {
         Room::Secret secret;
 
-        secret.name                      = ui_secret.name;
-        secret.description_before_reveal = ui_secret.description_before_reveal;
-        secret.description_after_reveal  = ui_secret.description_after_reveal;
-        secret.description_on_reveal            = ui_secret.description_on_reveal;
-        secret.needs_spell_id            = ui_secret.needs_spell_id;
-        secret.needs_item_id             = ui_secret.needs_item_id;
-        secret.needs_password            = ui_secret.needs_password;
-        secret.reveals_item_id           = ui_secret.reveals_item_id;
+        secret.name = ui_secret.name;
+        secret.description_before_reveal =
+            Hpta_strings::trim(Hpta_strings::remove_newlines(ui_secret.description_before_reveal));
+        secret.description_after_reveal =
+            Hpta_strings::trim(Hpta_strings::remove_newlines(ui_secret.description_after_reveal));
+        secret.description_on_reveal =
+            Hpta_strings::trim(Hpta_strings::remove_newlines(ui_secret.description_on_reveal));
+        secret.needs_spell_id  = ui_secret.needs_spell_id;
+        secret.needs_item_id   = ui_secret.needs_item_id;
+        secret.needs_password  = ui_secret.needs_password;
+        secret.reveals_item_id = ui_secret.reveals_item_id;
 
         secrets.emplace_back(secret);
     }
@@ -184,8 +187,9 @@ void Panel_Rooms::show_tab_room_exits()
 
     ImGui::TableHeadersRow();
 
-    int i = 0;
-    for (auto itr = g_exits.begin(); itr != g_exits.end(); ++itr) {
+    int                      i = 0;
+    std::vector<std::string> exits_to_delete{};
+    for (auto &ui_exit : g_exits) {
         const auto imgui_id = fmt::format("secret{}", i++);
 
         ImGui::PushID(imgui_id.c_str());
@@ -196,39 +200,46 @@ void Panel_Rooms::show_tab_room_exits()
         ImGui::PopItemWidth();
 
         if (delete_pressed) {
-            g_exits.erase(itr);
+            exits_to_delete.emplace_back(ui_exit.direction);
         }
-        else {
 
-            ImGui::TableNextColumn();
-            ImGui::PushItemWidth(-1);
-            hpta_imgui::InputText("##direction", itr->direction);
-            ImGui::PopItemWidth();
+        ImGui::TableNextColumn();
+        ImGui::PushItemWidth(-1);
+        hpta_imgui::InputText("##direction", ui_exit.direction);
+        ImGui::PopItemWidth();
 
-            ImGui::TableNextColumn();
-            ImGui::PushItemWidth(-1);
-            hpta_imgui::InputText("##description", itr->description);
-            ImGui::PopItemWidth();
+        ImGui::TableNextColumn();
+        ImGui::PushItemWidth(-1);
+        hpta_imgui::InputText("##description", ui_exit.description);
+        ImGui::PopItemWidth();
 
-            ImGui::TableNextColumn();
-            ImGui::PushItemWidth(-1);
-            hpta_imgui::InputText("##room_id", itr->room_id);
-            ImGui::PopItemWidth();
+        ImGui::TableNextColumn();
+        ImGui::PushItemWidth(-1);
+        hpta_imgui::InputText("##room_id", ui_exit.room_id);
+        ImGui::PopItemWidth();
 
-            if (ImGui::BeginDragDropTarget()) {
-                ImGuiDragDropFlags target_flags = 0;
+        if (ImGui::BeginDragDropTarget()) {
+            ImGuiDragDropFlags target_flags = 0;
 
-                target_flags |= ImGuiDragDropFlags_AcceptNoDrawDefaultRect; // Don't display the yellow rectangle
-                if (const ImGuiPayload *payload = ImGui::AcceptDragDropPayload("ROOM_ID", target_flags)) {
-                    itr->room_id = static_cast<const char *>(payload->Data);
-                }
-                ImGui::EndDragDropTarget();
+            target_flags |= ImGuiDragDropFlags_AcceptNoDrawDefaultRect; // Don't display the yellow rectangle
+            if (const ImGuiPayload *payload = ImGui::AcceptDragDropPayload("ROOM_ID", target_flags)) {
+                ui_exit.room_id = static_cast<const char *>(payload->Data);
             }
+            ImGui::EndDragDropTarget();
         }
 
         ImGui::PopID();
 
         ImGui::TableNextRow();
+    }
+
+    for (auto itr = g_exits.begin(); itr != g_exits.end();) {
+        if (Hpta_strings::equals_one_of(itr->direction, exits_to_delete)) {
+            itr = g_exits.erase(itr);
+        }
+        else {
+            ++itr;
+        }
     }
 
     ImGui::EndTable();
@@ -252,7 +263,8 @@ void Panel_Rooms::show_tab_room_secrets()
     ImGui::TableSetupColumn("Reveals item##secrets");
     ImGui::TableHeadersRow();
 
-    int i = 0;
+    int                      i = 0;
+    std::vector<std::string> secrets_to_delete{};
     for (auto &ui_secret : g_secrets) {
 
         const auto imgui_id = fmt::format("secret{}", i++);
@@ -261,8 +273,14 @@ void Panel_Rooms::show_tab_room_secrets()
         ImGui::TableNextRow();
 
         ImGui::TableNextColumn();
-        if (ImGui::Button("Edit"))
+        if (ImGui::Button("Edit")) {
             ImGui::OpenPopup(imgui_id.c_str());
+        }
+
+        ImGui::SameLine();
+        if (ImGui::Button("Delete")) {
+            secrets_to_delete.emplace_back(ui_secret.name);
+        }
 
         ImVec2 center = ImGui::GetMainViewport()->GetCenter();
         ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
@@ -296,13 +314,22 @@ void Panel_Rooms::show_tab_room_secrets()
 
     ImGui::EndTable();
 
+    for (auto itr = g_secrets.begin(); itr != g_secrets.end();) {
+        if (Hpta_strings::equals_one_of(itr->name, secrets_to_delete)) {
+            itr = g_secrets.erase(itr);
+        }
+        else {
+            ++itr;
+        }
+    }
+
     if (ImGui::Button("Add Secret")) {
         UI_secret new_secret;
 
         new_secret.name                      = "unamed secret";
         new_secret.description_before_reveal = "<undefined>";
         new_secret.description_after_reveal  = "<undefined>";
-        new_secret.description_on_reveal            = "<undefined>";
+        new_secret.description_on_reveal     = "<undefined>";
         g_secrets.emplace_back(new_secret);
     }
 }
