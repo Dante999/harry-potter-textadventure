@@ -11,15 +11,15 @@
 class Map : public IEvent_handler {
   private:
     sf::RenderWindow &m_window;
-    Room_cache &      m_room_cache;
+    World_Cache &     m_world_cache;
     Event_engine &    m_event_engine;
 
   private:
     void init();
 
   public:
-    explicit Map(sf::RenderWindow &window, Room_cache &room_cache, Event_engine &event_engine)
-        : m_window{window}, m_room_cache{room_cache}, m_event_engine{event_engine}
+    explicit Map(sf::RenderWindow &window, World_Cache &world_cache, Event_engine &event_engine)
+        : m_window{window}, m_world_cache{world_cache}, m_event_engine{event_engine}
     {
         init();
     }

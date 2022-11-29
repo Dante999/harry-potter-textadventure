@@ -40,3 +40,5 @@ int Storage::remove_item(const Storage::Entry &&entry)
 
     return removed_quantity;
 }
+
+void Storage::delete_items() { m_items.clear(); }

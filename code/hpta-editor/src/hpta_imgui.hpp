@@ -22,6 +22,9 @@ bool InputText(const char *label, std::string &buf, ImGuiInputTextFlags flags = 
 bool InputTextMultilineWrapped(const char *label, std::string &buf, const ImVec2 &size = ImVec2(0, 0),
                                ImGuiInputTextFlags flags = 0);
 
+bool InputTextWithSelectableList(const char *label, std::string &buf, std::vector<std::string> selectable,
+                                 const ImVec2 &size = ImVec2(0, 0));
+
 } // namespace hpta_imgui
 
 #endif /* HPTA_IMGUI_HPP */

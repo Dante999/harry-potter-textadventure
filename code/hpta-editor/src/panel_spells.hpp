@@ -8,10 +8,9 @@
 class Panel_Spells : public Panel_Base<Spell> {
 
   private:
-    Spell_Cache m_spell_cache;
 
   public:
-    Panel_Spells(const std::string &name, Spell_Cache &cache) : Panel_Base{name}, m_spell_cache{cache} {}
+    Panel_Spells(const std::string &name, World_Cache &world_cache) : Panel_Base{name, world_cache} {}
 
     void               create_object() override;
     void               load_object() override;

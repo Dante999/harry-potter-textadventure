@@ -11,9 +11,10 @@ class Panel_Base : public IPanel {
   protected:
     int     m_current_index{-1};
     Tobject m_current_object{""};
+    World_Cache& m_world_cache;
 
   public:
-    explicit Panel_Base(const std::string &name) : IPanel{name} {}
+    explicit Panel_Base(const std::string &name, World_Cache& world_cache) : IPanel{name}, m_world_cache{world_cache} {}
 
     virtual void                 create_object()   = 0;
     virtual void                 load_object()     = 0;

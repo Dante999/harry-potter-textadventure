@@ -15,9 +15,9 @@ struct UI_item {
 static UI_item g_item;
 } // namespace
 
-std::vector<Item> Panel_Items::get_objects() { return m_item_cache.get_list(); }
+std::vector<Item> Panel_Items::get_objects() { return m_world_cache.items->get_list(); }
 
-void Panel_Items::refresh_cache() { m_item_cache.refresh(); }
+void Panel_Items::refresh_cache() { m_world_cache.items->refresh(); }
 
 void Panel_Items::create_object()
 {

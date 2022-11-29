@@ -95,17 +95,15 @@ int main(int argc, char *argv[])
     io.FontGlobalScale = Hpta_config::get_float(Settings::scale_factor);
 
     // --------------------------------------------------------------------------------
-    Item_cache  item_cache(Hpta_config::get_string(Settings::gamedata_dir), "/items");
-    Room_cache  room_cache(Hpta_config::get_string(Settings::gamedata_dir), "/rooms");
-    Spell_Cache spell_cache(Hpta_config::get_string(Settings::gamedata_dir), "/spells");
+    World_Cache world_cache(Hpta_config::get_string(Settings::gamedata_dir));
 
     Event_engine event_engine;
 
-    auto map = std::make_shared<Map>(window, room_cache, event_engine);
+    auto map = std::make_shared<Map>(window, world_cache, event_engine);
 
-    auto window_items  = std::make_shared<Panel_Items>("Items", item_cache);
-    auto window_spells = std::make_shared<Panel_Spells>("Spells", spell_cache);
-    auto window_rooms  = std::make_shared<Panel_Rooms>("Rooms", room_cache, event_engine);
+    auto window_items  = std::make_shared<Panel_Items>("Items", world_cache);
+    auto window_spells = std::make_shared<Panel_Spells>("Spells", world_cache);
+    auto window_rooms  = std::make_shared<Panel_Rooms>("Rooms", world_cache, event_engine);
 
     std::vector<std::shared_ptr<IPanel>> panels{window_items, window_spells, window_rooms};
     event_engine.add_event_handler(map);

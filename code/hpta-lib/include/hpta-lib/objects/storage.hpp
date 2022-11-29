@@ -20,8 +20,9 @@ class Storage {
     [[nodiscard]] auto find_entry(const Item &item);
 
   public:
-    int add_item(const Entry &entry);
-    int remove_item(const Entry &&entry);
+    int  add_item(const Entry &entry);
+    int  remove_item(const Entry &&entry);
+    void delete_items();
 
     [[nodiscard]] auto &get_items() const { return m_items; }
 };

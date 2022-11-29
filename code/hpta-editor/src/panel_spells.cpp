@@ -13,9 +13,9 @@ struct UI_Spell {
 UI_Spell g_spell{};
 } // namespace
 
-std::vector<Spell> Panel_Spells::get_objects() { return m_spell_cache.get_list(); }
+std::vector<Spell> Panel_Spells::get_objects() { return m_world_cache.spells->get_list(); }
 
-void Panel_Spells::refresh_cache() { m_spell_cache.refresh(); }
+void Panel_Spells::refresh_cache() { m_world_cache.spells->refresh(); }
 
 void Panel_Spells::create_object()
 {

@@ -9,17 +9,19 @@
 class Panel_Rooms : public Panel_Base<Room>, public IEvent_handler {
 
   private:
-    Room_cache    m_room_cache;
     Event_engine &m_event_engine;
+    std::vector<std::string> m_item_ids;
+    std::vector<std::string> m_room_ids;
 
   private:
+    void refresh_id_caches();
     void show_tab_room_exits();
     void show_tab_room_secrets();
     void show_tab_room_items();
 
   public:
-    Panel_Rooms(const std::string &name, Room_cache &cache, Event_engine &event_engine)
-        : Panel_Base{name}, m_room_cache{cache}, m_event_engine{event_engine}
+    Panel_Rooms(const std::string &name, World_Cache &world_cache, Event_engine &event_engine)
+        : Panel_Base{name, world_cache}, m_event_engine{event_engine}
     {
     }
 

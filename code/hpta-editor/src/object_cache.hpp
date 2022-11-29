@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <filesystem>
 #include <vector>
+#include <memory>
 
 #include <spdlog/spdlog.h>
 
@@ -17,6 +18,22 @@ class Object_cache;
 using Item_cache  = Object_cache<Item, persistency::load_item>;
 using Room_cache  = Object_cache<Room, persistency::load_room>;
 using Spell_Cache = Object_cache<Spell, persistency::load_spell>;
+
+struct World_Cache {
+    std::unique_ptr<Item_cache> items;
+    std::unique_ptr<Room_cache> rooms;
+    std::unique_ptr<Spell_Cache> spells;
+
+    World_Cache(const std::string& gamedata_dir) 
+    : items{std::make_unique<Item_cache>(gamedata_dir, "/items")},
+      rooms{std::make_unique<Room_cache>(gamedata_dir, "/rooms")},
+      spells{std::make_unique<Spell_Cache>(gamedata_dir, "/spells")}
+      {}
+};
+
+
+
+
 
 template <typename Tobject, auto TloadFunction>
 class Object_cache {

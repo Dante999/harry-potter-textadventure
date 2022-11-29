@@ -172,9 +172,9 @@ void Map::init()
 
     init_config_values();
 
-    m_room_cache.refresh();
+    m_world_cache.rooms->refresh();
 
-    const auto &rooms = m_room_cache.get_list();
+    const auto &rooms = m_world_cache.rooms->get_list();
 
     if (rooms.empty())
         return;

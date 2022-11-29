@@ -7,11 +7,8 @@
 
 class Panel_Items : public Panel_Base<Item> {
 
-  private:
-    Item_cache m_item_cache;
-
   public:
-    Panel_Items(const std::string &name, Item_cache &cache) : Panel_Base{name}, m_item_cache{cache} {}
+    Panel_Items(const std::string &name, World_Cache &world_cache) : Panel_Base{name, world_cache} {}
 
     void              create_object() override;
     void              load_object() override;

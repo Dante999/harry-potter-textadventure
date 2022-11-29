@@ -43,7 +43,7 @@ static std::vector<UI_item>   g_items;
 static std::vector<UI_detail> g_details;
 static std::vector<UI_secret> g_secrets;
 
-static void show_popup_edit_secret(UI_secret &secret)
+static void show_popup_edit_secret(UI_secret &secret, const std::vector<std::string> &item_ids)
 {
     ImGui::PushID("edit_secret");
     ImGui::PushItemWidth(hpta_imgui::get_textwrapwidth());
@@ -52,7 +52,7 @@ static void show_popup_edit_secret(UI_secret &secret)
     hpta_imgui::InputText("needs spell id", secret.needs_spell_id);
     hpta_imgui::InputText("needs item id", secret.needs_item_id);
     hpta_imgui::InputText("needs password", secret.needs_password);
-    hpta_imgui::InputText("reveals item id", secret.reveals_item_id);
+    hpta_imgui::InputTextWithSelectableList("reveals item id", secret.reveals_item_id, item_ids, ImVec2(hpta_imgui::get_textwrapwidth(), 0));
     hpta_imgui::InputTextMultilineWrapped("Description before reveal", secret.description_before_reveal);
     hpta_imgui::InputTextMultilineWrapped("Description on reveal", secret.description_on_reveal);
     hpta_imgui::InputTextMultilineWrapped("Description after reveal", secret.description_after_reveal);
@@ -62,9 +62,9 @@ static void show_popup_edit_secret(UI_secret &secret)
 
 } // namespace
 
-std::vector<Room> Panel_Rooms::get_objects() { return m_room_cache.get_list(); }
+std::vector<Room> Panel_Rooms::get_objects() { return m_world_cache.rooms->get_list(); }
 
-void Panel_Rooms::refresh_cache() { m_room_cache.refresh(); }
+void Panel_Rooms::refresh_cache() { m_world_cache.rooms->refresh(); }
 
 void Panel_Rooms::create_object()
 {
@@ -156,15 +156,12 @@ void Panel_Rooms::save_object()
     }
     m_current_object.set_secrets(secrets);
 
+    m_current_object.delete_items();
     for (const auto &ui_item : g_items) {
-        Storage::Entry entry {
-            ui_item.quantity,
-            Item(ui_item.id)
-        };
+        Storage::Entry entry{ui_item.quantity, Item(ui_item.id)};
 
         m_current_object.add_item(entry);
     }
-    
 
     persistency::save_room(Hpta_config::get_string(Settings::gamedata_dir), m_current_object);
 
@@ -173,6 +170,8 @@ void Panel_Rooms::save_object()
 
 void Panel_Rooms::show_attributes()
 {
+    refresh_id_caches();
+
     ImGui::PushItemWidth(hpta_imgui::get_textwrapwidth());
 
     hpta_imgui::InputText("ID", g_room.id);
@@ -240,7 +239,8 @@ void Panel_Rooms::show_tab_room_exits()
 
         ImGui::TableNextColumn();
         ImGui::PushItemWidth(-1);
-        hpta_imgui::InputText("##room_id", ui_exit.room_id);
+        // hpta_imgui::InputText("##room_id", ui_exit.room_id);
+        hpta_imgui::InputTextWithSelectableList("##room_id", ui_exit.room_id, m_room_ids);
         ImGui::PopItemWidth();
 
         if (ImGui::BeginDragDropTarget()) {
@@ -314,7 +314,7 @@ void Panel_Rooms::show_tab_room_secrets()
             if (ImGui::Button("Close")) {
                 ImGui::CloseCurrentPopup();
             }
-            show_popup_edit_secret(ui_secret);
+            show_popup_edit_secret(ui_secret, m_item_ids);
 
             ImGui::EndPopup();
         }
@@ -377,23 +377,21 @@ void Panel_Rooms::show_tab_room_items()
         ImGui::PushID(imgui_id.c_str());
         ImGui::TableNextRow();
 
-        
         ImGui::TableNextColumn();
         if (ImGui::Button("Delete")) {
             items_to_delete.emplace_back(ui_item.id);
         }
 
-        
         ImGui::TableNextColumn();
         ImGui::PushItemWidth(-1);
         ImGui::InputInt("##quantity", &ui_item.quantity, 1);
-        
 
         ImGui::TableNextColumn();
-        ImGui::PushItemWidth(-1);
-        hpta_imgui::InputText("##id", ui_item.id);
+        ImGui::PushItemWidth(-1);        
+        // hpta_imgui::InputText("##id", ui_item.id);
+        hpta_imgui::InputTextWithSelectableList("##id", ui_item.id, m_item_ids);
         ImGui::PopItemWidth();
-        
+
         ImGui::PopID();
     }
 
@@ -439,3 +437,19 @@ void Panel_Rooms::on_event(Event event)
         break;
     }
 }
+
+void Panel_Rooms::refresh_id_caches()
+{
+    m_item_ids.clear();
+    m_item_ids.emplace_back("");
+    for (const auto &item : m_world_cache.items->get_list()) {
+        m_item_ids.emplace_back(item.get_id());
+    }
+
+    m_room_ids.clear();
+    m_room_ids.emplace_back("");
+    for (const auto &room : m_world_cache.rooms->get_list()) {
+        m_room_ids.emplace_back(room.get_id());
+    }
+}
+
