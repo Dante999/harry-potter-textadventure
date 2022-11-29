@@ -43,16 +43,16 @@ static std::vector<UI_item>   g_items;
 static std::vector<UI_detail> g_details;
 static std::vector<UI_secret> g_secrets;
 
-static void show_popup_edit_secret(UI_secret &secret, const std::vector<std::string> &item_ids)
+static void show_popup_edit_secret(UI_secret &secret, const std::vector<std::string> &item_ids, const std::vector<std::string> &spell_ids)
 {
     ImGui::PushID("edit_secret");
     ImGui::PushItemWidth(hpta_imgui::get_textwrapwidth());
 
     hpta_imgui::InputText("Name", secret.name);
-    hpta_imgui::InputText("needs spell id", secret.needs_spell_id);
-    hpta_imgui::InputText("needs item id", secret.needs_item_id);
+    hpta_imgui::InputTextWithSelectableList("needs spell", secret.needs_spell_id, spell_ids, ImVec2(hpta_imgui::get_textwrapwidth(), 0));
+    hpta_imgui::InputTextWithSelectableList("needs item", secret.needs_item_id, item_ids, ImVec2(hpta_imgui::get_textwrapwidth(), 0));
     hpta_imgui::InputText("needs password", secret.needs_password);
-    hpta_imgui::InputTextWithSelectableList("reveals item id", secret.reveals_item_id, item_ids, ImVec2(hpta_imgui::get_textwrapwidth(), 0));
+    hpta_imgui::InputTextWithSelectableList("reveals item", secret.reveals_item_id, item_ids, ImVec2(hpta_imgui::get_textwrapwidth(), 0));
     hpta_imgui::InputTextMultilineWrapped("Description before reveal", secret.description_before_reveal);
     hpta_imgui::InputTextMultilineWrapped("Description on reveal", secret.description_on_reveal);
     hpta_imgui::InputTextMultilineWrapped("Description after reveal", secret.description_after_reveal);
@@ -314,7 +314,7 @@ void Panel_Rooms::show_tab_room_secrets()
             if (ImGui::Button("Close")) {
                 ImGui::CloseCurrentPopup();
             }
-            show_popup_edit_secret(ui_secret, m_item_ids);
+            show_popup_edit_secret(ui_secret, m_item_ids, m_spell_ids);
 
             ImGui::EndPopup();
         }
@@ -450,6 +450,12 @@ void Panel_Rooms::refresh_id_caches()
     m_room_ids.emplace_back("");
     for (const auto &room : m_world_cache.rooms->get_list()) {
         m_room_ids.emplace_back(room.get_id());
+    }
+
+    m_spell_ids.clear();
+    m_spell_ids.emplace_back("");
+    for( const auto &spell : m_world_cache.spells->get_list()) {
+        m_spell_ids.emplace_back(spell.get_id());
     }
 }
 

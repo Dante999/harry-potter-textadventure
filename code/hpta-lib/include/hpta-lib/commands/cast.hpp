@@ -11,7 +11,7 @@ class Cast : public ICommand {
     bool interprete(Context &context, const std::vector<std::string> &token) override;
 };
 
-inline const std::string Cast::get_command() { return "zauber <Zauberspruch> auf <Objekt>"; }
+inline const std::string Cast::get_command() { return "zaubere <Zauberspruch> auf <Objekt>"; }
 
 inline const std::string Cast::get_description()
 {

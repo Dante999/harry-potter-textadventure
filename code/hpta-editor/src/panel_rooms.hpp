@@ -12,6 +12,7 @@ class Panel_Rooms : public Panel_Base<Room>, public IEvent_handler {
     Event_engine &m_event_engine;
     std::vector<std::string> m_item_ids;
     std::vector<std::string> m_room_ids;
+    std::vector<std::string> m_spell_ids;
 
   private:
     void refresh_id_caches();
