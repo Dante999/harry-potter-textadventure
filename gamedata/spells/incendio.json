@@ -1,4 +1,5 @@
 {
     "name": "Incendio",
-    "description": "Ein Feuerzaber um Dinge zu entzünden. Hilfreich gegen Pflanzen oder um alltägliche Gegenstände wie Fakeln oder Kerzen zu entzünden."
+    "description": "Ein Feuerzaber um Dinge zu entzünden. Hilfreich gegen Pflanzen oder um alltägliche Gegenstände wie Fakeln oder Kerzen zu entzünden.",
+    "level": 1.0
 }

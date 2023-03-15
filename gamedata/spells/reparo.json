@@ -1,4 +1,5 @@
 {
     "name": "Reparo",
-    "description": "Repariert zerbrochene oder kaputte Gegenstände."
+    "description": "Repariert zerbrochene oder kaputte Gegenstände.",
+    "level": 1.0
 }

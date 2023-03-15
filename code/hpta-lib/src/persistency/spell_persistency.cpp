@@ -10,6 +10,7 @@ namespace persistency {
     Json_filehandler::load(gamedata_dir, id, [&spell](auto &d) {
         spell.set_name(d["name"].GetString());
         spell.set_description(d["description"].GetString());
+        spell.set_level(d["level"].GetDouble());
     });
 
     return spell;
@@ -25,6 +26,9 @@ bool save_spell(const std::string &gamedata_dir, const Spell &spell)
 
         writer.Key("description");
         writer.String(spell.get_description().c_str());
+
+        writer.Key("level");
+        writer.Double(spell.get_level());
 
         writer.EndObject();
     });
