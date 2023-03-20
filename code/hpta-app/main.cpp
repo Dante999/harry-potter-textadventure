@@ -8,7 +8,7 @@
 #include "hpta-lib/visualizer.hpp"
 
 #include "hpta-lib/services/player_walk_service.hpp"
-#include "hpta-lib/services/room_cache_service.hpp"
+#include "hpta-lib/services/cache_service.hpp"
 #include "hpta-lib/services/service_registry.hpp"
 #include "hpta-lib/services/user_interaction_service.hpp"
 
@@ -53,15 +53,16 @@ int main(int argc, char *argv[])
 
     player->add_item({30, persistency::load_item(gamedata_dir, "/items/knut.json")});
     player->add_item({1, persistency::load_item(gamedata_dir, "/items/eulenfeder.json")});
+    player->set_spells({{1,"/spells/incendio.json"}, {1,"/spells/reparo.json"}});
 
     Service_registry service_registry;
-    service_registry.add(std::make_shared<Room_cache_service>(gamedata_dir));
+    service_registry.add(std::make_shared<Cache_Service>(gamedata_dir));
     service_registry.add(std::make_shared<Player_walk_service>(service_registry, player));
     service_registry.add(std::make_shared<User_Interaction_Service>(screen));
 
     const auto visualizer = service_registry.get<User_Interaction_Service>()->get_visualizer();
 
-    visualizer->show(service_registry.get<Room_cache_service>()->get_room(player->get_room_id()));
+    visualizer->show(service_registry.get<Cache_Service>()->rooms->get_object(player->get_room_id()));
 
     Context context{player, service_registry, gamedata_dir};
 

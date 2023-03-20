@@ -1,12 +1,12 @@
 #include "hpta-lib/commands/look.hpp"
 
-#include "hpta-lib/services/room_cache_service.hpp"
+#include "hpta-lib/services/cache_service.hpp"
 #include "hpta-lib/services/user_interaction_service.hpp"
 #include "hpta-lib/util/hpta_strings.hpp"
 
 bool Look::interprete(Context &context, const std::vector<std::string> &token)
 {
-    auto &room = context.service_registry.get<Room_cache_service>()->get_room(context.player->get_room_id());
+    auto &room = context.service_registry.get<Cache_Service>()->rooms->get_object(context.player->get_room_id());
 
     const auto visualizer = context.service_registry.get<User_Interaction_Service>()->get_visualizer();
     const auto screen     = context.service_registry.get<User_Interaction_Service>()->get_screen();

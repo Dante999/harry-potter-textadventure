@@ -1,7 +1,7 @@
 #include "hpta-lib/commands/say.hpp"
 
 #include "hpta-lib/persistency/persistency.hpp"
-#include "hpta-lib/services/room_cache_service.hpp"
+#include "hpta-lib/services/cache_service.hpp"
 #include "hpta-lib/services/user_interaction_service.hpp"
 #include "hpta-lib/util/hpta_strings.hpp"
 
@@ -20,7 +20,7 @@ bool Say::interprete(Context &context, const std::vector<std::string> &token)
         text += token.at(i);
     }
 
-    auto &room = context.service_registry.get<Room_cache_service>()->get_room(context.player->get_room_id());
+    auto &room = context.service_registry.get<Cache_Service>()->rooms->get_object(context.player->get_room_id());
 
     auto secrets = room.get_secrets();
     for (auto &secret : secrets) {

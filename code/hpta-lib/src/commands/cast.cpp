@@ -1,11 +1,14 @@
 #include "hpta-lib/commands/cast.hpp"
 
 #include "hpta-lib/persistency/persistency.hpp"
-#include "hpta-lib/services/room_cache_service.hpp"
+#include "hpta-lib/services/cache_service.hpp"
 #include "hpta-lib/services/user_interaction_service.hpp"
 #include "hpta-lib/util/hpta_strings.hpp"
 
 #include <fmt/core.h>
+#include <fmt/color.h>
+
+#include <algorithm>
 
 bool Cast::interprete(Context &context, const std::vector<std::string> &token)
 {
@@ -15,13 +18,51 @@ bool Cast::interprete(Context &context, const std::vector<std::string> &token)
     if (!Hpta_strings::equals_one_of(token.at(0), {"zaubere"}))
         return false;
 
-    Spell spell{"undefined"};
-    try {
-        spell = persistency::load_spell(context.gamedata_dir, "/spells/" + token.at(1) + ".json");
-    } catch (std::runtime_error &e) {
+        
+    if (token.size() == 1) {
+        screen->println("Du beherscht die folgenden Zauber:");
+        screen->println("");
+        
+        for (const auto &spell_skill : context.player->get_spells()) {
+            
+            
+            const auto& spell = context.service_registry.get<Cache_Service>()->spells->get_object(spell_skill.spell_id);
+
+            screen->print(fmt::format(fmt::emphasis::bold, "{} (level {})\n", spell.get_name(), spell_skill.level));
+            
+            const auto lines = Hpta_strings::split_text_into_lines(
+                spell.get_description(), static_cast<size_t>(screen->column_width - screen->tab_width));
+
+            for (const auto &line : lines) {
+                screen->print(fmt::format("\t{}\n", line));
+            }
+
+            screen->print("\n");
+        }
+        
+        return true;
+    }
+        
+    const std::string spell_id = "/spells/" + token.at(1) + ".json";
+        
+        
+    
+    const auto player_spells = context.player->get_spells();
+    
+    auto player_spell = std::find_if(std::begin(player_spells), std::end(player_spells), 
+                              [&](const Spell_Skill& s) {return s.spell_id == spell_id;});
+    
+    if ( player_spell == std::end(player_spells) ) {
         screen->println("So einen Zauber kennst du nicht");
         return true;
     }
+    
+//     try {
+//         spell = persistency::load_spell(context.gamedata_dir, "/spells/" + token.at(1) + ".json");
+//     } catch (std::runtime_error &e) {
+//         screen->println("So einen Zauber kennst du nicht");
+//         return true;
+//     }
 
     std::string spell_target{};
 
@@ -29,7 +70,8 @@ bool Cast::interprete(Context &context, const std::vector<std::string> &token)
         spell_target += token.at(i);
     }
 
-    auto &room = context.service_registry.get<Room_cache_service>()->get_room(context.player->get_room_id());
+    const auto& spell = context.service_registry.get<Cache_Service>()->spells->get_object(player_spell->spell_id);
+    auto &room = context.service_registry.get<Cache_Service>()->rooms->get_object(context.player->get_room_id());
 
     auto secrets = room.get_secrets();
     for (auto &secret : secrets) {

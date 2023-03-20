@@ -24,7 +24,6 @@ void Panel_Spells::create_object()
 
     m_current_object.set_name("no name");
     m_current_object.set_description("no description");
-    m_current_object.set_level(1.0);
 }
 
 void Panel_Spells::load_object()
@@ -32,7 +31,6 @@ void Panel_Spells::load_object()
     g_spell.id          = m_current_object.get_id();
     g_spell.name        = m_current_object.get_name();
     g_spell.description = utils::wrap_text(m_current_object.get_description());
-    g_spell.level       = m_current_object.get_level();
 }
 
 void Panel_Spells::save_object()
@@ -40,7 +38,6 @@ void Panel_Spells::save_object()
     m_current_object.set_id(g_spell.id);
     m_current_object.set_name(g_spell.name);
     m_current_object.set_description(Hpta_strings::trim(Hpta_strings::remove_newlines(g_spell.description)));
-    m_current_object.set_level(g_spell.level);
 
     persistency::save_spell(Hpta_config::get_string(Settings::gamedata_dir), m_current_object);
 }
@@ -52,7 +49,6 @@ void Panel_Spells::show_attributes()
     hpta_imgui::InputText("ID", g_spell.id);
     hpta_imgui::InputText("Name", g_spell.name);
     hpta_imgui::InputTextMultilineWrapped("Description", g_spell.description);
-    ImGui::InputDouble("Level", &g_spell.level, 1.0);
 
     ImGui::PopItemWidth();
 }

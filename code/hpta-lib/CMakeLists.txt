@@ -20,7 +20,6 @@ add_library(${PROJECT_NAME}
     src/persistency/json_filehandler.hpp 
     src/util/hpta_string.cpp 
     src/util/hpta_config.cpp 
-    src/services/room_cache_service.cpp 
     src/services/player_walk_service.cpp
 )
 
