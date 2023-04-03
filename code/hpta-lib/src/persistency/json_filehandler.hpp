@@ -4,6 +4,9 @@
 #include <errno.h>
 #include <functional>
 #include <string>
+#include <error.h>
+
+#include <iostream>
 
 #include <fmt/format.h>
 #include <rapidjson/document.h>
@@ -13,7 +16,7 @@
 
 namespace Json_filehandler {
 
-inline void load(const std::string &gamedata_dir, const std::string &id,
+static void load(const std::string &gamedata_dir, const std::string &id,
                  std::function<void(rapidjson::Document &)> consumer)
 {
     const std::string filepath(gamedata_dir + id);
@@ -34,10 +37,12 @@ inline void load(const std::string &gamedata_dir, const std::string &id,
 
     fclose(fp);
 
+
     consumer(d);
+
 }
 
-inline void save(const std::string &gamedata_dir, const std::string &id,
+static void save(const std::string &gamedata_dir, const std::string &id,
                  std::function<void(rapidjson::PrettyWriter<rapidjson::FileWriteStream> &)> consumer)
 {
     const std::string filepath(gamedata_dir + id);

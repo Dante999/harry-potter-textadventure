@@ -3,6 +3,30 @@
 
 #include "json_filehandler.hpp"
 
+namespace {
+std::vector<Action> get_actions(const std::string &node_name, const rapidjson::Value &parent_node)
+{
+    std::vector<Action> actions;
+
+    if (parent_node.HasMember(node_name.c_str())) {
+        for (auto &sucess_action : parent_node[node_name.c_str()].GetArray()) {
+
+            const std::string action_name  = sucess_action["name"].GetString();
+            const auto &      action_value = sucess_action["value"];
+
+            if (action_value.IsString()) {
+                const auto action = create_action(action_name, std::string{action_value.GetString()});
+
+                if (action) {
+                    actions.emplace_back(*action);
+                }
+            }
+        }
+    }
+    return actions;
+}
+} // namespace
+
 namespace persistency {
 Room load_room(const std::string &gamedata_dir, const std::string &id)
 {
@@ -66,11 +90,44 @@ Room load_room(const std::string &gamedata_dir, const std::string &id)
                 secret.name                      = s["name"].GetString();
                 secret.description_before_reveal = s["description_before_reveal"].GetString();
                 secret.description_after_reveal  = s["description_after_reveal"].GetString();
-                secret.description_on_reveal     = s["description_on_reveal"].GetString();
-                secret.needs_item_id             = get_str_or_empty(s, "needs_item");
-                secret.needs_password            = get_str_or_empty(s, "needs_password");
-                secret.needs_spell_id            = get_str_or_empty(s, "needs_spell");
-                secret.reveals_item_id           = get_str_or_empty(s, "reveals_item");
+                
+                secret.description_on_reveal =
+                    get_str_or_empty(s, "description_on_reveal"); // will be replaced with action
+                secret.needs_item_id   = get_str_or_empty(s, "needs_item");
+                secret.needs_password  = get_str_or_empty(s, "needs_password");
+                secret.needs_spell_id  = get_str_or_empty(s, "needs_spell");
+                secret.reveals_item_id = get_str_or_empty(s, "reveals_item");
+
+                if (s.HasMember("reveal_by_spell")) {
+                    auto &rbs = s["reveal_by_spell"];
+
+                    secret.reveal_by_spell = Room::Reveal_By_Spell{};
+
+                    secret.reveal_by_spell->spell_id   = rbs["spell_id"].GetString();
+                    secret.reveal_by_spell->difficulty = rbs["difficulty"].GetInt();
+
+                    secret.reveal_by_spell->on_success_actions      = get_actions("on_success_actions", rbs);
+                    secret.reveal_by_spell->on_crit_success_actions = get_actions("on_crit_success_actions", rbs);
+                    secret.reveal_by_spell->on_failure_actions      = get_actions("on_failure_actions", rbs);
+                    secret.reveal_by_spell->on_crit_failure_actions = get_actions("on_crit_failure_actions", rbs);
+                }
+                else {
+                    secret.reveal_by_spell = std::nullopt;
+                }
+
+                if (s.HasMember("reveal_by_item")) {
+                    auto &rbi = s["reveal_by_item"];
+
+                    secret.reveal_by_item = Room::Reveal_By_Item{};
+
+                    secret.reveal_by_item->item_id             = rbi["item_id"].GetString();
+                    secret.reveal_by_item->item_gets_destroyed = rbi["item_gets_destroyed"].GetBool();
+
+                    secret.reveal_by_item->on_success_actions = get_actions("on_success_actions", rbi);
+                }
+                else {
+                    secret.reveal_by_item = std::nullopt;
+                }
 
                 secrets.emplace_back(secret);
             }

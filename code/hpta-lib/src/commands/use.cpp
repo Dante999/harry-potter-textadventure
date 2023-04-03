@@ -50,18 +50,22 @@ bool Use::interprete(Context &context, const std::vector<std::string> &token)
 
     auto secrets = room.get_secrets();
     for (auto &secret : secrets) {
-        if (!secret.is_revealed && Hpta_strings::equals_ignorecase(secret.name, target_name) &&
-            Hpta_strings::equals_ignorecase(secret.needs_item_id, item->item.get_id())) {
-
-            secret.is_revealed = true;
-            screen->print_wrapped(secret.description_on_reveal);
-            screen->println("");
-
-            if (!secret.reveals_item_id.empty()) {
-                auto revealed_item = persistency::load_item(context.gamedata_dir, secret.reveals_item_id);
-                room.add_item(Storage::Entry{1, revealed_item});
-            }
+        
+        if (secret.is_revealed || !secret.reveal_by_item ||
+            !Hpta_strings::equals_ignorecase(secret.name, target_name)) {
+            continue;
         }
+
+        if (!Hpta_strings::equals_ignorecase(secret.reveal_by_item->item_id, item->item.get_id())) {
+            continue;
+        }
+            
+        secret.is_revealed = true;
+                
+        for (const auto reveal_action : secret.reveal_by_item->on_success_actions) {
+            reveal_action(context);
+        }
+ 
     }
     room.set_secrets(secrets);
 

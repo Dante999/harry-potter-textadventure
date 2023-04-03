@@ -2,8 +2,7 @@
     "name": "Zum Tropfenden Kessel",
     "description": "Der Tropfende Kessel wirkt nicht wie ein bekannter und wichtiger Ort, sondern dunkel und schäbig. Heutzutage wird der kleine, schmuddelig wirkende Pub von dem schon älteren Wirt *Tom* geführt. Außer der kurzfristigen Bewirtung bietet der Tropfende Kessel auch Übernachtungsmöglichkeiten in der oberen Etage. Auf einer *Bar* befindet sich ein kleines *Tintenfass* welches eine Feder vermisst sowie eine *Kerze* die vor kurzen ausgegangen sein muss. Über der Bar befindet sich das *Porträt* von Wilhmelm, der Betrunkene.",
     "items": [],
-    "details": [
-        {
+    "details": [{
             "name": "Bar",
             "description": "Die Bar ist mit kleinen Unebenheiten sowie ein paar Reste Kerzenwachs übersäht"
         },
@@ -12,20 +11,23 @@
             "description": "Der Wirt des tropfenden Kessels"
         }
     ],
-    "exits": [
-        {
-            "direction": "Norden",
-            "description": "Winkelgassenstraße 1",
-            "room_id": "/rooms/winkelgasse/winkelgassenstrasse_1.json"
-        }
-    ],
-    "secrets": [
-        {
+    "exits": [{
+        "direction": "Norden",
+        "description": "Winkelgassenstraße 1",
+        "room_id": "/rooms/winkelgasse/winkelgassenstrasse_1.json"
+    }],
+    "secrets": [{
             "name": "Tintenfass",
             "description_before_reveal": "Du wirst das gefühl nicht los, das Tintenfass wäre dir sehr dankbar, wenn du ihm eine neue Feder bringen würdest.",
-            "description_on_reveal": "Du steckst die Eulenfeder in das Tintenfass. Freudig springt die Feder heraus und kritzelt 'das Porträtpasswort ist Butterbier' auf die Bar bevor sie wieder zurück in das Tintenfass hüpft.",
             "description_after_reveal": "Das Tintenfass ist dank deiner Hilfe wieder mit einer Feder vereint. Das Porträt Passwort 'Butterbier' steht nach wie vor auf der Bar zu lesen.",
-            "needs_item": "/items/eulenfeder.json"
+            "reveal_by_item": {
+                "item_id": "/items/eulenfeder.json",
+                "item_gets_destroyed": true,
+                "on_success_actions": [{
+                    "name": "print",
+                    "value": "Du steckst die Eulenfeder in das Tintenfass. Freudig springt die Feder heraus und kritzelt 'das Porträtpasswort ist Butterbier' auf die Bar bevor sie wieder zurück in das Tintenfass hüpft."
+                }]
+            }
         },
         {
             "name": "Porträt",
@@ -38,9 +40,33 @@
         {
             "name": "Kerze",
             "description_before_reveal": "Die Kerze ist noch warm und genügend Wachs ist vorhanden, scheit als hätte ein Windstoss sie vor kurzen gelöscht. Mit einem Zauber könntest du sie vielleicht wieder entzünden.",
-            "description_on_reveal": "Die Kerze beginnt zu brennen und verstrahlt ein heimeliges Gefühl",
             "description_after_reveal": "Die Kerze flackert langsam vor sich hin",
-            "needs_spell": "/spells/incendio.json"
+            "reveal_by_spell": {
+                "spell_id": "/spells/incendio.json",
+                "difficulty": -60,
+                "on_success_actions": [{
+                        "name": "print",
+                        "value": "Die Kerze beginnt zu brennen und verstrahlt ein heimeliges Gefühl. Durch das Licht erkennst du ein Buch hinter dem Tresen."
+                    },
+                    {
+                        "name": "drop_item",
+                        "value": "/items/buch-basilisk.json"
+                    }
+                ],
+                "on_crit_success_actions": [{
+                    "name": "print",
+                    "value": "Die Kerze beginnt zu brennen und verstrahlt ein heimeliges Gefühl"
+                }],
+                "on_failure_actions": [{
+                    "name": "print",
+                    "value": "Die Kerze flackert kurz auf, erlischt jedoch durch den zu schwachen Zauber gleich wieder"
+                }],
+                "on_crit_failure_actions": [{
+                    "name": "print",
+                    "value": "Dein Zauber gerät außer Kontrolle, du verbrennst dich, verfehlst dadurch die Kerze und hinterlässt stattdessen einen Brandfleck auf der Bar"
+                }]
+            }
+
         }
     ]
 }

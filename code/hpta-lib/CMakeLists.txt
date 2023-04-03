@@ -11,7 +11,8 @@ add_library(${PROJECT_NAME}
     src/commands/say.cpp
     src/commands/cast.cpp
     src/commands/use.cpp
-    src/objects/storage.cpp 
+    src/objects/storage.cpp
+    src/objects/actions.cpp
     src/visualizer.cpp 
     src/persistency/room_persistency.cpp 
     src/persistency/item_persistency.cpp 
