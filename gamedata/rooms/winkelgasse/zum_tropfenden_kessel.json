@@ -32,10 +32,19 @@
         {
             "name": "Porträt",
             "description_before_reveal": "Das Porträt zeigt den betrunken Zauberer Wilhelm, der mit schief hängenden Hut auf einem Bierkrug gestützt in der Ecke einer Kneipe sitzt.",
-            "description_on_reveal": "Das Porträt mit Wilhelm dem Betrunkenen rutscht an der Wandhalterung entlang und offenbart eine kleine Schachfigur",
             "description_after_reveal": "Wilhelm der betrunkene zwinktert dir auf dem Porträt zu, sichtlich begeistert über die Wahl deines Getränkes",
-            "needs_password": "Butterbier",
-            "reveals_item": "/items/schachfigur_bauer.json"
+            "reveal_by_password": {
+                "password": "Butterbier",
+                "on_success_actions": [{
+                        "name": "print",
+                        "value": "Das Porträt mit Wilhelm dem Betrunkenen rutscht an der Wandhalterung entlang und offenbart eine kleine Schachfigur."
+                    },
+                    {
+                        "name": "drop_item",
+                        "value": "/items/schachfigur_bauer.json"
+                    }
+                ]
+            }
         },
         {
             "name": "Kerze",

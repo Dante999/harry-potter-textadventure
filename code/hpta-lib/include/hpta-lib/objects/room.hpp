@@ -38,8 +38,7 @@ class Room : public Storage, public Gameobject {
     };
     
         struct Reveal_By_Password {
-        std::string item_id;
-        bool item_gets_destroyed;
+        std::string password;
         std::vector<Action> on_success_actions{};
     };
     

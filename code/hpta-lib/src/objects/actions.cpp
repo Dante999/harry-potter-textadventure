@@ -14,7 +14,9 @@ struct Print_Action {
     {
         const auto screen = context.service_registry.get<User_Interaction_Service>()->get_screen();
 
-        screen->println(text);
+        for (const auto &line : Hpta_strings::split_text_into_lines(text, screen->column_width)) {
+            screen->print(line + "\n");
+        }
     }
 };
 
@@ -23,10 +25,14 @@ struct Drop_Item_Action {
 
     void operator()(Context &context)
     {
+        
         auto &room = context.service_registry.get<Cache_Service>()->rooms->get_object(context.player->get_room_id());
         auto  item = persistency::load_item(context.gamedata_dir, item_id);
 
         room.add_item(Storage::Entry{1, item});
+        
+        const auto screen = context.service_registry.get<User_Interaction_Service>()->get_screen();
+        screen->println(fmt::format("Deiner Umgebung wurde '{}' hinzugefügt", item.get_name()));
     }
 };
 

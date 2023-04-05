@@ -24,17 +24,24 @@ bool Say::interprete(Context &context, const std::vector<std::string> &token)
 
     auto secrets = room.get_secrets();
     for (auto &secret : secrets) {
-        if (!secret.is_revealed && Hpta_strings::equals_ignorecase(secret.needs_password, text)) {
-            secret.is_revealed = true;
-            screen->print_wrapped(secret.description_on_reveal);
-            screen->println("");
-
-            if (!secret.reveals_item_id.empty()) {
-                auto item = persistency::load_item(context.gamedata_dir, secret.reveals_item_id);
-                room.add_item(Storage::Entry{1, item});
-            }
+        
+        if (secret.is_revealed || !secret.reveal_by_password ) {
+            continue;
         }
+
+        if (!Hpta_strings::equals_ignorecase(secret.reveal_by_password->password, text)) {
+            continue;
+        }
+            
+        secret.is_revealed = true;
+                
+        for (const auto reveal_action : secret.reveal_by_password->on_success_actions) {
+            reveal_action(context);
+        }
+ 
     }
+    
+    
     room.set_secrets(secrets);
 
     return true;

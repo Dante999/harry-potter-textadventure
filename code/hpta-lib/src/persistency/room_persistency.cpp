@@ -128,6 +128,19 @@ Room load_room(const std::string &gamedata_dir, const std::string &id)
                 else {
                     secret.reveal_by_item = std::nullopt;
                 }
+                
+                if (s.HasMember("reveal_by_password")) {
+                    auto &rbp = s["reveal_by_password"];
+
+                    secret.reveal_by_password = Room::Reveal_By_Password{};
+
+                    secret.reveal_by_password->password = rbp["password"].GetString();
+
+                    secret.reveal_by_password->on_success_actions = get_actions("on_success_actions", rbp);
+                }
+                else {
+                    secret.reveal_by_password = std::nullopt;
+                }
 
                 secrets.emplace_back(secret);
             }

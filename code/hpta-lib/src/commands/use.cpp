@@ -59,11 +59,16 @@ bool Use::interprete(Context &context, const std::vector<std::string> &token)
         if (!Hpta_strings::equals_ignorecase(secret.reveal_by_item->item_id, item->item.get_id())) {
             continue;
         }
-            
+
         secret.is_revealed = true;
                 
         for (const auto reveal_action : secret.reveal_by_item->on_success_actions) {
             reveal_action(context);
+        }
+        
+        if (secret.reveal_by_item->item_gets_destroyed) {
+            context.player->remove_item(Storage::Entry{1, item->item});
+            screen->println(fmt::format("'{}' aus deinem Inventar entfernt", item->item.get_name()));
         }
  
     }
